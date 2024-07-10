@@ -3,7 +3,7 @@
   margin: 0;
   box-sizing: border-box;
   color: white;
-  /* background-color: #030B15; */
+  background-color: #030B15;
   font-family: 'Outfit', sans-serif;
 }
 body{
@@ -43,33 +43,57 @@ body{
 }
 
 button {
+  --btn-color: rgba(0, 196, 244, 0.6); /* Dimmed version of #00C4F4 */
+  --btn-hover-color: #00C4F4;
+
+  position: relative;
+  border: 1px solid var(--btn-color);
+  border-radius: 20px;
+  color: var(--btn-color);
   background-color: transparent;
-  border: 2px solid #00c4f4;
   padding: 10px 20px;
-  border-radius: 10px;
-  width: fit-content;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  box-shadow: 0 0 5px rgba(0, 196, 244, 0.3);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.5s; /* Slower transition */
+}
+
+button::before,
+button::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-color: var(--btn-hover-color);
+  border-radius: 20px;
+  border-style: solid;
+  transition: all 0.5s; /* Slower transition */
+  content: "";
+  z-index: 1;
+}
+
+button::before {
+  width: 0;
+  height: 100%;
+  border-width: 1px 0 1px 0;
+}
+
+button::after {
+  width: 100%;
+  height: 0;
+  border-width: 0 1px 0 1px;
 }
 
 button:hover {
-  color: white;
-  cursor: pointer;
-  transform: scale(1.1);
-  animation: event-pulse 1s infinite;
-  box-shadow: 0 0 10px rgba(0, 196, 244, 0.5);
+  border-color: var(--btn-hover-color);
+  border-width: 2px;
+  color: var(--btn-hover-color);
 }
 
-@keyframes event-pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
+button:hover::before {
+  width: 100%;
+}
+
+button:hover::after {
+  height: 100%;
 }
 
 .guide-container {
@@ -120,6 +144,8 @@ button:hover {
   margin-bottom: 20px;
   margin-top: 20px;
 }
+
+/* Upcoming events */
 .upcoming-events {
   padding-left: 100px;
 }
@@ -307,38 +333,39 @@ button:hover {
 
 
 /* Slides Section */
-.our{
-  text-align: center;
-  padding: 50px;
-}
 .slides {
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
 }
 
-.slide_1 {
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
+.slide {
+  position: relative;
   width: 60px;
   min-width: 60px;
   height: 300px;
   border-radius: 40px;
   margin: 0 15px;
-  position: relative;
+  overflow: hidden;
   transition: all 0.5s ease;
 }
 
-.slide_1:hover {
+.slide:hover {
   min-width: 250px;
 }
 
-.slide_1:hover .slide-info {
-  transform: rotate(0deg);
-  font-size: 22px;
-  left: 20px;
-  bottom: 20px;
+.slide-image {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: all 0.5s ease;
+  filter: brightness(50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .slide-info {
@@ -352,32 +379,15 @@ button:hover {
   transition: all 0.5s ease;
 }
 
-.slide_2 {
-  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://picsum.photos/200/300);
+.slide:hover .slide-info {
+  transform: rotate(0deg);
+  font-size: 22px;
+  left: 20px;
+  bottom: 20px;
 }
 
-.slide_3 {
-  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://picsum.photos/200/300);
-}
-
-.slide_4 {
-  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://picsum.photos/200/300);
-}
-
-.slide_5 {
-  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://picsum.photos/200/300);
-}
-
-.slide_6 {
-  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://picsum.photos/200/300);
-}
-
-.slide_7 {
-  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://picsum.photos/200/300);
-}
-
-.slide_8 {
-  background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(https://picsum.photos/200/300);
+.slide:hover .slide-image {
+  filter: brightness(30%);
 }
 
 @media (max-width: 768px) {
@@ -386,14 +396,14 @@ button:hover {
       align-items: center;
   }
 
-  .slide_1 {
+  .slide {
       width: 100%;
       min-width: 100%;
       margin: 15px 0;
       border-radius: 20px;
   }
 
-  .slide_1:hover {
+  .slide:hover {
       min-width: 100%;
   }
 
@@ -404,6 +414,14 @@ button:hover {
       bottom: 20px;
   }
 }
+.our{
+  text-align: center;
+  color: #00C4F4;
+  font-size: 30px;
+  /* margin-bottom: 50px; */
+  padding: 20;
+}
+
 
 .clr{
 background-color: transparent;

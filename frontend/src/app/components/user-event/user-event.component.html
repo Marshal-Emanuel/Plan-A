@@ -1,0 +1,110 @@
+<body>
+  <div class="main">
+    <div class="eventImage">
+      <img [src]="eventImage" alt="Event Image">
+    </div>
+
+    <div class="eventInfoContainer">
+      <div class="info">
+        <div class="description">
+          <p class="heading">{{ eventHeading }}</p>
+          <p>{{ eventDescription }}</p>
+        </div>
+
+        <!-- Pricing starts here -->
+        <div class="pricingTicket">
+          <div class="priceWish">
+            <div class="price">Ksh. {{ eventPrice }}</div>
+            <div class="wishIcon">
+              <img src="/assets/icons/bookmark.png" alt="Bookmark Icon">
+            </div>
+          </div>
+          <div class="btm">
+            <button class="ticketbtn">
+              <img class="ticketIcon" src="/assets/icons/ticket.png" alt="Ticket Icon">Get your ticket
+            </button>
+          </div>
+        </div>
+        <!-- Pricing ends here -->
+      </div>
+
+      <div class="line3">
+        <div class="moreInfo">
+          <div class="attendees">
+            <p>
+              <img style="height: 25px;" src="/assets/icons/users.png" alt="Users Icon">{{ attendees }} Will be attending
+            </p>
+          </div>
+          <br>
+          <div class="location">
+            <p>
+              <img style="height: 25px;" src="/assets/icons/location.png" alt="Location Icon">{{ eventLocation }}
+            </p>
+          </div>
+          <br>
+          <div class="time">
+            <p>
+              <img style="height: 25px;" src="/assets/icons/event.png" alt="Event Icon">{{ eventDate }}
+            </p>
+          </div>
+        </div>
+        <!-- Host starts here -->
+        <div class="host">
+          <div class="hostInfo">
+            <img class="profileimg" [src]="hostImage" alt="Host Image">
+            <div class="profInfo">
+              <div class="hostName">{{ hostName }}</div>
+              <div class="hostEmail">{{ hostEmail }}</div>
+            </div>
+          </div>
+          <div class="hostProffesion">
+            <p>{{ hostProfession }}</p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <!-- Similar Events -->
+  <div class="similarEvents">
+    <p>Similar Events</p>
+    <div class="upcoming-events-container">
+      <div *ngFor="let event of upcomingEvents" class="upcoming-events-item">
+        <div class="upcoming-events-item-img">
+          <img [src]="event.eventImg" alt="Event Image">
+        </div>
+        <div class="eventInfo">
+          <div class="uptop">
+            <div class="status">
+              Virtual
+              <img style="height: 23px;" src="/assets/icons/live.png" alt="Live Icon">
+            </div>
+            <div class="attenders">
+              <img src="/assets/icons/users.png" alt="Attenders Icon">
+              <span class="attenders">{{ event.attendees }}</span>
+            </div>
+          </div>
+          <h3 class="event-name">{{ event.eventName }}</h3>
+          <p class="desc">{{ event.description }}</p>
+          <div class="crucial">
+            <p class="location">
+              <img src="/assets/icons/location.png" alt="Location Icon"> {{ event.location }}
+            </p>
+            <span class="date">
+              <img src="/assets/icons/date.png" alt="Date Icon"> {{ event.date }}
+            </span>
+          </div>
+          <div class="btm">
+            <button class="ticketbtn">
+              <img class="ticketIcon" src="/assets/icons/ticket.png" alt="Ticket Icon">Get your ticket
+            </button>
+            <p class="phone">
+              <img src="/assets/icons/phone.png" alt="Phone Icon"> {{ event.phoneNumber }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

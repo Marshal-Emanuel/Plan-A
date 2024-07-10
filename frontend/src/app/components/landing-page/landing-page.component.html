@@ -1,15 +1,10 @@
 <body>
   <div class="main">
     <div class="hero">
-      <h1 class="herom"><span class="heromain">Unforgettable Event <br> Experience with</span> <span
-          class="logo">Plan-A</span></h1>
-
-
-      <h2 class="discover">Discover the art of event perfection with Plana. From concept to celebration, <br> redefine
-        what's possible with
-        flawless execution.</h2>
+      <h1 class="herom"><span class="heromain">Unforgettable Event <br> Experience with</span> <span class="logo">Plan-A</span></h1>
+      <h2 class="discover">Discover the art of event perfection with Plana. From concept to celebration, <br> redefine what's possible with flawless execution.</h2>
     </div>
-    <button class>Join Plan-A</button>
+    <button>Join Plan-A</button>
   </div>
 
   <!-- Hero ends here -->
@@ -18,26 +13,22 @@
     <h2 style="color: #00c4f4; padding: 50px 100px;">Step by Step Guide</h2>
     <div class="guide-container">
       <div class="guide-item guide-item-1">
-        <div class="icon"><img style="background-color: transparent" src="/assets/icons/signup.png" alt="Sign Up Icon">
-        </div>
+        <div class="icon"><img style="background-color: transparent" src="/assets/icons/signup.png" alt="Sign Up Icon"></div>
         <h3>Create Account</h3>
         <p>Sign up for free. Create an account to get started. Enjoy exclusive event access and more.</p>
       </div>
       <div class="guide-item guide-item-2">
-        <div class="icon"><img style="background-color: transparent" src="/assets/icons/login.png" alt="Login Icon">
-        </div>
+        <div class="icon"><img style="background-color: transparent" src="/assets/icons/login.png" alt="Login Icon"></div>
         <h3>Go to Login</h3>
         <p>Log in to discover and participate in events that match your interests.</p>
       </div>
       <div class="guide-item guide-item-3">
-        <div class="icon"><img style="background-color: transparent" src="/assets/icons/ticket.png" alt="Register Icon">
-        </div>
+        <div class="icon"><img style="background-color: transparent" src="/assets/icons/ticket.png" alt="Register Icon"></div>
         <h3>Register for an Event</h3>
         <p>Choose an event, register, and invite your friends to join the fun.</p>
       </div>
       <div class="guide-item guide-item-4">
-        <div class="icon"><img style="background-color: transparent" src="assets/icons/event.png" alt="Event Icon">
-        </div>
+        <div class="icon"><img style="background-color: transparent" src="/assets/icons/event.png" alt="Event Icon"></div>
         <h3>See You at the Event</h3>
         <p>Experience unforgettable moments with your friends and family at the event.</p>
       </div>
@@ -45,51 +36,40 @@
   </div>
   <!-- Guide ends here -->
 
-
-
-
   <!-- Upcoming events -->
-
   <div class="upcoming-events">
     <h2 class="upcoming-events-title">Upcoming Events</h2>
-
     <div class="upcoming-events-container">
-      <div class="upcoming-events-item upcoming-events-item-1">
+      <div *ngFor="let event of upcomingEvents" class="upcoming-events-item">
         <div class="upcoming-events-item-img">
-          <img src="https://picsum.photos/200/300" alt="Event Image">
+          <img [src]="event.eventImg" alt="Event Image">
         </div>
-
         <div class="eventInfo">
           <div class="uptop">
             <div class="status">Upcoming</div>
-
             <div class="attenders">
               <img style="background-color: transparent;" src="/assets/icons/users.png" alt="Attenders Icon">
-              <span class="attenders">X are going</span>
+              <span class="attenders">{{ event.attendees }}</span>
             </div>
           </div>
-
-          <h3 class="event-name">Event Name</h3>
-          <p class="desc">Event short description</p>
+          <h3 class="event-name">{{ event.eventName }}</h3>
+          <p class="desc">{{ event.description }}</p>
           <p class="location">
-            <img src="/assets/icons/location.png" alt="Location Icon"> Event Location
+            <img src="/assets/icons/location.png" alt="Location Icon"> {{ event.location }}
           </p>
           <span class="date">
-            <img src="/assets/icons/date.png" alt="Date Icon"> Event Date
+            <img src="/assets/icons/date.png" alt="Date Icon"> {{ event.date }}
           </span>
-
           <div class="btm">
             <button class="ticketbtn">Get your ticket</button>
             <p class="phone">
-              <img src="/assets/icons/phone.png" alt="Phone Icon"> 07XXXXXXXX
+              <img src="/assets/icons/phone.png" alt="Phone Icon"> {{ event.phoneNumber }}
             </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
   <!-- Upcoming events ends here -->
 
   <!-- Standout events focus images starts here-->
@@ -97,95 +77,59 @@
     <div class="info">
       <p>Standout Events in Focus</p>
       <div class="more">
-        Experience the magic of your most memorable events, beautifully captured and preserved in stunning visuals.
-        Relive
-        every remarkable moment with our expertly documented highlights
+        Experience the magic of your most memorable events, beautifully captured and preserved in stunning visuals. Relive every remarkable moment with our expertly documented highlights.
       </div>
       <button>Get More Events</button>
     </div>
     <div class="images4">
-      <img style="height: 200px; width: 250px;" src="https://picsum.photos/200/300" alt="">
-      <img style="height: 200px;" src="https://picsum.photos/200/300" alt="">
-      <img style="height: 200px;" src="https://picsum.photos/200/300" alt="">
-      <img style="height: 200px; width: 250px;" src="https://picsum.photos/200/300" alt="">
+      <img style="height: 200px; width: 250px;" src="https://picsum.photos/200/300?8" alt="Focus Image 1">
+      <img style="height: 200px;" src="https://picsum.photos/200/300?9" alt="Focus Image 2">
+      <img style="height: 200px;" src="https://picsum.photos/200/300?10" alt="Focus Image 3">
+      <img style="height: 200px; width: 250px;" src="https://picsum.photos/200/300?11" alt="Focus Image 4">
     </div>
   </div>
-
-
   <!-- Focus ends here -->
 
-  <!-- Collaborators Section Start -->
-   <p class="our">Our Event Organizers</p>
-  <section id="slides-par">
-    <div class="container">
-      <div class="slides">
-        <div class="slide_1 slide_2">
+<!-- Collaborators Section Start -->
+<p class="our">Our Event Organizers</p>
+<section id="slides-par">
+  <div class="container">
+    <div class="slides">
+      <div *ngFor="let organizer of eventOrganizers" class="slide">
+        <div class="slide-image" [style.backgroundImage]="'url(' + organizer.profileImg + ')'">
           <div class="slide-info">
-            <p class="clr">Eluid kipchoge</p>
-          </div>
-        </div>
-        <div class="slide_1 slide_3">
-          <div class="slide-info">
-            <p class="clr">Lupita Nyong'o:</p>
-          </div>
-        </div>
-        <div class="slide_1 slide_4">
-          <div class="slide-info">
-            <p class="clr">Wangari Maatha</p>
-          </div>
-        </div>
-        <div class="slide_1 slide_5">
-          <div class="slide-info">
-            <p class="clr">Jeff Okwach</p>
-          </div>
-        </div>
-        <div class="slide_1 slide_6">
-          <div class="slide-info">
-            <p class="clr">Nyota Ndogo</p>
-          </div>
-        </div>
-        <div class="slide_1 slide_7">
-          <div class="slide-info">
-            <p class="clr">Yasawa Islands</p>
-          </div>
-        </div>
-        <div class="slide_1 slide_8">
-          <div class="slide-info">
-            <p class="clr">Biko Wafula</p>
+            <p>{{ organizer.name }}</p>
           </div>
         </div>
       </div>
     </div>
-  </section>
-  <!-- Collaborators Section End -->
+  </div>
+</section>
+<!-- Collaborators Section End -->
+
 
 
   <!-- Reviews -->
-
   <div class="reviews">
-    <h2>Reviews</h2>
+    <h2 style="color: #00c4f4;">Reviews</h2>
     <div class="reviews-container">
-      <div class="review-item">
+      <div *ngFor="let review of reviews" class="review-item">
         <div class="reviewer">
           <div class="reviewerImg">
-            <img src="https://picsum.photos/200/300" alt="Reviewer Image">
+            <img [src]="review.reviewerImg" alt="{{ review.reviewerName }} Image">
           </div>
           <div class="reviewerName">
-            <h3>John Doe</h3>
+            <h3>{{ review.reviewerName }}</h3>
           </div>
         </div>
         <div class="review">
-          <p>The platform is very user friendly and the events are really nice</p>
+          <p>{{ review.reviewText }}</p>
         </div>
         <div class="starRatingsIcons">
-          <img src="/assets/icons/star.png" alt="Star Rating">
-          <img src="/assets/icons/star.png" alt="Star Rating">
-          <img src="/assets/icons/star.png" alt="Star Rating">
-          <img src="/assets/icons/star.png" alt="Star Rating">
-          <img src="/assets/icons/star.png" alt="Star Rating">
+          <img *ngFor="let star of [].constructor(review.starRating)" src="/assets/icons/star.png" alt="Star Rating">
         </div>
       </div>
     </div>
   </div>
-
+  <!-- Reviews ends here -->
 </body>

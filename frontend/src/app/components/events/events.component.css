@@ -1,0 +1,354 @@
+/* Reset and base styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  background-color: #030B15;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: #030B15;
+}
+
+/* Common styles */
+.searchSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+  background: url('/assets/images/baner.jpg') no-repeat center/cover;
+}
+
+#search {
+  width: 30%;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid white;
+  padding: 20px;
+  font-size: 20px;
+  background-color: #1a1a2e8e;
+}
+
+#search::placeholder {
+  color: rgb(230, 230, 230);
+}
+
+#search:focus {
+  outline: 2px solid #00c4f4;
+  border: 2px solid #00c4f4;
+}
+
+.search{
+  height: 33px;
+  margin-left: -50px;
+}
+
+/* Upcoming events section */
+.upcoming-events {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.upcoming-events-title {
+  display: flex;
+  text-align: center;
+  width: fit-content;
+  color: #00c4f4;
+  font-size: 27px;
+  padding: 10px  20px;
+  border-bottom: 1px solid #00c4f4;
+  margin-bottom: 20px;
+}
+
+.upcoming-events-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.upcoming-events-item {
+  display: flex;
+  border: 1px solid rgb(143, 227, 255);
+  background-color: #212138;
+  /* box-shadow: 0 0 10px rgb(0, 149, 255); */
+  border-radius: 20px;
+  overflow: hidden;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+
+}
+.upcoming-events-item:hover{
+  border: 1px solid #00c4f4;
+  box-shadow: 0 0 10px rgb(0, 149, 255);
+  cursor: pointer;
+}
+.upcoming-events-item-img {
+  width: 40%;
+  flex-shrink: 0;
+  height: 250px;
+}
+
+.upcoming-events-item-img {
+  position: relative;
+  /* width: 100%; */
+  height: 250px;
+  border-radius: 20px 0 0 20px;
+  overflow: hidden;
+}
+
+.upcoming-events-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px 0 0 20px;
+  transition: filter 0.3s ease-in-out; /* Smooth transition */
+}
+
+.upcoming-events-item-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 3, 40, 0.5); /* Adjust the color and opacity as needed */
+  transition: background 0.3s ease-in-out; /* Smooth transition */
+  border-radius: 20px 0 0 20px;
+  pointer-events: none; /* Allow interactions with the image */
+}
+
+.upcoming-events-item-img:hover::before {
+  background: rgba(0, 0, 0, 0.1); /* Adjust the color and opacity on hover */
+}
+.eventInfo {
+  padding: 22px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.uptop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-bottom: 15px; */
+}
+
+.status,
+.attenders {
+  font-size: 0.9em;
+}
+.status img{
+  height: 25px;
+}
+/* .status{ */
+  /* margin-left: -450px; */
+  /* position: absolute; */
+/* } */
+
+.event-name {
+  font-size: 1.4em;
+  /* margin-bottom: 10px; */
+}
+
+.desc {
+  font-size: 0.95em;
+  /* margin-bottom: 15px; */
+  line-height: 1.4;
+}
+.crucial{
+  display: flex;
+  gap: 40px;
+  /* margin-bottom: 0; */
+}
+
+.location,
+.date {
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+
+.btm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin-top: 15px; */
+}
+
+.ticketbtn,
+.phone {
+  font-size: 0.9em;
+}
+.ticketIcon{
+  height: 24px;
+}
+.ticketbtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* background-color: #00c4f4; */
+  /* color: #1a1a2e; */
+  padding: 10px 15px;
+  /* border-radius: 10px;  */
+  cursor: pointer;
+}
+
+/* Specific elements and components */
+.attenders {
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  /* background-color: #181517; */
+  color: #f46050;
+  /* padding: 10px 15px; */
+  border-radius: 10px;
+  background-color: transparent;
+}
+.attending{
+  /* position: absolute; */
+  /* margin-right: -1000px; */
+  /* margin-left: 520px; */
+  width: 100%;
+  background-color: transparent;
+}
+
+.attenders img,
+.location img,
+.date img,
+.phone img {
+  height: 20px;
+}
+
+.status,
+.phone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
+}
+
+/* Button styles */
+button {
+  --btn-color: rgba(0, 196, 244, 0.6);
+  position: relative;
+  border: 1px solid var(--btn-color);
+  border-radius: 20px;
+  color: var(--btn-color);
+  background-color: transparent;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.5s;
+  margin-bottom: -13px;
+}
+
+button::before,
+button::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-color: var(--btn-color);
+  border-radius: 20px;
+  border-style: solid;
+  transition: all 0.5s;
+  content: "";
+  z-index: 1;
+}
+
+button::before {
+  width: 0;
+  height: 100%;
+  border-width: 1px 0 1px 0;
+}
+
+button::after {
+  width: 100%;
+  height: 0;
+  border-width: 0 1px 0 1px;
+}
+
+button:hover {
+  border-color: #00c4f4;
+  border-width: 2px;
+  color: #00c4f4;
+}
+
+button:hover::before {
+  width: 100%;
+}
+
+button:hover::after {
+  height: 100%;
+}
+
+/* Sidebar and filters */
+.main-content {
+  display: flex;
+  padding: 20px;
+  gap: 30px;
+}
+
+.sidebar {
+  width: 300px;
+  padding-right: 20px;
+}
+
+.filters,
+.calendar {
+  background-color: #16213e;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.filter-option {
+  margin-bottom: 15px;
+}
+
+.filter-option label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.filter-option select,
+.filter-option input {
+  width: 100%;
+  padding: 5px;
+  background-color: #1a1a2e;
+  border: 1px solid #00c4f4;
+  border-radius: 5px;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .upcoming-events-item {
+    flex-direction: column;
+  }
+
+  .upcoming-events-item-img,
+  .eventInfo {
+    width: 100%;
+  }
+
+  .upcoming-events-item-img img {
+    border-radius: 20px 20px 0 0;
+  }
+}
