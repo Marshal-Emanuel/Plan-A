@@ -1,0 +1,42 @@
+<body>
+  <main>
+    <p>My Tickets</p>
+    <div *ngFor="let ticket of tickets" class="ticket-wrapper">
+      <section class="my-tickets">
+        <div class="left">
+          <p class="evnt tickt">
+            <img class="ticketIcon" id="evntt" src="/assets/icons/ticket.png" alt=""> {{ ticket.eventTitle }}
+          </p>
+          <div class="ps">
+            <p class="evnt">
+              <img class="ticketIcons" src="/assets/icons/location.png" alt=""> {{ ticket.eventLocation }}
+            </p>
+            <p class="evnt">
+              <img class="ticketIcons" src="/assets/icons/event.png" alt=""> {{ ticket.eventDate }}
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="my-tickets2">
+        <div class="rightL">
+          <div class="profile">
+            <img [src]="ticket.hostImage" alt="Host Image">
+            <div class="prof">
+              <p style="font-size: 20px;">Hosted by</p>
+              <p style="color: #03c2f2;">{{ ticket.hostName }}</p>
+            </div>
+          </div>
+          <div class="btm">
+            {{ ticket.invitationMessage }}
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;" class="phone">
+            <img class="ticketIcons" src="/assets/icons/phone.png" alt="Phone Icon"> {{ ticket.contactNumber }}
+          </div>
+        </div>
+        <div class="rightR">
+          {{ ticket.ticketPrice }}
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
