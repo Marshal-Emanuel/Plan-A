@@ -3,13 +3,13 @@ import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
 })
-export class SignupComponent {
+export class LoginComponent {
   name: string = '';
   email: string = '';
   phone: string = '';
@@ -17,15 +17,15 @@ export class SignupComponent {
   confirmPassword: string = '';
   passwordMismatch: boolean = false;
 
-  onSubmit(signupForm: NgForm) {
+  onSubmit(loginForm: NgForm) {
     this.passwordMismatch = this.password !== this.confirmPassword;
-    if (signupForm.valid && !this.passwordMismatch) {
-      const formData = signupForm.value;
+    if (loginForm.valid && !this.passwordMismatch) {
+      const formData = loginForm.value;
       console.log('Form Submitted!', formData);
     } else {
       console.log('Form is invalid');
-      console.log('Form values:', signupForm.value);
-      console.log('Form errors:', signupForm.errors);
+      console.log('Form values:', loginForm.value);
+      console.log('Form errors:', loginForm.errors);
       this.hideErrorMessage();
     }
   }
@@ -33,7 +33,6 @@ export class SignupComponent {
   hideErrorMessage() {
     setTimeout(() => {
       this.passwordMismatch = false;
-      // Add logic to hide other error messages if needed
     }, 3000);
   }
 }
