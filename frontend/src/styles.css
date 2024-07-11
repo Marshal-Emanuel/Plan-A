@@ -2,3 +2,61 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Button styles */
+button {
+  --btn-color: rgba(0, 196, 244, 0.6);
+  position: relative;
+  border: 1px solid var(--btn-color);
+  border-radius: 20px;
+  color: var(--btn-color);
+  background-color: transparent;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+button::before,
+button::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-color: var(--btn-color);
+  border-radius: 20px;
+  border-style: solid;
+  transition: all 0.5s;
+  content: "";
+  z-index: 1;
+}
+
+.ticketIcon {
+  height: 24px;
+}
+
+button::before {
+  width: 0;
+  height: 100%;
+  border-width: 1px 0 1px 0;
+  color: #00C4F4;
+  /* border: 1px solid #00C4F4; */
+}
+
+button::after {
+  width: 100%;
+  height: 0;
+  border-width: 0 1px 0 1px;
+}
+
+button:hover {
+  border-color: #00C4F4;
+  border-width: 2px;
+  color: #00C4F4;
+}
+
+button:hover::before {
+  width: 100%;
+}
+
+button:hover::after {
+  height: 100%;
+}

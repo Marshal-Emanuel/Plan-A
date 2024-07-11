@@ -1,1 +1,42 @@
-<p>wishlist works!</p>
+
+  <!-- Wishlist -->
+  <div class="similarEvents">
+    <p>My Wishlist</p>
+    <div class="upcoming-events-container">
+      <div *ngFor="let event of upcomingEvents" class="upcoming-events-item">
+        <div class="upcoming-events-item-img">
+          <img [src]="event.eventImg" alt="Event Image">
+        </div>
+        <div class="eventInfo">
+          <div class="uptop">
+            <div class="status">
+              Virtual
+              <img style="height: 23px;" src="/assets/icons/live.png" alt="Live Icon">
+            </div>
+            <div class="attenders">
+              <img src="/assets/icons/users.png" alt="Attenders Icon">
+              <span class="attenders">{{ event.attendees }}</span>
+            </div>
+          </div>
+          <h3 class="event-name">{{ event.eventName }}</h3>
+          <p class="desc">{{ event.description }}</p>
+          <div class="crucial">
+            <p class="location">
+              <img src="/assets/icons/location.png" alt="Location Icon"> {{ event.location }}
+            </p>
+            <span class="date">
+              <img src="/assets/icons/date.png" alt="Date Icon"> {{ event.date }}
+            </span>
+          </div>
+          <div class="btm">
+            <button class="ticketbtn">
+              <img class="ticketIcon" src="/assets/icons/ticket.png" alt="Ticket Icon">Get your ticket
+            </button>
+            <p class="phone">
+              <img src="/assets/icons/phone.png" alt="Phone Icon"> {{ event.phoneNumber }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

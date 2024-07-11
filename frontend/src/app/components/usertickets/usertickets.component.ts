@@ -27,7 +27,7 @@ export class UserticketsComponent {
       eventDate: 'Wednesday July-12 2:00pm',
       hostName: 'Jane Smith',
       hostImage: '/assets/images/profile.png',
-      ticketPrice: 'Ksh.1500',
+      ticketPrice: 'Ksh.2500',
       contactNumber: '0712345679',
       invitationMessage: 'Join us for an inspiring event where top tech innovators will share their insights. Your ticket will be emailed to you shortly.'
     },

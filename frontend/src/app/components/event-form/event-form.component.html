@@ -1,0 +1,117 @@
+<div class="form-holder">
+  <div class="form-and-image">
+    <div class="form">
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
+        <div class="description">
+          <input
+            type="text"
+            id="event-name"
+            [(ngModel)]="eventName"
+            name="eventName"
+            placeholder="Enter event name..."
+            required
+          />
+          <label for="event-name">Enter event name...</label>
+        </div>
+
+        <div class="description">
+          <select id="event-type" [(ngModel)]="eventType" name="eventType" required>
+            <option value="" disabled selected>Select event type...</option>
+            <option value="Conference">Conference</option>
+            <option value="Concert">Concert</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Exhibition">Exhibition</option>
+          </select>
+          <!-- <label for="event-type">Select event type...</label> -->
+        </div>
+
+        <div class="description">
+          <input
+            type="text"
+            id="location"
+            [(ngModel)]="location"
+            name="location"
+            placeholder="Enter event location..."
+            required
+          />
+          <label for="location">Enter event location...</label>
+        </div>
+
+        <div class="description">
+          <input
+            type="date"
+            id="event-date"
+            [(ngModel)]="eventDate"
+            name="eventDate"
+            required
+          />
+          <!-- <label for="event-date">Event Date</label> -->
+        </div>
+
+        <div class="price-and-tickets">
+          <div class="description">
+            <input
+              class="small"
+              type="number"
+              id="price"
+              [(ngModel)]="price"
+              name="price"
+              placeholder="Ticket Price"
+              required
+            />
+            <label for="price">Ticket Price</label>
+          </div>
+
+          <div class="description">
+            <input
+              class="small"
+              type="number"
+              id="tickets"
+              [(ngModel)]="numberOfTickets"
+              name="numberOfTickets"
+              placeholder="Number of Tickets"
+              required
+            />
+            <label for="tickets">Number of Tickets</label>
+          </div>
+        </div>
+
+        <div class="description">
+          <textarea
+            id="additional-info"
+            [(ngModel)]="additionalInfo"
+            name="additionalInfo"
+            placeholder="Provide additional information..."
+          ></textarea>
+          <label for="additional-info">Provide additional information...</label>
+        </div>
+      </form>
+    </div>
+
+    <div class="image-holder">
+      <!-- <div class="image">
+        <img
+          style="height: 400px; margin-left: 20px"
+          src="/assets/images/ill1.svg"
+          alt="."
+        />
+      </div> -->
+
+      <div class="gallery">
+        <h3 style="text-align: center;">Event Images</h3>
+        <div class="dropzone" id="event-dropzone"></div>
+        <!-- <div class="uploaded-images">
+          <div *ngFor="let file of files; let i = index" class="uploaded-image">
+            <img [src]="file | fileToUmageUrl" [alt]="'Uploaded Image ' + i" />
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="create" type="button" (click)="onSubmit()">
+        Create Event
+      </button>
+      <button class="cancel" type="button" (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>

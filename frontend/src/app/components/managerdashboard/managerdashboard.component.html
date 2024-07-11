@@ -1,0 +1,57 @@
+<div class="wrap-all-the-things">
+  <div class="statsbar">
+    <div class="sleft">
+      <div class="plann">
+        <p style="font-size: 40px;">Plan your events</p>
+        <p style="font-size: 40px;">seamlessly</p>
+      </div>
+      <button>Create Your new event</button>
+    </div>
+
+    <div class="sright">
+      <div class="stat">
+        <div class="txtp">
+          <div class="fig">200</div>
+          <div class="wht">RSVPS</div>
+        </div>
+        <div class="imgIcon">
+          <img class="statIcon" src="/assets/icons/rsvp.png" alt="">
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="txt">
+          <div class="fig">10</div>
+          <div class="wht">Events</div>
+        </div>
+        <div class="imgIcon">
+          <img style="height: 55px;" class="statIcon" src="/assets/icons/eventt.png" alt="">
+        </div>
+      </div>
+
+      <div class="stat">
+        <div class="txt">
+          <div class="fig">10,000</div>
+          <div class="wht">Revenue</div>
+        </div>
+        <div class="imgIcon">
+          <img class="statIcon" src="/assets/icons/money.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="analytics">
+      <p class="eventT">Events Analytics</p>
+      <div style="display: flex; justify-content: center;">
+        <div class="bar-container" *ngFor="let event of events">
+          <div class="bar" [style.height.%]="getPercentage(event.ticketsSold, event.totalTickets)">
+            <span>{{ event.ticketsSold }} / {{ event.totalTickets }}</span>
+          </div>
+          <div class="bar-label">{{ event.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
