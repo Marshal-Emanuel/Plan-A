@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 interface UpcomingEvent {
   eventName: string;
@@ -16,7 +17,7 @@ interface UpcomingEvent {
 @Component({
   selector: 'app-user-event',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './user-event.component.html',
   styleUrl: './user-event.component.css'
 })

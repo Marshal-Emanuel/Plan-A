@@ -20,6 +20,7 @@ body {
   align-items: center;
   height: 20vh;
   background: url('/assets/images/baner.jpg') no-repeat center/cover;
+  filter: brightness(70%);
 }
 
 #search {
@@ -33,12 +34,13 @@ body {
 }
 
 #search::placeholder {
-  color: rgb(230, 230, 230);
+  color: rgb(167, 166, 166);
+  font-size: 15px;
 }
 
 #search:focus {
-  outline: 2px solid #00c4f4;
-  border: 2px solid #00c4f4;
+  outline: 1px solid #00c4f4;
+  border: 1px solid #00c4f4;
 }
 
 .search{
@@ -67,6 +69,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  /* background-color: #00c4f4; */
+  width: 90%;
 }
 
 .upcoming-events-item {
@@ -301,32 +305,99 @@ button:hover::after {
   padding-right: 20px;
 }
 
-.filters,
-.calendar {
+.main-content {
+  display: flex;
+  gap: 20px;
+}
+
+.sidebar {
+  flex: 0 0 300px;
+}
+
+.filters, .calendar {
   background-color: #16213e;
   border-radius: 10px;
-  padding: 20px;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.filters h3, .calendar h3 {
+  color: #fff;
   margin-bottom: 20px;
 }
 
 .filter-option {
-  margin-bottom: 15px;
-}
-
-.filter-option label {
-  display: block;
-  margin-bottom: 5px;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .filter-option select,
 .filter-option input {
   width: 100%;
-  padding: 5px;
-  background-color: #1a1a2e;
-  border: 1px solid #00c4f4;
+  padding: 12px 20px;
+  border: none;
+  border-bottom: 1px solid #00c4f4;
   border-radius: 5px;
   color: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
+.filter-option input:focus {
+  border: none;
+  outline: none;
+}
+.filter-option select:focus {
+  border: none;
+  outline: none;
+}
+
+.filter-option select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+}
+
+.filter-option label {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  color: #888;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  background-color: #1a1a2e;
+  padding: 0 5px;
+}
+
+.filter-option select:focus + label,
+.filter-option select:valid + label,
+.filter-option input:focus + label,
+.filter-option input:not(:placeholder-shown) + label {
+  top: 0;
+  font-size: 12px;
+  color: #00c4f4;
+}
+
+.filter-option select:focus,
+.filter-option input:focus {
+  border-color: #00c4f4;
+  box-shadow: 0 0 5px rgba(0, 196, 244, 0.5);
+}
+
+/* Placeholder styling */
+.filter-option input::placeholder {
+  color: transparent;
+}
+
+/* Styling for the rest of your content */
+.upcoming-events {
+  flex: 1;
+}
+
+/* Add more styles as needed for the rest of your content */
 
 /* Responsive design */
 @media (max-width: 1024px) {

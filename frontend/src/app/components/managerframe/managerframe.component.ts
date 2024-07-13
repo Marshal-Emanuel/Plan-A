@@ -1,15 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { ManagerdashboardComponent } from '../managerdashboard/managerdashboard.component';
 import { EventFormComponent } from '../event-form/event-form.component';
+import { ManagerEventsComponent } from '../manager-events/manager-events.component';
+import { ManagerViewEventComponent } from "../manager-view-event/manager-view-event.component";
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-managerframe',
   standalone: true,
-  imports: [RouterLink, ManagerdashboardComponent, EventFormComponent],
+  imports: [
+    ManagerdashboardComponent,
+    EventFormComponent,
+    ManagerEventsComponent,
+    ManagerViewEventComponent, CommonModule, RouterLink
+  ],
   templateUrl: './managerframe.component.html',
-  styleUrl: './managerframe.component.css'
+  styleUrls: ['./managerframe.component.css']
 })
 export class ManagerframeComponent {
+  selectedComponent: string = 'dashboard';
 
+  selectComponent(component: string) {
+    this.selectedComponent = component;
+  }
 }

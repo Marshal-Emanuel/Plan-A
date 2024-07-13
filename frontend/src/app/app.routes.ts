@@ -10,6 +10,9 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
 import { ManagerframeComponent } from './components/managerframe/managerframe.component';
 import { EventFormComponent } from './components/event-form/event-form.component';
 import { ManagerEventsComponent } from './components/manager-events/manager-events.component';
+import { ManagerViewEventComponent } from './components/manager-view-event/manager-view-event.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
 
 export const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -24,4 +27,8 @@ export const routes: Routes = [
   {path: 'mdashboard', component: ManagerdashboardComponent},
   {path: 'form', component: EventFormComponent},
   {path: 'mevents', component: ManagerEventsComponent},
+  // manager viewing one event, usisahau kueka /event/:id
+  {path: 'mevent', component: ManagerViewEventComponent},
+  {path: 'adashboard', component: AdminDashboardComponent},
+  {path: 'ticket', component: TicketPurchaseComponent}
 ];

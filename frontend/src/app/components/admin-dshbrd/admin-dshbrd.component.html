@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Screen</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <style>
+        /* Existing CSS remains, add or modify the following */
+        .wrap-all-the-things {
+            background-color: #0f1421;
+            padding: 20px;
+            color: #fff;
+            margin-left: 100px;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .dashboard-header h1 {
+            color: #00ffff;
+            font-size: 24px;
+        }
+        .top-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            background-color: #1a2235;
+            border-radius: 10px;
+            padding: 15px;
+            width: 23%;
+        }
+        .stat-box p:first-child {
+            color: #7a8599;
+            font-size: 14px;
+        }
+        .stat-box .fig {
+            color: #fff;
+            font-size: 24px;
+            margin-top: 5px;
+        }
+        .welcome-box {
+            background-color: #1a2235;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .welcome-box img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        .welcome-box h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .welcome-box h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .welcome-box p {
+            color: #7a8599;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            background-color: #1a2235;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 14px;
+        }
+        .charts {
+            display: flex;
+            justify-content: space-between;
+        }
+        .chart {
+            width: 48%;
+            background-color: #1a2235;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .chart h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .chart-content {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap-all-the-things">
+        <div class="dashboard-header">
+            <h1>Super User Account</h1>
+            <p>PLAN-A</p>
+        </div>
+
+        <div class="top-stats">
+            <div class="stat-box">
+                <p>Registered Users</p>
+                <p class="fig">500</p>
+            </div>
+            <div class="stat-box">
+                <p>Total events</p>
+                <p class="fig">30</p>
+            </div>
+            <div class="stat-box">
+                <p>Total tickets sold</p>
+                <p class="fig">+3000</p>
+            </div>
+            <div class="stat-box">
+                <p>Total revenue</p>
+                <p class="fig">Ksh. 120,000</p>
+            </div>
+        </div>
+
+        <div class="welcome-box">
+            <img src="assets/images/profile.png" alt="John Doe">
+            <div>
+                <h2>Welcome back,</h2>
+                <h3>John Doe</h3>
+                <p>Plan-A Admin</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">Number of admins: 5</div>
+            <div class="stat-item">Number of events managers: 30</div>
+            <div class="stat-item">Approved Events: 24</div>
+            <div class="stat-item">Pending approval: 6</div>
+            <div class="stat-item">Pending Event Manager Requests: 24</div>
+        </div>
+
+        <div class="charts">
+            <div class="chart">
+                <h3>Satisfaction Rate</h3>
+                <div class="chart-content">
+                    <!-- Placeholder for satisfaction rate chart -->
+                    <p>95%</p>
+                </div>
+            </div>
+            <div class="chart">
+                <h3>Tickets sale rate</h3>
+                <div class="chart-content">
+                    <!-- Placeholder for tickets sale rate chart -->
+                    <p>9.3</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

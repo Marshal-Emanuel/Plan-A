@@ -148,107 +148,149 @@ button:hover::after {
 /* Upcoming events */
 .upcoming-events {
   padding-left: 100px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #030B15;
+  margin-top: -20px;
+  padding-top: 40px;
+}
+
+.upcoming-events {
+  flex: 1;
+  padding-left: 20px;
 }
 
 .upcoming-events-title {
   color: #00c4f4;
-  padding: 100px 100px 70px;
+  padding: 50px 100px 40px;
 }
 
 .upcoming-events-container {
   display: flex;
-  flex-wrap: wrap;
-  /* width: 80%; */
-  /* background-color: #00C4F4; */
+  flex-direction: column;
+  gap: 30px;
+  width: 70vw;
 }
 
 .upcoming-events-item {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  box-shadow: 0 0 20px rgb(23, 59, 85);
+  border: 1px solid rgb(143, 227, 255);
+  background-color: transparent;
   border-radius: 20px;
-  width: 80%;
+  overflow: hidden;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
-.upcoming-events-item-img img {
-  width: 400px;
-  height: 270px;
-  border-radius: 20px;
-}
-
-.status {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.upcoming-events-item:hover {
   border: 1px solid #00c4f4;
-  padding: 5px 10px;
-  border-radius: 20px;
-  margin: 10px;
-  width: fit-content;
-}
-
-.eventInfo {
-  padding: 10px;
-  /* margin: 10px; */
-  /* background-color: #000F13; */
-  border-radius: 20px;
-  width: 64%;
-  height: 100%;
+  box-shadow: 0 0 10px rgb(0, 149, 255);
+  cursor: pointer;
 }
 
 .upcoming-events-item-img {
-  width: 28%;
+  width: 40%;
+  flex-shrink: 0;
+  height: 250px;
+}
+
+.upcoming-events-item-img {
+  position: relative;
+  height: 250px;
+  border-radius: 20px 0 0 20px;
+  overflow: hidden;
+}
+
+.upcoming-events-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px 0 0 20px;
+  transition: filter 0.3s ease-in-out;
+}
+
+.upcoming-events-item-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 3, 40, 0.5);
+  transition: background 0.3s ease-in-out;
+  border-radius: 20px 0 0 20px;
+  pointer-events: none;
+}
+
+.upcoming-events-item-img:hover::before {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.eventInfo {
+  padding: 22px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .uptop {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
+.status,
 .attenders {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background-color: #181517;
-  color: #F46050;
-  padding: 0px 10px;
-  border-radius: 10px;
+  font-size: 0.9em;
 }
-
-.attenders img {
-  height: 25px;
-}
-
-.desc {
-  padding: 10px 0;
-}
-
-.location,
-.date {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background-color: transparent;
-}
-
 .location img,
 .date img,
 .phone img {
   height: 20px;
 }
-
-.phone {
+.attenders{
   display: flex;
   align-items: center;
+  gap :10px;
+  color: #F46050;
+}
+.attenders img{
+  height: 20px;
+}
+.status img {
+  height: 25px;
+}
+
+.event-name {
+  font-size: 1.4em;
+}
+
+.desc {
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.crucial {
+  display: flex;
+  gap: 40px;
+}
+
+.location,
+.date {
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  display: flex;
   gap: 10px;
-  background-color: transparent;
 }
 
 .btm {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 
@@ -336,7 +378,7 @@ button:hover::after {
 .slides {
   display: flex;
   justify-content: center;
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
 }
 
 .slide {
@@ -449,6 +491,7 @@ background-color: transparent;
 .reviews-container {
   display: flex;
   justify-content: center;
+  gap: 20px
 }
 
 .review-item {

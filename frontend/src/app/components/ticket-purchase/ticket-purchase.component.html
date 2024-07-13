@@ -1,0 +1,34 @@
+<body>
+
+<div class="ticket-form">
+  <h2>Select Ticket Type</h2>
+  <form>
+    <div class="ticket-type">
+      <label>
+        <input type="radio" name="ticketType" value="group" [(ngModel)]="selectedTicketType">
+        Group Ticket
+      </label>
+      <label>
+        <input type="radio" name="ticketType" value="single" [(ngModel)]="selectedTicketType">
+        Single Ticket
+      </label>
+    </div>
+
+    <div class="ticket-details" *ngIf="selectedTicketType === 'group'">
+      <label>
+        Number of People:
+        <input type="number" name="groupSize" [(ngModel)]="groupSize" min="1" required>
+      </label>
+    </div>
+
+    <div class="ticket-details" *ngIf="selectedTicketType === 'single'">
+      <label>
+        Name:
+        <input type="text" name="personName" [(ngModel)]="personName" required>
+      </label>
+    </div>
+
+    <button type="submit" class="purchase-btn">Purchase Ticket</button>
+  </form>
+</div>
+</body>

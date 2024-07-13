@@ -1,0 +1,114 @@
+/* ticket-purchase.component.css */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300');
+
+:root {
+  --color-1: #1a1a1a;
+  --color-2: #fefefe;
+  --pad: 0.925rem;
+  --primary-color: #00C4F4; /* Adjusted primary color from the theme */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: Roboto, sans-serif;
+  height: 100%;
+  background-color: #030B15; /* Adjusted background color from the theme */
+  color: white;
+}
+
+.ticket-form {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: var(--color-2); /* Using secondary color from the theme */
+  padding: var(--pad);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 200px;
+  width: 600px;
+  border: 1px solid  #00C4F4 ;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: var(--primary-color); /* Adjusted heading color */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-type {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--primary-color); /* Adjusted label color */
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+.ticket-details {
+  margin-bottom: 20px;
+}
+
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #030B15;
+}
+input[type="text"]:focus {
+  margin-bottom: 10px;
+  border: 2px solid #00C4F4;
+  outline: none;
+}
+button{
+  /* background-color: #00C4F4; */
+  /* border: none; */
+  padding: 10px 20px;
+}
+/*r
+
+.purchase-btn {
+  background-color: var(--primary-color);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.purchase-btn:hover {
+  background-color: #0056b3;
+}
+
+.purchase-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+} */
+form{
+  padding: 40px;
+  background-color: #030B15;
+}

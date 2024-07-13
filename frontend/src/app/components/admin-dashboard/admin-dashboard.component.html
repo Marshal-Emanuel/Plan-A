@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a0e1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1a2235;
+        }
+        .top {
+            padding: 10px 20px;
+        }
+
+
+        .person {
+            display: flex;
+            align-items: center;
+        }
+        .person img {
+            margin-right: 10px;
+        }
+        .wrap-all-the-things {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+  <div class="top">
+    <div class="plana">Plan-A</div>
+    <div class="topR">
+      <p class="greet">Super Admin</p>
+    </div>
+  </div>
+
+  <header class="main-head">
+    <nav class="head-nav" style="">
+      <ul class="menu" style="margin-top: 30px;">
+        <li (click)="selectOption('dashboard')">
+          <a>
+            <div class="person">
+              <img class="user" src="assets/images/profile.png" alt="">
+            </div><span>Account</span>
+          </a>
+        </li>
+        <li (click)="selectOption('dashboard')">
+          <a>
+            <div class="person">
+              <img class="sideIcon" src="assets/icons/bluedash.png" alt="">
+            </div><span>Dashboard</span>
+          </a>
+        </li>
+        <li (click)="selectOption('events')">
+          <a>
+            <div class="person">
+              <img class="sideIcon" src="assets/icons/eventC.png" alt="">
+            </div><span>Events</span>
+          </a>
+        </li>
+        <li (click)="selectOption('users')">
+          <a>
+            <div class="person">
+              <img class="sideIcon" src="assets/icons/userss.png" alt="">
+            </div><span>Users</span>
+          </a>
+        </li>
+        <li routerLink="/" style="margin-top: 120px;">
+          <a>
+            <div class="person">
+              <img class="sideIcon" src="assets/icons/logut.png" alt="">
+            </div><span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="wrap-all-the-things">
+    <div *ngIf="selectedOption === 'dashboard'">
+      <app-admin-dshbrd></app-admin-dshbrd>
+    </div>
+    <div *ngIf="selectedOption === 'events'">
+      <app-admin-events></app-admin-events>
+    </div>
+    <div *ngIf="selectedOption === 'users'">
+      <app-admin-users></app-admin-users>
+    </div>
+  </div>
+</body>
+</html>

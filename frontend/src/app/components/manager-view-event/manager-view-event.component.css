@@ -1,0 +1,387 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* background-color: #030B15; */
+  /* overflow-x: hidden; */
+  background-color: #000000;
+}
+
+body {
+  background-color: #000000;
+  color: white;
+  height: 1200px;
+  margin-left: 100px;
+}
+
+.eventImage {
+  height: 300px;
+  padding: 20px 20px;
+}
+
+.eventImage {
+  height: 300px;
+  padding: 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.eventImage img {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #FE1F27;
+  border-radius: 10px;
+  position: relative;
+  z-index: 0;
+  transition: filter 0.3s ease-in-out;
+}
+
+.eventImage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.434); /* Red tint with 50% opacity */
+  z-index: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.eventImage:hover::before {
+  opacity: 0;
+}
+
+.eventImage:hover img {
+  filter: none;
+}
+
+.eventInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.info {
+  display: flex;
+  gap: 20%;
+  align-items: center;
+  margin-bottom: 20px;
+  /* width: fit-content */
+}
+
+.description {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+  border: 1px solid #FE1F27;
+}
+
+.description .heading {
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  font-size: 1.2em;
+  border-bottom: 1px solid #00556aab;
+  color: #FE1F27;
+}
+
+.pricingTicket {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 30%;
+  margin-left: -30px;
+  /* margin-bottom: -40px; */
+  /* background-color: #0C131D; */
+  padding: 25px 20px 20px 20px;
+  border-radius: 15px;
+  /* border: 1px solid #FE1F27; */
+  /* box-shadow: 0 0 10px #FE1F27; */
+  margin-top: -40px;
+  font-size: 40px;
+}
+
+.priceWish {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  font-size: 25px;
+  padding-bottom: 40px;
+}
+
+.wishIcon {
+  transition: all 0.3s ease-in-out;
+  background-color: transparent;
+}
+
+.wishIcon:hover {
+  cursor: pointer;
+  filter: drop-shadow(0 0 5px #FE1F27);
+  transform: scale(1.1);
+}
+
+.wishIcon img {
+  height: 35px;
+}
+
+/* Button styles */
+button {
+  --btn-color: rgba(0, 196, 244, 0.6);
+  position: relative;
+  border: 1px solid var(--btn-color);
+  border-radius: 20px;
+  color: var(--btn-color);
+  background-color: transparent;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+button::before,
+button::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-color: var(--btn-color);
+  border-radius: 20px;
+  border-style: solid;
+  transition: all 0.5s;
+  content: "";
+  z-index: 1;
+}
+
+.ticketIcon {
+  height: 24px;
+}
+
+button::before {
+  width: 0;
+  height: 100%;
+  border-width: 1px 0 1px 0;
+}
+
+button::after {
+  width: 100%;
+  height: 0;
+  border-width: 0 1px 0 1px;
+}
+
+button:hover {
+  border-color: #FE1F27;
+  border-width: 2px;
+  color: #FE1F27;
+}
+
+button:hover::before {
+  width: 100%;
+}
+
+button:hover::after {
+  height: 100%;
+}
+
+.ticketbtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.moreInfo {
+  padding-left: 40px;
+  margin-left:1000px ;
+  margin-top: -30px;
+}
+
+/* host */
+.host {
+  position: absolute;
+  margin-top: -130px;
+  /* top: 0; */
+  /* margin-top: 18px; */
+  /* margin-right: -2px; */
+  border-radius: 10px;
+  /* height: 263px; */
+  padding: 40px;
+  background: linear-gradient(to right, #fe1f2642, transparent);
+  background-color: transparent;
+}
+
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 10px; /* Rounded corners for the table */
+  overflow: hidden; /* Ensure the rounded corners are visible */
+}
+
+.user-table th, .user-table td {
+  border: none; /* Remove side borders */
+  padding: 10px;
+  text-align: left;
+}
+
+.user-table th {
+  background-color: #333;
+  border-bottom: 2px solid #444; /* Bottom border for the header */
+}
+
+.user-table td {
+  border-bottom: 1px solid #444; /* Bottom border for the table rows */
+}
+
+.user-table tr:last-child td {
+  border-bottom: none; /* Remove bottom border for the last row */
+}
+
+.profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Rounded profile images */
+  object-fit: cover;
+}
+
+.profileimg {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  border: 1px solid #FE1F27;
+}
+
+.hostProffesion {
+  padding: 10px 0px;
+}
+
+
+
+/* Upcoming events section */
+.similarEvents {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #030B15;
+  margin-top: -20px;
+  padding-top: 40px;
+  /* width: ; */
+}
+
+
+
+
+
+.eventInfo {
+  padding: 22px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.uptop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status,
+.attenders {
+  font-size: 0.9em;
+}
+
+.status img {
+  height: 25px;
+}
+
+.event-name {
+  font-size: 1.4em;
+}
+
+.desc {
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.crucial {
+  display: flex;
+  gap: 40px;
+}
+
+.location,
+.date {
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticketbtn,
+.phone {
+  font-size: 0.9em;
+}
+
+.ticketIcon {
+  height: 24px;
+}
+
+.ticketbtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.attenders {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #f46050;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.attending {
+  margin-right: 0px;
+  width: 100%;
+  background-color: transparent;
+}
+
+.attenders img,
+.location img,
+.date img,
+.phone img {
+  height: 20px;
+}
+
+.status,
+.phone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
+}
+
+.buttons {
+  display: flex;
+  gap: 50px;
+  padding-top: 40px;
+}
+.buttons img{
+  height: 27px;
+}
+button{
+  padding: 5px 20px;
+}
+

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
+import { RouterLink } from '@angular/router';
 interface UpcomingEvent {
   eventName: string;
   eventImg: string;
@@ -16,7 +17,7 @@ interface UpcomingEvent {
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CommonModule, MatSliderModule,FormsModule],
+  imports: [CommonModule, MatSliderModule,FormsModule, RouterLink],
   templateUrl: './events.component.html',
   styleUrl: './events.component.css'
 })

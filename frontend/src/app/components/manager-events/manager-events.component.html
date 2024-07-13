@@ -1,1 +1,28 @@
-<p>manager-events works!</p>
+<div class="main">
+  <div class="txtxt">Your planned Events</div>
+  <div class="events">
+    <div *ngFor="let event of events" class="eventinfo">
+      <div class="event">
+        <div class="event-image">
+          <img [src]="event.imageUrl" alt="event" />
+        </div>
+        <div class="event-container">
+          <div class="event-details">
+            <div [ngClass]="{'status-past': event.status === 'Past Event', 'status-pending': event.status === 'Pending approval', 'status-approved': event.status === 'Approved'}" class="status">{{ event.status }}</div>
+            <div class="event-name">{{ event.name }}</div>
+            <div class="event-date"> <img src="assets/icons/date.png" alt=""> {{ event.date }}</div>
+            <div class="event-time"><img src="assets/icons/time.png" alt=""> {{ event.time }}</div>
+            <div class="event-location"> <img src="assets/icons/location.png" alt=""> {{ event.location }}</div>
+            <div class="sold-tickets"> <img src="assets/icons/ticketw.png" alt=""> {{ event.soldTickets }} sold out tickets</div>
+          </div>
+          <div [ngClass]="{'barinfo-past': event.status === 'Past Event', 'barinfo-pending': event.status === 'Pending approval', 'barinfo-approved': event.status === 'Approved'}" class="barinfo">
+            <div [ngClass]="{'bar-past': event.status === 'Past Event', 'bar-pending': event.status === 'Pending approval', 'bar-approved': event.status === 'Approved'}" class="bar" [style.height]="(event.soldTickets / event.totalTickets) * 100 + '%'"></div>
+          </div>
+        </div>
+        <div class="barlabel">
+          <img src="assets/icons/users.png" alt=""> {{ event.soldTickets }}/{{ event.totalTickets }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,9 @@
-<body>
+a<body>
   <div class="container">
     <h1 class="logo">Plan-A</h1>
     <h2 class="title">Create your account</h2>
     <form class="login-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-     
+
       <div class="input-group">
         <img class="iconsform" src="/assets/icons/email.png" alt="">
         <input type="email" id="email" placeholder="Email Address" required email [(ngModel)]="email" name="email">
@@ -22,6 +22,6 @@
 
       <button type="submit" class="submit-btn">Sign in</button>
     </form>
-    <p class="login-link">Dont have an account? <a href="#">Sign up</a></p>
+    <p class="login-link">Dont have an account? <a routerLink="/signup">Sign up</a></p>
   </div>
 </body>

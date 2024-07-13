@@ -3,71 +3,72 @@
     <div class="plana">Plan-A</div>
     <div class="topR">
       <p class="greet">Good evening Doe</p>
-
     </div>
-
   </div>
 
-
   <header class="main-head">
-    <nav class="head-nav" style="">
+    <nav class="head-nav">
       <ul class="menu">
-        <li >
+
+        <li>
           <a>
             <div class="person">
               <img class="user" src="assets/images/profile.png" alt="">
-
-            </div><span>Account</span>
+            </div><span>Profile</span>
           </a>
         </li>
-
-        <li>
+        <li  (click)="selectComponent('dashboard')">
           <a>
             <div class="person">
               <img class="sideIcon" src="assets/icons/dashboard.png" alt="">
             </div><span>Dashboard</span>
           </a>
         </li>
-        <li>
-          <a h>
+        <li (click)="selectComponent('newEvent')">
+          <a>
             <div class="person">
               <img class="sideIcon" src="assets/icons/new.png" alt="">
             </div><span>New Event</span>
           </a>
         </li>
-        <li>
+        <li (click)="selectComponent('events')">
           <a>
             <div class="person">
               <img class="sideIcon" src="assets/icons/eventt.png" alt="">
             </div><span>Events</span>
           </a>
         </li>
-        <li>
+        <li (click)="selectComponent('viewEvent')">
           <a>
             <div class="person">
               <img class="sideIcon" src="assets/icons/usersR.png" alt="">
-            </div><span>Users</span>
+            </div><span>View Event</span>
           </a>
         </li>
-        <li>
+        <li style="margin-top: 100px;" routerLink="/">
           <a>
-            <div class="person">
+            <div class="person" >
               <img class="sideIcon" src="assets/icons/logout.png" alt="">
             </div><span>Logout</span>
           </a>
         </li>
       </ul>
     </nav>
-  </header> <!-- //main-head -->
+  </header>
 
   <!-- Components to load here -->
-   <app-managerdashboard></app-managerdashboard>
-   <app-event-form></app-event-form>
-
-  <div class="wrap-all-the-things">
-
+  <div *ngIf="selectedComponent === 'dashboard'">
+    <app-managerdashboard></app-managerdashboard>
+  </div>
+  <div *ngIf="selectedComponent === 'newEvent'">
+    <app-event-form></app-event-form>
+  </div>
+  <div *ngIf="selectedComponent === 'events'">
+    <app-manager-events></app-manager-events>
+  </div>
+  <div *ngIf="selectedComponent === 'viewEvent'">
+    <app-manager-view-event></app-manager-view-event>
   </div>
 
-
-
+  <div class="wrap-all-the-things"></div>
 </body>

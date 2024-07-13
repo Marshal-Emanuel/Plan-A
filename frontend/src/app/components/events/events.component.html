@@ -13,52 +13,41 @@
   <div class="top">
     <div class="searchSection">
       <input type="search" name="search" id="search" placeholder="Search here">
-      <img style="background-color: transparent;" class="search" src="/assets/icons/searchWhite.png" alt="">
+      <img style="background-color: transparent; height: 25px;" class="search" src="/assets/icons/searchWhite.png" alt="">
     </div>
   </div>
 
   <div class="main-content">
     <div class="sidebar">
       <div class="filters">
-        <h3 style="background-color: transparent;">Filters</h3>
 
-        <div style="background-color: transparent;" class="filter-option">
-          <label for="category" style="background-color: transparent;">Category</label>
-          <select style="background-color: transparent;" id="category">
-            <option value="">All Categories</option>
-            <option value="music">Music</option>
-            <option value="sport">Sport</option>
-            <option value="conference">Conference</option>
-            <!-- Add more options as needed -->
-          </select>
-        </div>
+      <h5 style="background-color: transparent;">Filters</h5>
 
-        <div style="background-color: transparent;"  class="filter-option">
-          <label style="background-color: transparent;" for="organizer">Organizer</label>
-          <input type="text" id="organizer" placeholder="Enter organizer name">
-        </div>
+      <div style="background-color: transparent;" class="filter-option">
+        <select style="background-color: transparent;" id="category">
+          <option value="" disabled selected>Select a category</option>
+          <option value="">All Categories</option>
+          <option value="music">Music</option>
+          <option value="sport">Sport</option>
+          <option value="conference">Conference</option>
+        </select>
+        <label for="category" style="background-color: transparent;">Category</label>
+      </div>
 
-        <div style="background-color: transparent;" class="filter-option">
-          <label style="background-color: transparent;" for="location">Location</label>
-          <input type="text" id="location" placeholder="Enter location">
-        </div>
+      <div style="background-color: transparent;" class="filter-option">
+        <input type="text" id="organizer" placeholder=" ">
+        <label style="background-color: transparent;" for="organizer">Organizer</label>
+      </div>
 
-        <!-- <div class="filter-option">
-          <label for="price-range">Price Range</label>
-          <mat-slider
-            id="price-range"
-            min="0"
-            max="100"
-            step="1"
-            [(ngModel)]="priceRangeValues"
-            (input)="onPriceRangeChange($event)"
-          ></mat-slider>
-          <span id="price-range-values">{{ priceRangeValues[0] }} - {{ priceRangeValues[1] }}</span>
-        </div> -->
+      <div style="background-color: transparent;" class="filter-option">
+        <input type="text" id="location" placeholder=" ">
+        <label style="background-color: transparent;" for="location">Location</label>
+      </div>
+
       </div>
 
       <div style="background-color: transparent;" class="calendar">
-        <h3 style="background-color: transparent;">Calendar</h3>
+        <h5 style="background-color: transparent;">Calendar</h5>
         <div id="calendar-placeholder">
           <!-- Calendar content i will add dynamically -->
         </div>
@@ -107,7 +96,7 @@
               <img src="/assets/icons/time.png" alt="Time Icon"> {{ event.time }}
             </span> -->
             <div class="btm">
-              <button class="ticketbtn"><img class="ticketIcon" src="/assets/icons/ticket.png" alt="">Get your ticket</button>
+              <button class="ticketbtn" routerLink="/event"><img class="ticketIcon" src="/assets/icons/ticket.png" alt="">Get your ticket</button>
               <p class="phone">
                 <img src="/assets/icons/phone.png" alt="Phone Icon"> {{ event.phoneNumber }}
               </p>

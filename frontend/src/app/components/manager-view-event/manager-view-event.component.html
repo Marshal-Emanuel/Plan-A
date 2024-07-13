@@ -1,0 +1,83 @@
+<body>
+  <div class="main">
+    <div class="eventImage">
+      <img [src]="eventImage" alt="Event Image">
+    </div>
+
+    <div class="eventInfoContainer">
+      <div class="info">
+        <div class="description">
+          <p class="heading">{{ eventHeading }}</p>
+          <p>{{ eventDescription }}</p>
+        </div>
+
+        <!-- Pricing starts here -->
+        <div class="pricingTicket">
+          <div class="priceWish">
+            <div class="price"> Price: &nbsp; <span style=" color:#FE1F27">Ksh. {{ eventPrice }}</span></div>
+
+          </div>
+
+        </div>
+        <!-- Pricing ends here -->
+      </div>
+
+      <!-- metrics -->
+      <div class="line3">
+        <div class="moreInfo">
+          <div class="attendees">
+            <p style="display: flex; align-items: center; gap: 10px;">
+              <img style="height: 25px;" src="/assets/icons/users.png" alt="Users Icon">{{ attendees }} Will be
+              attending
+            </p>
+          </div>
+          <br>
+          <div class="location">
+            <p style="display: flex; align-items: center; gap: 10px;">
+              <img style="height: 25px;" src="/assets/icons/location.png" alt="Location Icon">{{ eventLocation }}
+            </p>
+          </div>
+          <br>
+          <div class="time">
+            <p style="display: flex; align-items: center; gap: 10px;">
+              <img style="height: 25px;" src="/assets/icons/event.png" alt="Event Icon">{{ eventDate }}
+            </p>
+          </div>
+          <div class="buttons">
+            <button class="edit"><img src="/assets/icons/edit.png" alt=""></button>
+            <button class="delete"><img src="/assets/icons/delete.png" alt=""></button>
+
+          </div>
+        </div>
+
+
+
+        <!-- Host starts here -->
+        <div class="host">
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>Profile Image</th>
+                <th>Name</th>
+                <th>Registration Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of userProfiles">
+                <td><img class="profile-img" [src]="user.image" alt="{{ user.name }}"></td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.registrationTime }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+</body>
