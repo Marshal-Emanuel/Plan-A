@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  eventId      String    @id @default(uuid())
+  name         String
+  description  String
+  moreInfo     String
+  location     String
+  date         DateTime
+  time         DateTime
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  image        String?   @db.VarChar(MAX)
+
+  hasRegular   Boolean    @default(true)
+  regularPrice Float      @default(0)
+
+  hasVIP       Boolean    @default(false)
+  vipPrice     Float      @default(0)
+
+  hasChildren  Boolean    @default(false)
+  childrenPrice Float     @default(0)
+
+  isPromoted   Boolean    @default(false)
+  promoDetails String?
+
+  status       String     @default("ACTIVE")
+  nature       String     @default("PENDING")
+
+  tickets      Ticket[]
+  wishlists    Wishlist[]
+}
+
+model User {
+  userId          String    @id @default(uuid())
+  name            String
+  phoneNumber     String    @unique
+  email           String    @unique
+  role            String    @default("user")
+  accountStatus   String    @default("active")
+  password        String
+  profilePicture  String?   @db.VarChar(MAX)
+
+  tickets         Ticket[]
+  reviews         Review[]
+  wishlists       Wishlist[]
+}
+
+model Ticket {
+  ticketId      String    @id @default(uuid())
+  eventId       String
+  userId        String
+  ticketType    String
+  price         Float
+  quantity      Int       @default(1)
+  isGroupTicket Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+
+  event         Event     @relation(fields: [eventId], references: [eventId])
+  user          User      @relation(fields: [userId], references: [userId])
+}
+
+model Review {
+  reviewId  String    @id @default(uuid())
+  comment   String
+  rating    Int
+  userId    String
+  createdAt DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [userId])
+}
+
+model Wishlist {
+  wishlistId String   @id @default(uuid())
+  userId     String
+  eventId    String
+
+  user       User     @relation(fields: [userId], references: [userId])
+  event      Event    @relation(fields: [eventId], references: [eventId])
+}

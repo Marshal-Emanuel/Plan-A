@@ -1,0 +1,75 @@
+###new event
+POST http://localhost:4400/event/createEvent
+Content-Type: application/json
+
+{
+  "name": "Nottttoooooo",
+  "description": "An exciting music concert with various artists.",
+  "moreInfo": "Join us for a night of fun and music!",
+  "location": "City Stadium",
+  "date": "2023-10-03T00:00:00Z",  
+  "time": "19:00:00", 
+  "image": "http://example.com/image.jpg"
+
+  
+
+
+}
+
+// The 'status' field indicates that the event is currently active. and can be set to icanceled
+// The 'nature' field suggests that the event might be pending approval or past event.
+
+###get events
+GET http://localhost:4400/event/getEvents
+
+###get event by id
+GET http://localhost:4400/event/getEvents/1d125c24-9f19-4777-bdf0-25406b2864da
+
+###update event
+PUT http://localhost:4400/event/updateEvent/1d125c24-9f19-4777-bdf0-25406b2864da 
+Content-Type: application/json
+
+{
+  "name": "Music Concert",
+  "description": "An exciting music concert with various artists.",
+  "moreInfo": "Join us for a night of fun and music!",
+  "location": "City Stadium",
+  "date": "2024-08-15T00:00:00Z",
+  "time": "2024-08-15T19:00:00Z",
+  "image": "http://example.com/image.jpg",
+  "hasRegular": true,
+  "regularPrice": 20.0,
+  "hasVIP": true,
+  "vipPrice": 50.0,
+  "hasChildren": true,
+  "childrenPrice": 10.0,
+  "isPromoted": true,
+  "promoDetails": "20% off for early birds!",
+  "status": "ACTIVE",
+  "nature": "PENDING"
+}
+
+###//cancel event
+PUT http://localhost:4400/event/cancelEvent/1d125c24-9f19-4777-bdf0-25406b2864da
+
+
+
+###  //approve event
+PUT http://localhost:4400/event/approveEvent/1d125c24-9f19-4777-bdf0-25406b2864da
+
+
+
+#### //get aproved events
+GET http://localhost:4400/event/getApprovedEvents
+
+
+### //add promotion
+PUT http://localhost:4400/event/addPromotion/1d125c24-9f19-4777-bdf0-25406b2864da
+Content-Type: application/json
+
+{
+  "isPromoted": true,
+  "promoDetails": "free for all tickets"
+}
+                
+

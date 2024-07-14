@@ -1,0 +1,20 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Event] DROP CONSTRAINT [Event_hasRegular_df];
+ALTER TABLE [dbo].[Event] ADD CONSTRAINT [Event_hasRegular_df] DEFAULT 1 FOR [hasRegular];
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH
