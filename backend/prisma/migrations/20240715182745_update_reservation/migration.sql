@@ -1,0 +1,22 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Review] ADD [isDeleted] BIT NOT NULL CONSTRAINT [Review_isDeleted_df] DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE [dbo].[SystemReview] ADD [isDeleted] BIT NOT NULL CONSTRAINT [SystemReview_isDeleted_df] DEFAULT 0;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

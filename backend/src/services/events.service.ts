@@ -5,6 +5,8 @@ import path from 'path';
 
 export class EventsService {
     prisma = new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
+
+    //for running the update of time incase server wanst runnign at midnight :)
     lastRunFilePath = path.join(__dirname, 'lastRunTime.txt');
 
     async createEvent(event: Event) {
@@ -27,7 +29,10 @@ export class EventsService {
                     isPromoted: event.isPromoted,
                     promoDetails: event.promoDetails,
                     status: event.status,
-                    nature: event.nature
+                    nature: event.nature,
+                    managerId: event.managerId,
+                    numberOfTickets: event.numberofTickets,
+                    remainingTickets: event.remainingTickets
                 }
             });
             return { message: "Event created successfully", responseCode: 201 };
@@ -44,6 +49,42 @@ export class EventsService {
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };
         }
     }
+
+    //events where nature is APPROVED and status ACTIVE
+    async getActiveEvents() {
+        try {
+            let events = await this.prisma.event.findMany({
+                where: {
+                    nature: "APPROVED",
+                    status: "ACTIVE"
+                }
+            });
+            console.log("Active AND APPROVED EVENTS events", events);
+            return { message: "Events retrieved successfully", responseCode: 200, data: events };
+        } catch (error) {
+            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+        }
+    }
+
+
+    //EVENTS THAT ARE ACTIVE BUT UNAPPROVED
+    async getPendingEvents() {
+        try {
+            let events = await this.prisma.event.findMany({
+                where: {
+                    nature: "PENDING",
+                    status: "ACTIVE"
+                }
+            });
+            return { message: "Events retrieved successfully", responseCode: 200, data: events };
+        } catch (error) {
+            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+        }
+    }
+
+    //events where nature is canccelled
+    
+
 
     async getEventById(eventId: string) {
         try {
@@ -116,20 +157,24 @@ export class EventsService {
 
     async updateEventNature() {
         try {
-            let events = await this.prisma.event.findMany();
             let currentDate = new Date();
-            events.forEach(async (event) => {
-                if (event.date < currentDate) {
-                    await this.prisma.event.update({
-                        where: { eventId: event.eventId },
-                        data: {
-                            nature: "PAST"
-                        }
-                    });
+            const updatedEvents = await this.prisma.event.updateMany({
+                where: {
+                    date: {
+                        lt: currentDate
+                    },
+                    nature: {
+                        not: "PAST"
+                    }
+                },
+                data: {
+                    nature: "PAST"
                 }
             });
-            return { message: "Event nature updated successfully", responseCode: 200 };
+            console.log(`Updated ${updatedEvents.count} events to PAST`);
+            return { message: "Event nature updated successfully", responseCode: 200, updatedCount: updatedEvents.count };
         } catch (error) {
+            console.error("Error updating event nature:", error);
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };
         }
     }
@@ -153,25 +198,31 @@ export class EventsService {
             console.error("Error writing last run time:", error);
         }
     }
-
     scheduleUpdateEventNature() {
         const now = new Date();
-        const midnight = new Date();
-        midnight.setHours(24, 0, 0, 0); // Set the time to midnight
-
-        const timeUntilMidnight = midnight.getTime() - now.getTime(); // Calculate the time until midnight
-
+        const midnight = new Date(now);
+        midnight.setHours(24, 0, 0, 0);
+    
+        const timeUntilMidnight = midnight.getTime() - now.getTime();
+    
+        console.log(`Scheduling next updateEventNature for ${midnight.toISOString()}`);
+    
+        setTimeout(() => {
+            console.log("Running updateEventNature at:", new Date().toISOString());
+            this.updateEventNature().then(() => {
+                this.setLastRunTime(new Date());
+                this.scheduleUpdateEventNature();
+            }).catch(error => {
+                console.error("Error in scheduled updateEventNature:", error);
+            });
+        }, timeUntilMidnight);
+    
         // Check if the function was missed
         const lastRun = this.getLastRunTime();
         if (lastRun && now.getTime() - lastRun.getTime() > 24 * 60 * 60 * 1000) {
+            console.log("Missed update detected, running updateEventNature now");
             this.updateEventNature();
         }
-
-        setTimeout(() => {
-            this.updateEventNature();
-            this.setLastRunTime(new Date()); // Update the last run time
-            this.scheduleUpdateEventNature(); // Schedule the next update
-        }, timeUntilMidnight);
     }
 
     //get approved events where natire is approved
@@ -205,4 +256,36 @@ export class EventsService {
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };
         }
     }
+
+    //remove promotion
+    async removePromotion(eventId: string) {
+        try {
+            await this.prisma.event.update({
+                where: { eventId: eventId },
+                data: {
+                    isPromoted: false,
+                    promoDetails: ""
+                }
+            });
+            return { message: "Promotion removed successfully", responseCode: 200 };
+        } catch (error) {
+            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+        }
+    }
+
+    //set nature to rejected
+    async rejectEvent(eventId: string) {
+        try {
+            await this.prisma.event.update({
+                where: { eventId: eventId },
+                data: {
+                    nature: "REJECTED"
+                }
+            });
+            return { message: "Event rejected successfully", responseCode: 200 };
+        } catch (error) {
+            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+        }
+    }
+
 }

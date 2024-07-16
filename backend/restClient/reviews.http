@@ -1,0 +1,36 @@
+### creating a review
+POST http://localhost:4400/reviews/createReview
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxMDY3MzA1LCJleHAiOjE3MjEwNzA5MDV9.iUzRBWPg3ZjsKqkveYfvH1E14sSgg_6xZGKLZoEbjOo
+
+
+{
+    "eventId": "e2e8ef6e-7a07-46fc-b412-ff9344353192",
+    "userId": "8db13d3a-b148-4fc3-a17e-bd80edbb9d9a",
+    "rating": 5,
+    "comment": "This was a great event. I had a lot of fun!"
+}
+
+
+### get all reviews
+GET http://localhost:4400/reviews/getReviews
+
+
+### get review by id
+GET http://localhost:4400/reviews/getReview/18d2ef12-b353-4ac2-8c50-9c41a0eb490d
+
+
+
+
+###GET REVIEW BY EVENT
+GET http://localhost:4400/reviews/getReview/18d2ef12-b353-4ac2-8c50-9c41a0eb490d
+
+
+###update review
+PUT http://localhost:4400/reviews/updateReview/18d2ef12-b353-4ac2-8c50-9c41a0eb490d
+Content-Type: application/json
+    
+    {
+        "rating": 4,
+        "comment": "This was a great event. I had a lot of fun! I would definitely recommend it to my friends."
+    }

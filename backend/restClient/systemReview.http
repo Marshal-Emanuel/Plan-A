@@ -1,0 +1,20 @@
+### create review
+POST http://localhost:4400/systemReview/createReview
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxMTE1Mzc4LCJleHAiOjE3MjExMTg5Nzh9.RnwJ6TnkZ28L1FN5iSoTdTEyjC4mzFTAxhApvMSbh1Q
+
+{
+    
+    "userId": "8db13d3a-b148-4fc3-a17e-bd80edbb9d9a",
+    "rating": 5,
+    "comment": "This was a great event. I had a lot of fun!"
+}
+
+
+###get reviews
+GET http://localhost:4400/systemReview/getReviews
+
+
+
+### get review by id
+GET http://localhost:4400/systemReview/getReview/8db13d3a-b148-4fc3-a17e-bd80edbb9d9a

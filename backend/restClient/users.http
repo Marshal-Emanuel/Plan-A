@@ -3,15 +3,17 @@ POST http://localhost:4400/user/register
 Content-Type: application/json
 
 {
-    "name": "John Doe",
-    "phoneNumber": "12345674890",
-    "email": "john@eexample.com",
+    "name": "user2",
+    "phoneNumber": "12434774821",
+    "email": "user2.user",
     "password": "password"
 
 }
 
 ###All users
 GET http://localhost:4400/user/allUsers
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjExMjAzNTksImV4cCI6MTcyMTEyMzk1OX0.ImtOvgstHOsB07zhHQAvrwhWTKoyh0c5GT-_Yfaba0w
 
 
 
@@ -30,11 +32,17 @@ Content-Type: application/json
 GET http://localhost:4400/user/getUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
 
 
-###dssiable user account
+
+###dssiable user account  only admin can do this{ if token contains role of admin}
 PUT http://localhost:4400/user/disableUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNDI5NmIyNC00MjY1LTQzNjktOTgwZS1iY2ZlMjMyMzMxNDUiLCJlbWFpbCI6ImpvaG5ANWV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMDM0NTQyLCJleHAiOjE3MjEwMzgxNDJ9.h7749QX5YGWNAI7kJXQlkpazQgw4lYUk6LLxnvdmPc0
+
 
 ###enable user account
 PUT http://localhost:4400/user/enableUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNDI5NmIyNC00MjY1LTQzNjktOTgwZS1iY2ZlMjMyMzMxNDUiLCJlbWFpbCI6ImpvaG5ANWV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMDM0NTQyLCJleHAiOjE3MjEwMzgxNDJ9.h7749QX5YGWNAI7kJXQlkpazQgw4lYUk6LLxnvdmPc0
 
 ###Set account to pending
 PUT http://localhost:4400/user/managerRequest/4916c73b-9235-4d62-a13a-bb050e1f2f1e

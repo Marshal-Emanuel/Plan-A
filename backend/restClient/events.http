@@ -1,19 +1,17 @@
 ###new event
 POST http://localhost:4400/event/createEvent
 Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjExMTgwOTcsImV4cCI6MTcyMTEyMTY5N30.NZ9mrzKpjju28UlK763KuMLaCearENHZSeW5D_A_f0o
 
 {
   "name": "Nottttoooooo",
+  "managerId": "e756eeab-99c0-4779-ad15-4d1e97312a93",
   "description": "An exciting music concert with various artists.",
   "moreInfo": "Join us for a night of fun and music!",
   "location": "City Stadium",
   "date": "2023-10-03T00:00:00Z",  
-  "time": "19:00:00", 
+ "time": "2023-10-03T19:00:00.000Z",
   "image": "http://example.com/image.jpg"
-
-  
-
-
 }
 
 // The 'status' field indicates that the event is currently active. and can be set to icanceled
@@ -22,12 +20,23 @@ Content-Type: application/json
 ###get events
 GET http://localhost:4400/event/getEvents
 
+
+### events where nature is APPROVED and status ACTIVE(dISPLAY THESE TO THE USER)
+GET http://localhost:4400/event/getActiveEvents
+
+
+###get events where nature is PENDING but are active 
+GET http://localhost:4400/event/getPendingEvents
+
+
+
 ###get event by id
-GET http://localhost:4400/event/getEvents/1d125c24-9f19-4777-bdf0-25406b2864da
+GET http://localhost:4400/event/getEvents/e2e8ef6e-7a07-46fc-b412-ff9344353192
 
 ###update event
-PUT http://localhost:4400/event/updateEvent/1d125c24-9f19-4777-bdf0-25406b2864da 
+PUT http://localhost:4400/event/updateEvent/e2e8ef6e-7a07-46fc-b412-ff9344353192 
 Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OTE2YzczYi05MjM1LTRkNjItYTEzYS1iYjA1MGUxZjJmMWUiLCJlbWFpbCI6ImpvaG55QG1kYWlsLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMDQ2Mjc5LCJleHAiOjE3MjEwNDk4Nzl9.ArA3blUAIwPp_eeNLri8FNBADnt0WfZr3Ntj7kqUme4
 
 {
   "name": "Music Concert",
@@ -51,25 +60,43 @@ Content-Type: application/json
 
 ###//cancel event
 PUT http://localhost:4400/event/cancelEvent/1d125c24-9f19-4777-bdf0-25406b2864da
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OTE2YzczYi05MjM1LTRkNjItYTEzYS1iYjA1MGUxZjJmMWUiLCJlbWFpbCI6ImpvaG55QG1kYWlsLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMDQ2Mjc5LCJleHAiOjE3MjEwNDk4Nzl9.ArA3blUAIwPp_eeNLri8FNBADnt0WfZr3Ntj7kqUme4
 
 
 
-###  //approve event
-PUT http://localhost:4400/event/approveEvent/1d125c24-9f19-4777-bdf0-25406b2864da
+
+###  //approve event(Admin)
+PUT http://localhost:4400/event/approveEvent/e2e8ef6e-7a07-46fc-b412-ff9344353192
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEwNjYwNDQsImV4cCI6MTcyMTA2OTY0NH0.ovyu-RDha41gqp6C29MIJVjZBP-ON6ULxB5mIpsD7UE
 
 
 
-#### //get aproved events
+#### //get aproved events  user should see these eevnts
 GET http://localhost:4400/event/getApprovedEvents
 
 
-### //add promotion
-PUT http://localhost:4400/event/addPromotion/1d125c24-9f19-4777-bdf0-25406b2864da
+### //add promotion to event (Event Manager)
+PUT http://localhost:4400/event/addPromotion/e2e8ef6e-7a07-46fc-b412-ff9344353192
 Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTE3OTYzLCJleHAiOjE3MjExMjE1NjN9.a94oa63cz7Outju3vv1X9xedOU-qwgnC_QcawYwzNas
 
 {
   "isPromoted": true,
   "promoDetails": "free for all tickets"
 }
+
+### //remove promotion from event (Event Manager)
+PUT http://localhost:4400/event/removePromotion/e2e8ef6e-7a07-46fc-b412-ff9344353192
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTE3OTYzLCJleHAiOjE3MjExMjE1NjN9.a94oa63cz7Outju3vv1X9xedOU-qwgnC_QcawYwzNas
+
+
+
+### reject event admin
+PUT http://localhost:4400/event/rejectEvent/e2e8ef6e-7a07-46fc-b412-ff9344353192
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjExMTgwOTcsImV4cCI6MTcyMTEyMTY5N30.NZ9mrzKpjju28UlK763KuMLaCearENHZSeW5D_A_f0o
                 
 

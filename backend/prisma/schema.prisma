@@ -3,7 +3,6 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,34 +13,34 @@ datasource db {
 }
 
 model Event {
-  eventId      String    @id @default(uuid())
-  name         String
-  description  String
-  moreInfo     String
-  location     String
-  date         DateTime
-  time         DateTime
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  image        String?   @db.VarChar(MAX)
-
-  hasRegular   Boolean    @default(true)
-  regularPrice Float      @default(0)
-
-  hasVIP       Boolean    @default(false)
-  vipPrice     Float      @default(0)
-
-  hasChildren  Boolean    @default(false)
+  eventId       String    @id @default(uuid())
+  managerId     String
+  name          String
+  description   String
+  moreInfo      String
+  location      String
+  date          DateTime
+  time          DateTime
+  numberOfTickets Int     @default(0)
+  remainingTickets Int     @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  image         String?   @db.VarChar(MAX)
+  hasRegular    Boolean   @default(true)
+  regularPrice  Float     @default(0)
+  hasVIP        Boolean   @default(false)
+  vipPrice      Float     @default(0)
+  hasChildren   Boolean   @default(false)
   childrenPrice Float     @default(0)
-
-  isPromoted   Boolean    @default(false)
-  promoDetails String?
-
-  status       String     @default("ACTIVE")
-  nature       String     @default("PENDING")
-
-  tickets      Ticket[]
-  wishlists    Wishlist[]
+  isPromoted    Boolean   @default(false)
+  promoDetails  String?
+  status        String    @default("ACTIVE")
+  nature        String    @default("PENDING")
+  discount      Float?    @default(0)
+  wishlists     Wishlist[]
+  reservations  Reservation[]
+  reviews       Review[]  // Add this line
+  manager       User      @relation("ManagedEvents", fields: [managerId], references: [userId])
 }
 
 model User {
@@ -53,24 +52,11 @@ model User {
   accountStatus   String    @default("active")
   password        String
   profilePicture  String?   @db.VarChar(MAX)
-
-  tickets         Ticket[]
   reviews         Review[]
   wishlists       Wishlist[]
-}
-
-model Ticket {
-  ticketId      String    @id @default(uuid())
-  eventId       String
-  userId        String
-  ticketType    String
-  price         Float
-  quantity      Int       @default(1)
-  isGroupTicket Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-
-  event         Event     @relation(fields: [eventId], references: [eventId])
-  user          User      @relation(fields: [userId], references: [userId])
+  reservations    Reservation[]
+  managedEvents   Event[]   @relation("ManagedEvents")
+  systemReviews   SystemReview[]
 }
 
 model Review {
@@ -78,16 +64,44 @@ model Review {
   comment   String
   rating    Int
   userId    String
+  eventId   String
+  isDeleted Boolean   @default(false)
   createdAt DateTime  @default(now())
-
-  user      User      @relation(fields: [userId], references: [userId])
+  user      User      @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  event     Event     @relation(fields: [eventId], references: [eventId], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Wishlist {
   wishlistId String   @id @default(uuid())
   userId     String
   eventId    String
+  user       User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  event      Event    @relation(fields: [eventId], references: [eventId], onDelete: NoAction, onUpdate: NoAction)
+}
 
-  user       User     @relation(fields: [userId], references: [userId])
-  event      Event    @relation(fields: [eventId], references: [eventId])
+model SystemReview {
+  systemReviewId String @id @default(uuid())
+  userId         String
+  comment        String
+  rating         Int
+  isDeleted      Boolean @default(false)
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Reservation {
+  reservationId  String    @id @default(uuid())
+  eventId        String
+  userId         String
+  status         String    @default("ACTIVE")
+  isRegular      Boolean   @default(false)
+  isVIP          Boolean   @default(false)
+  isChildren     Boolean   @default(false)
+  proxyName      String?
+  numberOfPeople Int       @default(1)
+  ammountPaid    Float     @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now()) @updatedAt
+  event          Event     @relation(fields: [eventId], references: [eventId], onDelete: NoAction, onUpdate: NoAction)
+  user           User      @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
 }

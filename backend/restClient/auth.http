@@ -1,0 +1,14 @@
+### //login auth
+POST http://localhost:4400/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin.user",
+    "password": "password"
+}
+
+
+###check details
+GET http://localhost:4400/auth/checkDetails
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjExMjAzNTksImV4cCI6MTcyMTEyMzk1OX0.ImtOvgstHOsB07zhHQAvrwhWTKoyh0c5GT-_Yfaba0w

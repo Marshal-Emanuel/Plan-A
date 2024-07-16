@@ -30,6 +30,26 @@ export class EventsController {
         }
     }
 
+    //GET events where nature is APPROVED and status ACTIVE
+    async getActiveEvents(req: Request, res: Response) {
+        try {
+            let response = await service.getActiveEvents();
+            return res.json(response);
+        } catch (error) {
+            return res.json({ error });
+        }
+    }
+
+    //unapproved but active getPending
+    async getPendingEvents(req: Request, res: Response) {
+        try {
+            let response = await service.getPendingEvents();
+            return res.json(response);
+        } catch (error) {
+            return res.json({ error });
+        }
+    }
+
     //get Event by id
     async getEventById(req: Request, res: Response) {
         try {
@@ -98,6 +118,29 @@ export class EventsController {
             return res.json({ error });
         }
     }
+
+    //remove promotion
+    async removePromotion(req: Request, res: Response) {
+        try {
+            let eventId = req.params.id;
+            let response = await service.removePromotion(eventId);
+            return res.json(response);
+        } catch (error) {
+            return res.json({ error });
+        }
+    }
+
+    //set event nature to rejected
+    async rejectEvent(req: Request, res: Response) {
+        try {
+            let eventId = req.params.id;
+            let response = await service.rejectEvent(eventId);
+            return res.json(response);
+        } catch (error) {
+            return res.json({ error });
+        }
+    }
+    
 }
 
   
