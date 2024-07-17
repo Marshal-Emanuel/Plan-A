@@ -6,3 +6,6 @@
 
 DATABASE_URL="sqlserver://localhostt;database=dbnaame;user=mysql;password=mysql;encrypt=true;trustServerCertificate=true"
 SECRET_KEY="secretkeyhapa"
+
+GMAIL_USER=email@gmail.com
+GMAIL_APP_PASSWORD=app-password

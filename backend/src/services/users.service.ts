@@ -1,49 +1,65 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import {User} from "../interfaces/users";
 import * as bcrypt from "bcrypt";
-const prisma = new PrismaClient();
+import { EmailService } from "./email.service";
+
+// const prisma = new PrismaClient();
 
 export class UsersService {
- 
+
     prisma = new PrismaClient(
         {log: ['query', 'info', 'warn', 'error']}
     );
 
+    private emailService: EmailService = new EmailService();
+
+    constructor(){
+        this.emailService = new EmailService();
+    }
+
+
     //create a new user
- async createUser(user: User){
-    const bcryptPassword = await bcrypt.hash(user.password, 10);
-    try {
-         await this.prisma.user.create({
+    async createUser(user: User) {
+        const bcryptPassword = await bcrypt.hash(user.password, 10);
+    
+        try {
+          const createdUser = await this.prisma.user.create({
             data: {
-                name: user.name,
-                phoneNumber: user.phoneNumber,
-                email: user.email,
-                password: bcryptPassword,
-                profilePicture: user.profilePicture,              
+              name: user.name,
+              phoneNumber: user.phoneNumber,
+              email: user.email,
+              password: bcryptPassword,
+              profilePicture: user.profilePicture,              
             }
-        });
-        return{
+          });
+    
+          // Send welcome email
+          await this.emailService.sendEmail(
+            createdUser.email,
+            'Welcome to Our Platform',
+            `Hello ${createdUser.name},\n\nWelcome to our event management platform. We're excited to have you on board!`
+          );
+    
+          return {
             message: "User created successfully",
             responseCode: 201
-        };
-        
-    }
-    catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-           
-            if (error.code === 'P2002') {
-                return {
-                    message: "Account already exists",
-                    responseCode: 400
-                };
-            }
+          };
         }
-        return {
+        catch (error) {
+          if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+              return {
+                message: "Account already exists",
+                responseCode: 400
+              };
+            }
+          }
+          return {
             message: "An unexpected error occurred.",
             responseCode: 500
-        };
-    }
- }
+          };
+        }
+      }
 
  async viewAllUsers() {
     const users = await this.prisma.user.findMany();

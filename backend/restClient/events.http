@@ -1,13 +1,13 @@
 ###new event
 POST http://localhost:4400/event/createEvent
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjExMTgwOTcsImV4cCI6MTcyMTEyMTY5N30.NZ9mrzKpjju28UlK763KuMLaCearENHZSeW5D_A_f0o
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjEyMDQ4MjgsImV4cCI6MTcyMTIwODQyOH0.AsSG_Hy1dCybtBONjnc8ZL4cp-Trb3JxGlshzjTvH_I
 
 {
-  "name": "Nottttoooooo",
-  "managerId": "e756eeab-99c0-4779-ad15-4d1e97312a93",
-  "description": "An exciting music concert with various artists.",
-  "moreInfo": "Join us for a night of fun and music!",
+  "name": "Manager Marshal",
+  "managerId": "c6ab660a-bfaa-4fb4-90f6-2322981a6fd7",
+  "description": "MarshalEvent",
+  "moreInfo": "Come to managers meeting, message to admin organized by marshal",
   "location": "City Stadium",
   "date": "2023-10-03T00:00:00Z",  
  "time": "2023-10-03T19:00:00.000Z",
@@ -65,11 +65,11 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OTE2YzczYi05MjM1LTRkN
 
 
 
-
 ###  //approve event(Admin)
-PUT http://localhost:4400/event/approveEvent/e2e8ef6e-7a07-46fc-b412-ff9344353192
+PUT http://localhost:4400/event/approveEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEwNjYwNDQsImV4cCI6MTcyMTA2OTY0NH0.ovyu-RDha41gqp6C29MIJVjZBP-ON6ULxB5mIpsD7UE
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMjA1MDAxLCJleHAiOjE3MjEyMDg2MDF9.rO8od2icGheqVQM6Ud2DmLqjxznyQr7J12dxJuuMAPs
+                
 
 
 
@@ -95,8 +95,27 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3N
 
 
 ### reject event admin
-PUT http://localhost:4400/event/rejectEvent/e2e8ef6e-7a07-46fc-b412-ff9344353192
+PUT http://localhost:4400/event/rejectEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjExMTgwOTcsImV4cCI6MTcyMTEyMTY5N30.NZ9mrzKpjju28UlK763KuMLaCearENHZSeW5D_A_f0o
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMjA1MDAxLCJleHAiOjE3MjEyMDg2MDF9.rO8od2icGheqVQM6Ud2DmLqjxznyQr7J12dxJuuMAPs
                 
 
+###peaople artending
+GET http://localhost:4400/event/getPeopleAttending/91243764-d90a-4bcc-92ae-8df95eb4ebb6           
+
+
+
+### get total reservations a user
+GET http://localhost:4400/event/getTotalReservations
+
+
+### ///totalRSVPsManager/:id'
+GET http://localhost:4400/event/totalRSVPsManager/e756eeab-99c0-4779-ad15-4d1e97312a93
+
+
+### Get Event Count for al the  Managers
+GET http://localhost:4400/event/managerEventCounts
+
+
+### Get Event Count for a Specific Manager
+GET http://localhost:4400/event/managerEventCount/90179a98-3a4c-434e-9c9a-f9db2d7f7b90

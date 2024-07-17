@@ -17,7 +17,14 @@ event_router.put('/approveEvent/:id',verifyToken, isAdmin, eventController.appro
 event_router.get('/getApprovedEvents', eventController.getApprovedEvents);
 event_router.put('/addPromotion/:id',verifyToken, isManager, eventController.addPromotion);
 event_router.put('/removePromotion/:id',verifyToken, isManager, eventController.removePromotion);
-//reject event
 event_router.put('/rejectEvent/:id',verifyToken, isAdmin, eventController.rejectEvent);
+//peaople attnding event
+event_router.get('/getPeopleAttending/:id', eventController.peopleAttending);
+event_router.get('/getTotalReservations', eventController.getTotalReservationsForUser);
+//EVENT managers total reservarions made
+event_router.get('/totalRSVPsManager/:id', eventController.getReservationsForManager);
+event_router.get('/managerEventCounts', eventController.getEventCountForManagers);
+event_router.get('/managerEventCount/:managerId', eventController.getEventCountForManager);
+
 
 export default event_router;

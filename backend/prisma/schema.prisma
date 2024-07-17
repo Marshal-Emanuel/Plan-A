@@ -52,6 +52,7 @@ model User {
   accountStatus   String    @default("active")
   password        String
   profilePicture  String?   @db.VarChar(MAX)
+  isSubscribedToMails Boolean @default(false)
   reviews         Review[]
   wishlists       Wishlist[]
   reservations    Reservation[]
@@ -97,6 +98,7 @@ model Reservation {
   isRegular      Boolean   @default(false)
   isVIP          Boolean   @default(false)
   isChildren     Boolean   @default(false)
+  paidAmmount    Float     @default(0)
   proxyName      String?
   numberOfPeople Int       @default(1)
   ammountPaid    Float     @default(0)

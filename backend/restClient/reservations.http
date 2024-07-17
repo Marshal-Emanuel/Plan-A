@@ -1,33 +1,51 @@
 ### //new reservation
 POST http://localhost:4400/reservation/createReservation
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxMTE5NzgxLCJleHAiOjE3MjExMjMzODF9.SNo9ArjVrZhLZ06KrUDEoAU5X3GAD8oqx8FQO3ueaNI
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NDhhYWI3Yy1jODVjLTQ1NzMtYTgzMy00YzZlMGE3NWE5NGYiLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjExNjg1NDUsImV4cCI6MTcyMTE3MjE0NX0.EjJSypfVtbKwCPOx-vO1BcAI3z-GtXPOujC8S-2lSDU
+
 
 {
-  "eventId": "91243764-d90a-4bcc-92ae-8df95eb4ebb6",
-  "userId": "8b5a5b1d-e523-44c8-abb9-6c854898ac79",
-  "isRegular": true,
+  "eventId": "ac29b30c-b113-4d7d-a1ab-7ce14eb3e70f",
+  "userId": "748aab7c-c85c-4573-a833-4c6e0a75a94f",
+  "isRegular": false,
   "isVIP": false,
-  "isChildren": false,
+  "isChildren": true,
   "proxyName": "proxy",
-  "numberOfPeople": 10,
+  "numberOfPeople": 2,
   "createdAt": "2021-09-29T00:00:00.000Z",
   "updatedAt": "2021-09-29T00:00:00.000Z"
 }
 
 ### //cancel reservation
-PUT http://localhost:4400/reservation/cancelReservation/2339df33-4f3b-4f49-8484-a9dc1506eec2
+PUT http://localhost:4400/reservation/cancelReservation/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4OGFmMDQzMi05NDk2LTRiOWMtYmQ1ZC0wYjI4MTNlZDNlYWIiLCJlbWFpbCI6ImpvaG55QG1haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjEwNDgxODYsImV4cCI6MTcyMTA1MTc4Nn0.HHtBim-jTDbcMMv9aao3qcGAJIex0mLOKOymlmoq-Bo
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjEyMDYyOTYsImV4cCI6MTcyMTIwOTg5Nn0.hPeY4Wm3DI2lOtz4QrzMwWbZ8kD3ua45GdWt0AgQNK0
 
 
 
 ### //get all reservations
 GET http://localhost:4400/reservation/getAllReservations
 Content-type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkNDk4MDc1MC0wOTA2LTQyNmMtODA2MS1kOTk2OWMwMzMyZmUiLCJlbWFpbCI6InVzZXIuYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEwNTI0MzIsImV4cCI6MTcyMTA1NjAzMn0.GQxbzdTjEO9h9OJ9jHBUDsLZ2JMcsN8qJKuMGFhp0bU
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTQ3MDQ0LCJleHAiOjE3MjExNTA2NDR9.Ejuepm7fvnMAsCQewEA6eeql5DdzAqzEEfdkm9itAmc
 
 ### //get reservation by id
-GET http://localhost:4400/reservation/getOneReservation/60700aad-6257-466c-8043-dd1d33440023
+GET http://localhost:4400/reservation/getOneReservation/03021068-b05f-4115-889d-609079be9151
 Content-type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkNDk4MDc1MC0wOTA2LTQyNmMtODA2MS1kOTk2OWMwMzMyZmUiLCJlbWFpbCI6InVzZXIuYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEwNTI0MzIsImV4cCI6MTcyMTA1NjAzMn0.GQxbzdTjEO9h9OJ9jHBUDsLZ2JMcsN8qJKuMGFhp0bU
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OGEyZTc5OS00NzcyLTQ1ZGQtODBkYS1jMDRjZGYwYWM1MjMiLCJlbWFpbCI6InVzZXIzLnVzZXIiLCJyb2xlIjoidXNlciIsImlhdCI6MTcyMTE0NjY2MSwiZXhwIjoxNzIxMTUwMjYxfQ.2ZZqlNTQKg3tnhfUoZ2YEo-qlbDihbxSH0fdoKMjaLI
+
+
+### //calculate price
+POST http://localhost:4400/reservation//calculatePrice
+
+
+### //get sum of paid amounts for reservations based on event  and manager provide eventid
+GET http://localhost:4400/reservation/getSumOfPaidAmounts/91243764-d90a-4bcc-92ae-8df95eb4ebb6&
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTQ5NDczLCJleHAiOjE3MjExNTMwNzN9.849TBWzks2FVag9onGidiJlFcTOGCSJFJvcMcuJyo7A
+
+
+### //get total paid amount for all events
+GET http://localhost:4400/reservation/getTotalPaidAmountForAllEvents
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTQ5NDczLCJleHAiOjE3MjExNTMwNzN9.849TBWzks2FVag9onGidiJlFcTOGCSJFJvcMcuJyo7A
+

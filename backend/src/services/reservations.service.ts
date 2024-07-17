@@ -1,8 +1,15 @@
 import { Reservation } from './../interfaces/reservation';
 import { PrismaClient } from "@prisma/client";
+import { EmailService } from './email.service';
 
 export class ReservationService {
     prisma = new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
+
+    private emailService: EmailService = new EmailService();
+
+    constructor() {
+        this.emailService = new EmailService();
+    }
 
     async createReservation(reservation: Reservation) {
         try {
@@ -38,6 +45,22 @@ export class ReservationService {
                 };
             }
     
+            let ticketPrice = 0;
+            if (reservation.isRegular && event.hasRegular) {
+                ticketPrice = event.regularPrice;
+            } else if (reservation.isVIP && event.hasVIP) {
+                ticketPrice = event.vipPrice;
+            } else if (reservation.isChildren && event.hasChildren) {
+                ticketPrice = event.childrenPrice;
+            } else {
+                return {
+                    message: "Invalid ticket type selected.",
+                    responseCode: 400,
+                };
+            }
+    
+            const paidAmmount = ticketPrice * reservation.numberOfPeople;
+    
             await this.prisma.event.update({
                 where: { eventId: reservation.eventId },
                 data: {
@@ -45,7 +68,7 @@ export class ReservationService {
                 },
             });
     
-            await this.prisma.reservation.create({
+            const createdReservation = await this.prisma.reservation.create({
                 data: {
                     eventId: reservation.eventId,
                     userId: reservation.userId,
@@ -54,12 +77,23 @@ export class ReservationService {
                     isChildren: reservation.isChildren,
                     proxyName: reservation.proxyName,
                     numberOfPeople: reservation.numberOfPeople,
+                    paidAmmount: paidAmmount,
+                    ammountPaid: paidAmmount,
                 },
             });
+    
+            console.log('Created reservation:', createdReservation);
+            console.log('Sending reservationId to email service:', createdReservation.reservationId);
+    
+            // Send confirmation email
+            const emailSent = await this.emailService.sendReservationConfirmation(createdReservation.reservationId);
+    
+            console.log('Email sent status:', emailSent);
     
             return {
                 message: "Reservation created successfully",
                 responseCode: 201,
+                emailSent: emailSent
             };
         } catch (error) {
             console.error("Error creating reservation:", error);
@@ -69,12 +103,9 @@ export class ReservationService {
                 error: error,
             };
         }
-        }
+    }
+    
 
-        
-
-
-    //get all reservations
     async getAllReservations() {
         try {
             const reservations = await this.prisma.reservation.findMany({
@@ -148,9 +179,7 @@ export class ReservationService {
         }
     }
 
-
-    //cancel reservation BY setting   status         String    @default("ACTIVE") to cancelled
-    async cancelReservation(reservationId: string){
+    async cancelReservation(reservationId: string) {
         try {
             await this.prisma.reservation.update({
                 where: {
@@ -175,7 +204,7 @@ export class ReservationService {
         }
     }
 
-    private calculatePrice(reservation: any): number {
+    async calculatePrice(reservation: any): Promise<number> {
         let totalPrice = 0;
         if (reservation.isRegular) {
             totalPrice += reservation.event.regularPrice * reservation.numberOfPeople;
@@ -188,5 +217,76 @@ export class ReservationService {
         }
         return totalPrice;
     }
+
+
+    async getSumOfPaidAmounts(eventId: string) {
+        try {
+            console.log(`Fetching reservations for eventId: ${eventId} and managerId:`);
+            const reservations = await this.prisma.reservation.findMany({
+                where: {
+                    eventId: eventId,
+                  
+                },
+                include: {
+                    event: true
+                }
+            });
+    
+            console.log('Reservations found:', JSON.stringify(reservations, null, 2));
+    
+            const totalPaidAmount = reservations.reduce((sum, reservation) => {
+                console.log(`Reservation ${reservation.reservationId}: ammountPaid = ${reservation.ammountPaid}`);
+                return sum + reservation.ammountPaid;
+            }, 0);
+    
+            console.log(`Total paid amount calculated: ${totalPaidAmount}`);
+    
+            return {
+                totalPaidAmount: totalPaidAmount,
+                responseCode: 200
+            };
+        } catch (error) {
+            console.error("Error fetching reservations:", error);
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
+            };
+        }
+    }
+
+
+    async getTotalPaidAmountForAllEvents() {
+        try {
+            const events = await this.prisma.event.findMany({
+                include: {
+                    reservations: true
+                }
+            });
+    
+            const totalPaidAmount = events.reduce((sum, event) => {
+                const eventTotal = event.reservations.reduce((eventSum, reservation) => {
+                    return eventSum + reservation.ammountPaid;
+                }, 0);
+                return sum + eventTotal;
+            }, 0);
+    
+            console.log(`Total paid amount for all events: ${totalPaidAmount}`);
+    
+            return {
+                totalPaidAmount: totalPaidAmount,
+                responseCode: 200
+            };
+        } catch (error) {
+            console.error("Error calculating total paid amount for all events:", error);
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
+            };
+        }
+    }
+    
+    
     
 }

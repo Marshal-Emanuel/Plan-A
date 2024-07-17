@@ -2,16 +2,22 @@ import { PrismaClient } from "@prisma/client";
 import { Event } from "../interfaces/events";
 import fs from 'fs';
 import path from 'path';
-
+import { EmailService } from "./email.service";
 export class EventsService {
     prisma = new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
+
+    private emailService: EmailService = new EmailService();
+
+    constructor(){
+        this.emailService = new EmailService();
+    }
 
     //for running the update of time incase server wanst runnign at midnight :)
     lastRunFilePath = path.join(__dirname, 'lastRunTime.txt');
 
     async createEvent(event: Event) {
         try {
-            await this.prisma.event.create({
+            const createdEvent = await this.prisma.event.create({
                 data: {
                     name: event.name,
                     description: event.description,
@@ -35,11 +41,38 @@ export class EventsService {
                     remainingTickets: event.remainingTickets
                 }
             });
-            return { message: "Event created successfully", responseCode: 201 };
+    
+            // Fetch all admin users
+            const adminUsers = await this.prisma.user.findMany({
+                where: {
+                    role: 'admin'
+                }
+            });
+    
+            // Send notification to each admin
+            for (const admin of adminUsers) {
+                await this.emailService.sendNewEventAdminNotification(
+                    admin.email,
+                    createdEvent.eventId,
+                    createdEvent.name
+                );
+            }
+    
+            return { 
+                message: "Event created successfully and admins notified", 
+                responseCode: 201,
+                eventDetails: createdEvent
+            };
         } catch (error) {
-            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+            console.error("Error creating event:", error);
+            return { 
+                message: "An unexpected error occurred.", 
+                responseCode: 500, 
+                error: error 
+            };
         }
     }
+    
 
     async getEvents() {
         try {
@@ -129,31 +162,83 @@ export class EventsService {
 
     async cancelEvent(eventId: string) {
         try {
-            await this.prisma.event.update({
+            const cancelledEvent = await this.prisma.event.update({
                 where: { eventId: eventId },
                 data: {
                     status: "CANCELED"
+                },
+                include: {
+                    manager: true
                 }
             });
-            return { message: "Event canceled successfully", responseCode: 200 };
+    
+            // Notify the event manager
+            await this.emailService.sendEventCancellationNotification(
+                cancelledEvent.manager.email,
+                cancelledEvent.name
+            );
+    
+            return { 
+                message: "Event cancelled successfully and manager notified", 
+                responseCode: 200,
+                eventDetails: cancelledEvent
+            };
         } catch (error) {
-            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+            console.error("Error cancelling event:", error);
+            return { 
+                message: "An unexpected error occurred.", 
+                responseCode: 500, 
+                error: error 
+            };
         }
     }
-
+    
     async approveEvent(eventId: string) {
         try {
-            await this.prisma.event.update({
+            const approvedEvent = await this.prisma.event.update({
                 where: { eventId: eventId },
                 data: {
                     nature: "APPROVED"
+                },
+                include: {
+                    manager: true
                 }
             });
-            return { message: "Event approved successfully", responseCode: 200 };
+    
+            // Notify the event manager
+            await this.emailService.sendEventApprovalNotification(
+                approvedEvent.manager.email,
+                approvedEvent.name
+            );
+    
+            // Fetch all subscribed users
+            const subscribedUsers = await this.prisma.user.findMany({
+                where: {
+                    isSubscribedToMails: true
+                }
+            });
+    
+            // Send notification emails to subscribed users
+            for (const user of subscribedUsers) {
+                await this.emailService.sendNewEventNotification(user.userId, eventId);
+            }
+    
+            return {
+                message: "Event approved successfully, manager notified, and notifications sent to subscribers",
+                responseCode: 200,
+                eventDetails: approvedEvent
+            };
         } catch (error) {
-            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+            console.error("Error approving event:", error);
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
+            };
         }
     }
+    
+    
 
     async updateEventNature() {
         try {
@@ -276,16 +361,216 @@ export class EventsService {
     //set nature to rejected
     async rejectEvent(eventId: string) {
         try {
-            await this.prisma.event.update({
+            const rejectedEvent = await this.prisma.event.update({
                 where: { eventId: eventId },
                 data: {
                     nature: "REJECTED"
+                },
+                include: {
+                    manager: true
                 }
             });
-            return { message: "Event rejected successfully", responseCode: 200 };
+    
+            // Notify the event manager
+            await this.emailService.sendEventRejectionNotification(
+                rejectedEvent.manager.email,
+                rejectedEvent.name
+            );
+    
+            return { 
+                message: "Event rejected successfully and manager notified", 
+                responseCode: 200,
+                eventDetails: rejectedEvent
+            };
+        } catch (error) {
+            console.error("Error rejecting event:", error);
+            return { 
+                message: "An unexpected error occurred.", 
+                responseCode: 500, 
+                error: error 
+            };
+        }
+    }
+    
+
+    //peaople attemding an event
+    async getEventAttendees(eventId: string) {
+        try {
+            let attendees = await this.prisma.reservation.findMany({
+                where: {
+                    eventId: eventId
+                },
+                include: {
+                    user: true
+                }
+            });
+            return { message: "Attendees retrieved successfully", responseCode: 200, data: attendees };
         } catch (error) {
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };
         }
     }
+
+    //METRICS START HERE
+
+
+
+
+    //GET number of RSVPs IN SYSTEMS
+    async getTotalReservationsForUser(userId: string) {
+        try {
+            const totalReservations = await this.prisma.reservation.count({
+               
+            });
+            return  totalReservations;
+        } catch (error) {
+            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+        }
+    }
+
+
+    //GET number of RSVPs IN SYSTEMS
+
+    async getTotalReservationsForManager(managerId: string): Promise<number> {
+        if (!managerId) {
+          console.error('Manager ID is undefined');
+          throw new Error('Manager ID is required');
+        }
+      
+        try {
+          console.log(`Fetching events for manager: ${managerId}`);
+          const managerEvents = await this.prisma.event.findMany({
+            where: {
+              managerId: managerId
+            },
+            select: {
+              eventId: true
+            }
+          });
+      
+          console.log(`Events for manager ${managerId}:`, managerEvents);
+      
+          if (managerEvents.length === 0) {
+            console.log(`No events found for manager ${managerId}`);
+            return 0;
+          }
+      
+          const eventIds = managerEvents.map(event => event.eventId);
+      
+          const totalReservations = await this.prisma.reservation.count({
+            where: {
+              eventId: {
+                in: eventIds
+              }
+            }
+          });
+      
+          console.log(`Total reservations for manager ${managerId}:`, totalReservations);
+      
+          return totalReservations;
+        } catch (error) {
+          console.error('Error getting total reservations for manager:', error);
+          throw new Error(`Failed to get total reservations for manager: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      }
+
+
+
+      //events count fot managers
+      async getEventCountForManagers(): Promise<{ 
+        managerId: string; 
+        name: string; 
+        email: string; 
+        profilePicture: string | null; 
+        eventCount: number;
+        eventNames: string[];
+      }[]> {
+        try {
+          const managersWithEvents = await this.prisma.user.findMany({
+            where: {
+              role: 'manager' // Assuming you have a 'manager' role
+            },
+            select: {
+              userId: true,
+              name: true,
+              email: true,
+              profilePicture: true,
+              managedEvents: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          });
+      
+          return managersWithEvents.map(manager => ({
+            managerId: manager.userId,
+            name: manager.name,
+            email: manager.email,
+            profilePicture: manager.profilePicture,
+            eventCount: manager.managedEvents.length,
+            eventNames: manager.managedEvents.map(event => event.name)
+          }));
+        } catch (error) {
+          console.error('Error getting event count for managers:', error);
+          throw new Error(`Failed to get event count for managers: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      }
+
+
+      //manaer events based on id
+      async getEventDetailsForManager(managerId: string): Promise<{
+        managerId: string;
+        name: string;
+        email: string;
+        profilePicture: string | null;
+        eventCount: number;
+        eventNames: string[];
+      }> {
+        try {
+          const managerWithEvents = await this.prisma.user.findUnique({
+            where: {
+              userId: managerId,
+              role: 'manager' // Assuming you have a 'manager' role
+            },
+            select: {
+              userId: true,
+              name: true,
+              email: true,
+              profilePicture: true,
+              managedEvents: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          });
+      
+          if (!managerWithEvents) {
+            throw new Error('Manager not found');
+          }
+      
+          return {
+            managerId: managerWithEvents.userId,
+            name: managerWithEvents.name,
+            email: managerWithEvents.email,
+            profilePicture: managerWithEvents.profilePicture,
+            eventCount: managerWithEvents.managedEvents.length,
+            eventNames: managerWithEvents.managedEvents.map(event => event.name)
+          };
+        } catch (error) {
+          console.error('Error getting event details for manager:', error);
+          throw new Error(`Failed to get event details for manager: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      }
+
+
+      
+ 
+
+
+    
+
+
+
 
 }
