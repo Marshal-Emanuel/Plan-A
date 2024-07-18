@@ -1,6 +1,8 @@
-import { ReviewsService } from '@/services/reviews.service';
+import { ReviewsService } from '../services/reviews.service';
 import { PrismaClient } from '@prisma/client';
-import { Review } from '@/interfaces/reviews';
+
+import { Review } from '../interfaces/reviews';
+
 
 jest.mock('@prisma/client');
 

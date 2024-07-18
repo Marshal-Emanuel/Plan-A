@@ -1,7 +1,7 @@
-import { EventsService } from '@/services/events.service';
+import { EventsService } from '../services/events.service';
 import { PrismaClient } from '@prisma/client';
-import { EmailService } from '@/services/email.service';
-import { Event } from '@/interfaces/events';
+import { EmailService } from '../services/email.service';
+import { Event } from '../interfaces/events';
 
 jest.mock('@prisma/client');
 jest.mock('../services/email.service');

@@ -1,7 +1,7 @@
-import { ReservationService } from '@/services/reservations.service';
+import { ReservationService } from '../services/reservations.service';
 import { PrismaClient } from '@prisma/client';
-import { EmailService } from '@/services/email.service';
-import { Reservation } from '@/interfaces/reservation';
+import { EmailService } from '../services/email.service';
+import { Reservation } from '../interfaces/reservation';
 
 jest.mock('@prisma/client');
 jest.mock('../services/email.service');
