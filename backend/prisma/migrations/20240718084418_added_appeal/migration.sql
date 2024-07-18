@@ -1,0 +1,30 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- CreateTable
+CREATE TABLE [dbo].[Appeal] (
+    [appealId] NVARCHAR(1000) NOT NULL,
+    [userId] NVARCHAR(1000) NOT NULL,
+    [reason] NVARCHAR(1000) NOT NULL,
+    [details] TEXT NOT NULL,
+    [createdAt] DATETIME2 NOT NULL CONSTRAINT [Appeal_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
+    [updatedAt] DATETIME2 NOT NULL,
+    CONSTRAINT [Appeal_pkey] PRIMARY KEY CLUSTERED ([appealId])
+);
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Appeal] ADD CONSTRAINT [Appeal_userId_fkey] FOREIGN KEY ([userId]) REFERENCES [dbo].[User]([userId]) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

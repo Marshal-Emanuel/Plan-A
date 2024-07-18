@@ -53,11 +53,23 @@ model User {
   password        String
   profilePicture  String?   @db.VarChar(MAX)
   isSubscribedToMails Boolean @default(false)
+   resetToken        String?
+  resetTokenExpiry  DateTime?
   reviews         Review[]
   wishlists       Wishlist[]
   reservations    Reservation[]
   managedEvents   Event[]   @relation("ManagedEvents")
   systemReviews   SystemReview[]
+   appeals     Appeal[]
+}
+model Appeal {
+  appealId    String   @id @default(uuid())
+  userId      String
+  reason      String
+  details     String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [userId])
 }
 
 model Review {

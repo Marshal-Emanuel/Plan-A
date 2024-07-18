@@ -1,17 +1,16 @@
 ### //new reservation
 POST http://localhost:4400/reservation/createReservation
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NDhhYWI3Yy1jODVjLTQ1NzMtYTgzMy00YzZlMGE3NWE5NGYiLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjExNjg1NDUsImV4cCI6MTcyMTE3MjE0NX0.EjJSypfVtbKwCPOx-vO1BcAI3z-GtXPOujC8S-2lSDU
-
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjEyODM5NjcsImV4cCI6MTcyMTI4NzU2N30.Xg4FPrMJ0ivJcpQDI01w1wxgwTD0fwdKMju1NyNiOYE
 
 {
-  "eventId": "ac29b30c-b113-4d7d-a1ab-7ce14eb3e70f",
-  "userId": "748aab7c-c85c-4573-a833-4c6e0a75a94f",
-  "isRegular": false,
+  "eventId": "967f98cf-4bbe-4a5b-a79e-5d60fdd5de8a",
+  "userId": "c6ab660a-bfaa-4fb4-90f6-2322981a6fd7",
+  "isRegular": true,
   "isVIP": false,
-  "isChildren": true,
+  "isChildren": false,
   "proxyName": "proxy",
-  "numberOfPeople": 2,
+  "numberOfPeople": 4,
   "createdAt": "2021-09-29T00:00:00.000Z",
   "updatedAt": "2021-09-29T00:00:00.000Z"
 }

@@ -1,6 +1,8 @@
 import { Reservation } from './../interfaces/reservation';
 import { PrismaClient } from "@prisma/client";
 import { EmailService } from './email.service';
+import { Event as LocalEvent } from '../interfaces/events';
+
 
 export class ReservationService {
     prisma = new PrismaClient({ log: ['query', 'info', 'warn', 'error'] });
@@ -11,6 +13,8 @@ export class ReservationService {
         this.emailService = new EmailService();
     }
 
+
+    //create reservation
     async createReservation(reservation: Reservation) {
         try {
             const existingReservation = await this.prisma.reservation.findFirst({
@@ -19,32 +23,33 @@ export class ReservationService {
                     userId: reservation.userId,
                 },
             });
-    
+
             if (existingReservation) {
                 return {
                     message: "You have already purchased a ticket for this event.",
                     responseCode: 400,
                 };
             }
-    
+
             const event = await this.prisma.event.findUnique({
                 where: { eventId: reservation.eventId },
+                include: { manager: true }
             });
-    
+
             if (!event) {
                 return {
                     message: "Event not found.",
                     responseCode: 404,
                 };
             }
-    
+
             if (event.remainingTickets < reservation.numberOfPeople) {
                 return {
                     message: "Not enough tickets available.",
                     responseCode: 400,
                 };
             }
-    
+
             let ticketPrice = 0;
             if (reservation.isRegular && event.hasRegular) {
                 ticketPrice = event.regularPrice;
@@ -58,16 +63,16 @@ export class ReservationService {
                     responseCode: 400,
                 };
             }
-    
-            const paidAmmount = ticketPrice * reservation.numberOfPeople;
-    
-            await this.prisma.event.update({
+
+            const paidAmount = ticketPrice * reservation.numberOfPeople;
+
+            const updatedEvent = await this.prisma.event.update({
                 where: { eventId: reservation.eventId },
                 data: {
                     remainingTickets: event.remainingTickets - reservation.numberOfPeople,
                 },
             });
-    
+
             const createdReservation = await this.prisma.reservation.create({
                 data: {
                     eventId: reservation.eventId,
@@ -77,19 +82,39 @@ export class ReservationService {
                     isChildren: reservation.isChildren,
                     proxyName: reservation.proxyName,
                     numberOfPeople: reservation.numberOfPeople,
-                    paidAmmount: paidAmmount,
-                    ammountPaid: paidAmmount,
+                    paidAmmount: paidAmount,
+                    ammountPaid: paidAmount,
                 },
+                include: { user: true }
             });
-    
+
             console.log('Created reservation:', createdReservation);
-            console.log('Sending reservationId to email service:', createdReservation.reservationId);
-    
-            // Send confirmation email
-            const emailSent = await this.emailService.sendReservationConfirmation(createdReservation.reservationId);
-    
+
+            // Send confirmation email to user
+            const emailSent = await this.emailService.sendReservationConfirmation(
+                createdReservation.reservationId
+            );
+
             console.log('Email sent status:', emailSent);
-    
+
+            // Notify admin and manager
+            const adminUsers = await this.prisma.user.findMany({ where: { role: 'admin' } });
+
+            // Then in your function:
+            for (const adminUser of adminUsers) {
+                await this.emailService.sendNewReservationNotification(
+                    adminUser.email,
+                    createdReservation as unknown as Reservation,
+                    updatedEvent as unknown as LocalEvent
+                );
+            }
+
+            await this.emailService.sendNewReservationNotification(
+                event.manager.email,
+                createdReservation as unknown as Reservation,
+                updatedEvent as unknown as LocalEvent
+            );
+
             return {
                 message: "Reservation created successfully",
                 responseCode: 201,
@@ -104,6 +129,8 @@ export class ReservationService {
             };
         }
     }
+    
+    
     
 
     async getAllReservations() {

@@ -23,7 +23,7 @@
     "express": "^4.19.2",
     "install": "^0.13.0",
     "nodemon": "^3.1.4",
-    "prisma": "^5.16.2",
+    "prisma": "^5.17.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "uuid": "^10.0.0"
@@ -32,9 +32,11 @@
     "@prisma/client": "^5.16.2",
     "@types/bcrypt": "^5.0.2",
     "@types/nodemailer": "^6.4.15",
+    "@types/qrcode": "^1.5.5",
     "bcrypt": "^5.1.1",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^6.9.14"
+    "nodemailer": "^6.9.14",
+    "qrcode": "^1.5.3"
   },
   "description": ""
 }

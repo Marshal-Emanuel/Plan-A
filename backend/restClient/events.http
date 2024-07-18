@@ -1,16 +1,16 @@
 ###new event
 POST http://localhost:4400/event/createEvent
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjEyMDQ4MjgsImV4cCI6MTcyMTIwODQyOH0.AsSG_Hy1dCybtBONjnc8ZL4cp-Trb3JxGlshzjTvH_I
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjEyNDU1MjIsImV4cCI6MTcyMTI0OTEyMn0.An1KZ4PPRWbaB4i5A7lgXVi_D3o33UJjspv9nu0pfJY
 
 {
-  "name": "Manager Marshal",
+  "name": "Manager Marshal EMail black",
   "managerId": "c6ab660a-bfaa-4fb4-90f6-2322981a6fd7",
   "description": "MarshalEvent",
   "moreInfo": "Come to managers meeting, message to admin organized by marshal",
   "location": "City Stadium",
-  "date": "2023-10-03T00:00:00Z",  
- "time": "2023-10-03T19:00:00.000Z",
+  "date": "2024-10-03T00:00:00Z",  
+ "time": "2024-10-03T19:00:00.000Z",
   "image": "http://example.com/image.jpg"
 }
 
@@ -34,12 +34,12 @@ GET http://localhost:4400/event/getPendingEvents
 GET http://localhost:4400/event/getEvents/e2e8ef6e-7a07-46fc-b412-ff9344353192
 
 ###update event
-PUT http://localhost:4400/event/updateEvent/e2e8ef6e-7a07-46fc-b412-ff9344353192 
+PUT http://localhost:4400/event/updateEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OTE2YzczYi05MjM1LTRkNjItYTEzYS1iYjA1MGUxZjJmMWUiLCJlbWFpbCI6ImpvaG55QG1kYWlsLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMDQ2Mjc5LCJleHAiOjE3MjEwNDk4Nzl9.ArA3blUAIwPp_eeNLri8FNBADnt0WfZr3Ntj7kqUme4
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzNGUtOWM5YS1mOWRiMmQ3ZjdiOTAiLCJlbWFpbCI6Im1hbmFnZXIyLnVzZXIiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMTIxMDY3MSwiZXhwIjoxNzIxMjE0MjcxfQ.tjeTHRHIY4noZ4jlONU_EFA_Rpqp22tDDg2S8cL4qO8
 
 {
-  "name": "Music Concert",
+  "name": "Music",
   "description": "An exciting music concert with various artists.",
   "moreInfo": "Join us for a night of fun and music!",
   "location": "City Stadium",
@@ -59,9 +59,9 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OTE2YzczYi05MjM1LTRkN
 }
 
 ###//cancel event
-PUT http://localhost:4400/event/cancelEvent/1d125c24-9f19-4777-bdf0-25406b2864da
+PUT http://localhost:4400/event/cancelEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OTE2YzczYi05MjM1LTRkNjItYTEzYS1iYjA1MGUxZjJmMWUiLCJlbWFpbCI6ImpvaG55QG1kYWlsLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMDQ2Mjc5LCJleHAiOjE3MjEwNDk4Nzl9.ArA3blUAIwPp_eeNLri8FNBADnt0WfZr3Ntj7kqUme4
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzNGUtOWM5YS1mOWRiMmQ3ZjdiOTAiLCJlbWFpbCI6Im1hbmFnZXIyLnVzZXIiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMTIwNzEwMywiZXhwIjoxNzIxMjEwNzAzfQ.fG3UC1HgvSLdIY1aFku0cQD8WcMw30RnU5Pwlqh6E0E
 
 
 

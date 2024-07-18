@@ -3,9 +3,9 @@ POST http://localhost:4400/user/register
 Content-Type: application/json
 
 {
-    "name": "Emanuel Marshal",
-    "phoneNumber": "1341773521",
-    "email": "marshcodes@gmail.com",
+    "name": "MarshalEmanuel2",
+    "phoneNumber": "134177352",
+    "email": "emanuelmarshal2@gmail.com",
     "password": "password"
 
 }
@@ -34,18 +34,47 @@ GET http://localhost:4400/user/getUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
 
 
 ###dssiable user account  only admin can do this{ if token contains role of admin}
-PUT http://localhost:4400/user/disableUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+PUT http://localhost:4400/user/disableUser/c6ab660a-bfaa-4fb4-90f6-2322981a6fd7
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNDI5NmIyNC00MjY1LTQzNjktOTgwZS1iY2ZlMjMyMzMxNDUiLCJlbWFpbCI6ImpvaG5ANWV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMDM0NTQyLCJleHAiOjE3MjEwMzgxNDJ9.h7749QX5YGWNAI7kJXQlkpazQgw4lYUk6LLxnvdmPc0
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEyODk2NDksImV4cCI6MTcyMTI5MzI0OX0.14jZSVDu5w9jgSvqlbD11CE0xuF2tc3-Sd6CZC82NCo
 
 
 ###enable user account
-PUT http://localhost:4400/user/enableUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+PUT http://localhost:4400/user/enableUser/c6ab660a-bfaa-4fb4-90f6-2322981a6fd7
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNDI5NmIyNC00MjY1LTQzNjktOTgwZS1iY2ZlMjMyMzMxNDUiLCJlbWFpbCI6ImpvaG5ANWV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMDM0NTQyLCJleHAiOjE3MjEwMzgxNDJ9.h7749QX5YGWNAI7kJXQlkpazQgw4lYUk6LLxnvdmPc0
-
-###Set account to pending
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEyODk2NDksImV4cCI6MTcyMTI5MzI0OX0.14jZSVDu5w9jgSvqlbD11CE0xuF2tc3-Sd6CZC82NCo
+###Set account to pending( Askng for approval)
 PUT http://localhost:4400/user/managerRequest/4916c73b-9235-4d62-a13a-bb050e1f2f1e
 
-###verify account
+###verify account(Admin verifies account to manager)
 PUT http://localhost:4400/user/approveRequest/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+
+### Create Appeal
+POST http://localhost:4400/user/appeal
+Content-Type: application/json
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxMjkyNDE1LCJleHAiOjE3MjEyOTYwMTV9.Oi3VvxOoWeObFg7bKpJFR641fRpMAObc6TOmydaSDHw
+
+{
+    "userId": "8db13d3a-b148-4fc3-a17e-bd80edbb9d9a",
+    "reason": "Wrongful Account Suspension",
+    "details": "I believe my account was suspended by mistake. I have always followed the community guidelines and have not violated any terms of service."
+}
+
+
+### Initiate Password Reset
+POST http://localhost:4400/user/forgot-password
+Content-Type: application/json
+
+{
+    "email": "marshcodes@gmail.com"
+}
+
+### Reset Password
+POST http://localhost:4400/user/reset-password
+Content-Type: application/json
+
+{
+    "token": "91566c8535d12fefda0fea5b676493cbfd1502368693ca69b611bb4cbb6223ae",
+    "newPassword": "passwordreset"
+}
+

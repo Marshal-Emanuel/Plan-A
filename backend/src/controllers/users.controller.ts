@@ -110,4 +110,37 @@ export class UsersController {
         }
     }
 
+    //create appeal
+    async createAppeal(req: Request, res: Response) {
+        try {
+            const { userId, reason, details } = req.body;
+            const response = await service.createAppeal(userId, reason, details);
+            return res.status(response.responseCode).json(response);
+        } catch (error) {
+            console.error("Error in createAppeal controller:", error);
+            return res.status(500).json({
+                message: "An unexpected error occurred while processing the appeal.",
+                error: error
+            });
+        }
+    }
+
+
+    //apassword reset
+    async initiatePasswordReset(req: Request, res: Response) {
+        const { email } = req.body;
+        const result = await service.initiatePasswordReset(email);
+        res.status(result.responseCode).json(result);
+    }
+    
+    async resetPassword(req: Request, res: Response) {
+        const { token, newPassword } = req.body;
+        const result = await service.resetPassword(token, newPassword);
+        res.status(result.responseCode).json(result);
+    }
+    
+    
+
+
+
 }

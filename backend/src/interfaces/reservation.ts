@@ -1,4 +1,6 @@
 export interface Reservation {
+    user: any;
+    paidAmmount: any;
     eventId: string;
     userId: string;
     isRegular: boolean;

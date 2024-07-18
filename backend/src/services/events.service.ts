@@ -130,35 +130,191 @@ export class EventsService {
         }
     }
 
-    async updateEvent(eventId: string, event: Event) {
-        try {
-            await this.prisma.event.update({
-                where: { eventId: eventId },
-                data: {
-                    name: event.name,
-                    description: event.description,
-                    moreInfo: event.moreInfo,
-                    location: event.location,
-                    date: event.date,
-                    time: event.time,
-                    image: event.image,
-                    hasRegular: event.hasRegular,
-                    regularPrice: event.regularPrice,
-                    hasVIP: event.hasVIP,
-                    vipPrice: event.vipPrice,
-                    hasChildren: event.hasChildren,
-                    childrenPrice: event.childrenPrice,
-                    isPromoted: event.isPromoted,
-                    promoDetails: event.promoDetails,
-                    status: event.status,
-                    nature: event.nature
-                }
-            });
-            return { message: "Event updated successfully", responseCode: 200 };
-        } catch (error) {
-            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async updateEvent(eventId: string, event: Event) {
+    try {
+        const updatedEvent = await this.prisma.event.update({
+            where: { eventId: eventId },
+            data: {
+                name: event.name,
+                description: event.description,
+                moreInfo: event.moreInfo,
+                location: event.location,
+                date: event.date,
+                time: event.time,
+                image: event.image || undefined,
+                hasRegular: event.hasRegular,
+                regularPrice: event.regularPrice,
+                hasVIP: event.hasVIP,
+                vipPrice: event.vipPrice,
+                hasChildren: event.hasChildren,
+                childrenPrice: event.childrenPrice,
+                isPromoted: event.isPromoted,
+                promoDetails: event.promoDetails || undefined,
+                status: event.status,
+                nature: event.nature
+            },
+            include: {
+                manager: true
+            }
+        });
+
+        // Fetch all subscribed users and users who have booked the event
+        const usersToNotify = await this.prisma.user.findMany({
+            where: {
+                OR: [
+                    { isSubscribedToMails: true },
+                    {
+                        reservations: {
+                            some: {
+                                eventId: eventId
+                            }
+                        }
+                    }
+                ]
+            },
+            distinct: ['userId']
+        });
+
+        // Send update notification emails to users
+        const eventDetails: Event = {
+            name: updatedEvent.name,
+            description: updatedEvent.description,
+            moreInfo: updatedEvent.moreInfo,
+            location: updatedEvent.location,
+            date: updatedEvent.date,
+            time: updatedEvent.time,
+            numberofTickets: updatedEvent.numberOfTickets,
+            remainingTickets: updatedEvent.remainingTickets,
+            image: updatedEvent.image || undefined,
+            managerId: updatedEvent.managerId,
+            hasRegular: updatedEvent.hasRegular,
+            regularPrice: updatedEvent.regularPrice,
+            hasVIP: updatedEvent.hasVIP,
+            vipPrice: updatedEvent.vipPrice,
+            hasChildren: updatedEvent.hasChildren,
+            childrenPrice: updatedEvent.childrenPrice,
+            isPromoted: updatedEvent.isPromoted,
+            promoDetails: updatedEvent.promoDetails || undefined,
+            status: updatedEvent.status,
+            nature: updatedEvent.nature
+        };
+        for (const user of usersToNotify) {
+            await this.emailService.sendEventUpdateNotification(
+                user.email,
+                updatedEvent.name,
+                updatedEvent.manager.name,
+                updatedEvent.manager.email,
+                updatedEvent.manager.phoneNumber,
+                eventDetails
+            );
         }
+
+        return { 
+            message: "Event updated successfully and notifications sent", 
+            responseCode: 200,
+            eventDetails: updatedEvent
+        };
+    } catch (error) {
+        console.error("Error updating event:", error);
+        return { 
+            message: "An unexpected error occurred.", 
+            responseCode: 500, 
+            error: error 
+        };
     }
+}
+
 
     async cancelEvent(eventId: string) {
         try {
@@ -172,26 +328,39 @@ export class EventsService {
                 }
             });
     
-            // Notify the event manager
-            await this.emailService.sendEventCancellationNotification(
-                cancelledEvent.manager.email,
-                cancelledEvent.name
-            );
+            // Fetch all subscribed users
+            const subscribedUsers = await this.prisma.user.findMany({
+                where: {
+                    isSubscribedToMails: true
+                }
+            });
     
-            return { 
-                message: "Event cancelled successfully and manager notified", 
+            // Send cancellation notification emails to subscribed users
+            for (const user of subscribedUsers) {
+                await this.emailService.sendEventCancellationNotification(
+                    user.email,
+                    cancelledEvent.name,
+                    cancelledEvent.manager.name,
+                    cancelledEvent.manager.email,
+                    cancelledEvent.manager.phoneNumber
+                );
+            }
+    
+            return {
+                message: "Event cancelled successfully and subscribers notified",
                 responseCode: 200,
                 eventDetails: cancelledEvent
             };
         } catch (error) {
             console.error("Error cancelling event:", error);
-            return { 
-                message: "An unexpected error occurred.", 
-                responseCode: 500, 
-                error: error 
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
             };
         }
     }
+    
     
     async approveEvent(eventId: string) {
         try {
