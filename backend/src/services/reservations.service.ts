@@ -168,7 +168,7 @@ export class ReservationService {
 
     async getOneReservation(reservationId: string) {
         try {
-            const reservation = await this.prisma.reservation.findUnique({
+            const result = await this.prisma.reservation.findUnique({
                 where: {
                     reservationId: reservationId
                 },
@@ -182,15 +182,15 @@ export class ReservationService {
                 }
             });
 
-            if (reservation) {
+            if (result) {
                 return {
-                    ...reservation,
+                    ...result,
                     event: {
-                        ...reservation.event,
-                        managerName: reservation.event.manager.name,
-                        managerPhoneNumber: reservation.event.manager.phoneNumber
+                        ...result.event,
+                        managerName: result.event.manager.name,
+                        managerPhoneNumber: result.event.manager.phoneNumber
                     },
-                    totalPrice: this.calculatePrice(reservation)
+                    totalPrice: this.calculatePrice(result)
                 };
             }
 
@@ -231,19 +231,19 @@ export class ReservationService {
         }
     }
 
-    async calculatePrice(reservation: any): Promise<number> {
-        let totalPrice = 0;
-        if (reservation.isRegular) {
-            totalPrice += reservation.event.regularPrice * reservation.numberOfPeople;
-        }
-        if (reservation.isVIP) {
-            totalPrice += reservation.event.vipPrice * reservation.numberOfPeople;
-        }
-        if (reservation.isChildren) {
-            totalPrice += reservation.event.childrenPrice * reservation.numberOfPeople;
-        }
-        return totalPrice;
+   calculatePrice(reservation: any): number {
+    let totalPrice = 0;
+    if (reservation.isRegular) {
+        totalPrice += reservation.event.regularPrice * reservation.numberOfPeople;
     }
+    if (reservation.isVIP) {
+        totalPrice += reservation.event.vipPrice * reservation.numberOfPeople;
+    }
+    if (reservation.isChildren) {
+        totalPrice += reservation.event.childrenPrice * reservation.numberOfPeople;
+    }
+    return totalPrice;
+}
 
 
     async getSumOfPaidAmounts(eventId: string) {

@@ -5,23 +5,23 @@ export interface Event {
   location: string;
   date: Date;
   time: Date;
-  numberofTickets: number;
+  numberOfTickets: number;
   remainingTickets: number;
   image?: string;
   managerId: string;
-  
+
   hasRegular: boolean;
   regularPrice: number;
-  
+
   hasVIP: boolean;
   vipPrice: number;
-  
+
   hasChildren: boolean;
   childrenPrice: number;
-  
+
   isPromoted: boolean;
   promoDetails?: string;
-  
+
   status: string;
   nature: string;
 }

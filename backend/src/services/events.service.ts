@@ -8,7 +8,7 @@ export class EventsService {
 
     private emailService: EmailService = new EmailService();
 
-    constructor(){
+    constructor() {
         this.emailService = new EmailService();
     }
 
@@ -37,18 +37,18 @@ export class EventsService {
                     status: event.status,
                     nature: event.nature,
                     managerId: event.managerId,
-                    numberOfTickets: event.numberofTickets,
+                    numberOfTickets: event.numberOfTickets,
                     remainingTickets: event.remainingTickets
                 }
             });
-    
+
             // Fetch all admin users
             const adminUsers = await this.prisma.user.findMany({
                 where: {
                     role: 'admin'
                 }
             });
-    
+
             // Send notification to each admin
             for (const admin of adminUsers) {
                 await this.emailService.sendNewEventAdminNotification(
@@ -57,22 +57,22 @@ export class EventsService {
                     createdEvent.name
                 );
             }
-    
-            return { 
-                message: "Event created successfully and admins notified", 
+
+            return {
+                message: "Event created successfully and admins notified",
                 responseCode: 201,
                 eventDetails: createdEvent
             };
         } catch (error) {
             console.error("Error creating event:", error);
-            return { 
-                message: "An unexpected error occurred.", 
-                responseCode: 500, 
-                error: error 
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
             };
         }
     }
-    
+
 
     async getEvents() {
         try {
@@ -116,7 +116,7 @@ export class EventsService {
     }
 
     //events where nature is canccelled
-    
+
 
 
     async getEventById(eventId: string) {
@@ -130,190 +130,99 @@ export class EventsService {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-async updateEvent(eventId: string, event: Event) {
-    try {
-        const updatedEvent = await this.prisma.event.update({
-            where: { eventId: eventId },
-            data: {
-                name: event.name,
-                description: event.description,
-                moreInfo: event.moreInfo,
-                location: event.location,
-                date: event.date,
-                time: event.time,
-                image: event.image || undefined,
-                hasRegular: event.hasRegular,
-                regularPrice: event.regularPrice,
-                hasVIP: event.hasVIP,
-                vipPrice: event.vipPrice,
-                hasChildren: event.hasChildren,
-                childrenPrice: event.childrenPrice,
-                isPromoted: event.isPromoted,
-                promoDetails: event.promoDetails || undefined,
-                status: event.status,
-                nature: event.nature
-            },
-            include: {
-                manager: true
-            }
-        });
-
-        // Fetch all subscribed users and users who have booked the event
-        const usersToNotify = await this.prisma.user.findMany({
-            where: {
-                OR: [
-                    { isSubscribedToMails: true },
-                    {
-                        reservations: {
-                            some: {
-                                eventId: eventId
+    async updateEvent(eventId: string, event: Event) {
+        try {
+            const updatedEvent = await this.prisma.event.update({
+                where: { eventId: eventId },
+                data: {
+                    name: event.name,
+                    description: event.description,
+                    moreInfo: event.moreInfo,
+                    location: event.location,
+                    date: event.date,
+                    time: event.time,
+                    image: event.image || undefined,
+                    hasRegular: event.hasRegular,
+                    regularPrice: event.regularPrice,
+                    hasVIP: event.hasVIP,
+                    vipPrice: event.vipPrice,
+                    hasChildren: event.hasChildren,
+                    childrenPrice: event.childrenPrice,
+                    isPromoted: event.isPromoted,
+                    promoDetails: event.promoDetails || undefined,
+                    status: event.status,
+                    nature: event.nature
+                },
+                include: {
+                    manager: true
+                }
+            });
+
+            // Fetch all subscribed users and users who have booked the event
+            const usersToNotify = await this.prisma.user.findMany({
+                where: {
+                    OR: [
+                        { isSubscribedToMails: true },
+                        {
+                            reservations: {
+                                some: {
+                                    eventId: eventId
+                                }
                             }
                         }
-                    }
-                ]
-            },
-            distinct: ['userId']
-        });
+                    ]
+                },
+                distinct: ['userId']
+            });
 
-        // Send update notification emails to users
-        const eventDetails: Event = {
-            name: updatedEvent.name,
-            description: updatedEvent.description,
-            moreInfo: updatedEvent.moreInfo,
-            location: updatedEvent.location,
-            date: updatedEvent.date,
-            time: updatedEvent.time,
-            numberofTickets: updatedEvent.numberOfTickets,
-            remainingTickets: updatedEvent.remainingTickets,
-            image: updatedEvent.image || undefined,
-            managerId: updatedEvent.managerId,
-            hasRegular: updatedEvent.hasRegular,
-            regularPrice: updatedEvent.regularPrice,
-            hasVIP: updatedEvent.hasVIP,
-            vipPrice: updatedEvent.vipPrice,
-            hasChildren: updatedEvent.hasChildren,
-            childrenPrice: updatedEvent.childrenPrice,
-            isPromoted: updatedEvent.isPromoted,
-            promoDetails: updatedEvent.promoDetails || undefined,
-            status: updatedEvent.status,
-            nature: updatedEvent.nature
-        };
-        for (const user of usersToNotify) {
-            await this.emailService.sendEventUpdateNotification(
-                user.email,
-                updatedEvent.name,
-                updatedEvent.manager.name,
-                updatedEvent.manager.email,
-                updatedEvent.manager.phoneNumber,
-                eventDetails
-            );
+            // Send update notification emails to users
+            const eventDetails: Event = {
+                name: updatedEvent.name,
+                description: updatedEvent.description,
+                moreInfo: updatedEvent.moreInfo,
+                location: updatedEvent.location,
+                date: updatedEvent.date,
+                time: updatedEvent.time,
+                numberOfTickets: updatedEvent.numberOfTickets,
+                remainingTickets: updatedEvent.remainingTickets,
+                image: updatedEvent.image || undefined,
+                managerId: updatedEvent.managerId,
+                hasRegular: updatedEvent.hasRegular,
+                regularPrice: updatedEvent.regularPrice,
+                hasVIP: updatedEvent.hasVIP,
+                vipPrice: updatedEvent.vipPrice,
+                hasChildren: updatedEvent.hasChildren,
+                childrenPrice: updatedEvent.childrenPrice,
+                isPromoted: updatedEvent.isPromoted,
+                promoDetails: updatedEvent.promoDetails || undefined,
+                status: updatedEvent.status,
+                nature: updatedEvent.nature
+            };
+            for (const user of usersToNotify) {
+                await this.emailService.sendEventUpdateNotification(
+                    user.email,
+                    updatedEvent.name,
+                    updatedEvent.manager.name,
+                    updatedEvent.manager.email,
+                    updatedEvent.manager.phoneNumber,
+                    eventDetails
+                );
+            }
+
+            return {
+                message: "Event updated successfully and notifications sent",
+                responseCode: 200,
+                eventDetails: updatedEvent
+            };
+        } catch (error) {
+            console.error("Error updating event:", error);
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
+            };
         }
-
-        return { 
-            message: "Event updated successfully and notifications sent", 
-            responseCode: 200,
-            eventDetails: updatedEvent
-        };
-    } catch (error) {
-        console.error("Error updating event:", error);
-        return { 
-            message: "An unexpected error occurred.", 
-            responseCode: 500, 
-            error: error 
-        };
     }
-}
 
 
     async cancelEvent(eventId: string) {
@@ -327,14 +236,14 @@ async updateEvent(eventId: string, event: Event) {
                     manager: true
                 }
             });
-    
+
             // Fetch all subscribed users
             const subscribedUsers = await this.prisma.user.findMany({
                 where: {
                     isSubscribedToMails: true
                 }
             });
-    
+
             // Send cancellation notification emails to subscribed users
             for (const user of subscribedUsers) {
                 await this.emailService.sendEventCancellationNotification(
@@ -345,7 +254,7 @@ async updateEvent(eventId: string, event: Event) {
                     cancelledEvent.manager.phoneNumber
                 );
             }
-    
+
             return {
                 message: "Event cancelled successfully and subscribers notified",
                 responseCode: 200,
@@ -360,8 +269,8 @@ async updateEvent(eventId: string, event: Event) {
             };
         }
     }
-    
-    
+
+
     async approveEvent(eventId: string) {
         try {
             const approvedEvent = await this.prisma.event.update({
@@ -373,25 +282,25 @@ async updateEvent(eventId: string, event: Event) {
                     manager: true
                 }
             });
-    
+
             // Notify the event manager
             await this.emailService.sendEventApprovalNotification(
                 approvedEvent.manager.email,
                 approvedEvent.name
             );
-    
+
             // Fetch all subscribed users
             const subscribedUsers = await this.prisma.user.findMany({
                 where: {
                     isSubscribedToMails: true
                 }
             });
-    
+
             // Send notification emails to subscribed users
             for (const user of subscribedUsers) {
                 await this.emailService.sendNewEventNotification(user.userId, eventId);
             }
-    
+
             return {
                 message: "Event approved successfully, manager notified, and notifications sent to subscribers",
                 responseCode: 200,
@@ -406,8 +315,8 @@ async updateEvent(eventId: string, event: Event) {
             };
         }
     }
-    
-    
+
+
 
     async updateEventNature() {
         try {
@@ -456,11 +365,11 @@ async updateEvent(eventId: string, event: Event) {
         const now = new Date();
         const midnight = new Date(now);
         midnight.setHours(24, 0, 0, 0);
-    
+
         const timeUntilMidnight = midnight.getTime() - now.getTime();
-    
+
         console.log(`Scheduling next updateEventNature for ${midnight.toISOString()}`);
-    
+
         setTimeout(() => {
             console.log("Running updateEventNature at:", new Date().toISOString());
             this.updateEventNature().then(() => {
@@ -470,7 +379,7 @@ async updateEvent(eventId: string, event: Event) {
                 console.error("Error in scheduled updateEventNature:", error);
             });
         }, timeUntilMidnight);
-    
+
         // Check if the function was missed
         const lastRun = this.getLastRunTime();
         if (lastRun && now.getTime() - lastRun.getTime() > 24 * 60 * 60 * 1000) {
@@ -487,9 +396,9 @@ async updateEvent(eventId: string, event: Event) {
                     nature: "APPROVED"
                 }
             });
-            return { 
+            return {
                 message: "Events retrieved successfully", responseCode: 200, data: events
-             };
+            };
         } catch (error) {
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };
         }
@@ -539,28 +448,28 @@ async updateEvent(eventId: string, event: Event) {
                     manager: true
                 }
             });
-    
+
             // Notify the event manager
             await this.emailService.sendEventRejectionNotification(
                 rejectedEvent.manager.email,
                 rejectedEvent.name
             );
-    
-            return { 
-                message: "Event rejected successfully and manager notified", 
+
+            return {
+                message: "Event rejected successfully and manager notified",
                 responseCode: 200,
                 eventDetails: rejectedEvent
             };
         } catch (error) {
             console.error("Error rejecting event:", error);
-            return { 
-                message: "An unexpected error occurred.", 
-                responseCode: 500, 
-                error: error 
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
             };
         }
     }
-    
+
 
     //peaople attemding an event
     async getEventAttendees(eventId: string) {
@@ -588,9 +497,9 @@ async updateEvent(eventId: string, event: Event) {
     async getTotalReservationsForUser(userId: string) {
         try {
             const totalReservations = await this.prisma.reservation.count({
-               
+
             });
-            return  totalReservations;
+            return totalReservations;
         } catch (error) {
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };
         }
@@ -601,143 +510,143 @@ async updateEvent(eventId: string, event: Event) {
 
     async getTotalReservationsForManager(managerId: string): Promise<number> {
         if (!managerId) {
-          console.error('Manager ID is undefined');
-          throw new Error('Manager ID is required');
+            console.error('Manager ID is undefined');
+            throw new Error('Manager ID is required');
         }
-      
+
         try {
-          console.log(`Fetching events for manager: ${managerId}`);
-          const managerEvents = await this.prisma.event.findMany({
-            where: {
-              managerId: managerId
-            },
-            select: {
-              eventId: true
-            }
-          });
-      
-          console.log(`Events for manager ${managerId}:`, managerEvents);
-      
-          if (managerEvents.length === 0) {
-            console.log(`No events found for manager ${managerId}`);
-            return 0;
-          }
-      
-          const eventIds = managerEvents.map(event => event.eventId);
-      
-          const totalReservations = await this.prisma.reservation.count({
-            where: {
-              eventId: {
-                in: eventIds
-              }
-            }
-          });
-      
-          console.log(`Total reservations for manager ${managerId}:`, totalReservations);
-      
-          return totalReservations;
-        } catch (error) {
-          console.error('Error getting total reservations for manager:', error);
-          throw new Error(`Failed to get total reservations for manager: ${error instanceof Error ? error.message : 'Unknown error'}`);
-        }
-      }
-
-
-
-      //events count fot managers
-      async getEventCountForManagers(): Promise<{ 
-        managerId: string; 
-        name: string; 
-        email: string; 
-        profilePicture: string | null; 
-        eventCount: number;
-        eventNames: string[];
-      }[]> {
-        try {
-          const managersWithEvents = await this.prisma.user.findMany({
-            where: {
-              role: 'manager' // Assuming you have a 'manager' role
-            },
-            select: {
-              userId: true,
-              name: true,
-              email: true,
-              profilePicture: true,
-              managedEvents: {
+            console.log(`Fetching events for manager: ${managerId}`);
+            const managerEvents = await this.prisma.event.findMany({
+                where: {
+                    managerId: managerId
+                },
                 select: {
-                  name: true
+                    eventId: true
                 }
-              }
+            });
+
+            console.log(`Events for manager ${managerId}:`, managerEvents);
+
+            if (managerEvents.length === 0) {
+                console.log(`No events found for manager ${managerId}`);
+                return 0;
             }
-          });
-      
-          return managersWithEvents.map(manager => ({
-            managerId: manager.userId,
-            name: manager.name,
-            email: manager.email,
-            profilePicture: manager.profilePicture,
-            eventCount: manager.managedEvents.length,
-            eventNames: manager.managedEvents.map(event => event.name)
-          }));
+
+            const eventIds = managerEvents.map(event => event.eventId);
+
+            const totalReservations = await this.prisma.reservation.count({
+                where: {
+                    eventId: {
+                        in: eventIds
+                    }
+                }
+            });
+
+            console.log(`Total reservations for manager ${managerId}:`, totalReservations);
+
+            return totalReservations;
         } catch (error) {
-          console.error('Error getting event count for managers:', error);
-          throw new Error(`Failed to get event count for managers: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            console.error('Error getting total reservations for manager:', error);
+            throw new Error(`Failed to get total reservations for manager: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
-      }
+    }
 
 
-      //manaer events based on id
-      async getEventDetailsForManager(managerId: string): Promise<{
+
+    //events count fot managers
+    async getEventCountForManagers(): Promise<{
         managerId: string;
         name: string;
         email: string;
         profilePicture: string | null;
         eventCount: number;
         eventNames: string[];
-      }> {
+    }[]> {
         try {
-          const managerWithEvents = await this.prisma.user.findUnique({
-            where: {
-              userId: managerId,
-              role: 'manager' // Assuming you have a 'manager' role
-            },
-            select: {
-              userId: true,
-              name: true,
-              email: true,
-              profilePicture: true,
-              managedEvents: {
+            const managersWithEvents = await this.prisma.user.findMany({
+                where: {
+                    role: 'manager' // Assuming you have a 'manager' role
+                },
                 select: {
-                  name: true
+                    userId: true,
+                    name: true,
+                    email: true,
+                    profilePicture: true,
+                    managedEvents: {
+                        select: {
+                            name: true
+                        }
+                    }
                 }
-              }
-            }
-          });
-      
-          if (!managerWithEvents) {
-            throw new Error('Manager not found');
-          }
-      
-          return {
-            managerId: managerWithEvents.userId,
-            name: managerWithEvents.name,
-            email: managerWithEvents.email,
-            profilePicture: managerWithEvents.profilePicture,
-            eventCount: managerWithEvents.managedEvents.length,
-            eventNames: managerWithEvents.managedEvents.map(event => event.name)
-          };
+            });
+
+            return managersWithEvents.map(manager => ({
+                managerId: manager.userId,
+                name: manager.name,
+                email: manager.email,
+                profilePicture: manager.profilePicture,
+                eventCount: manager.managedEvents.length,
+                eventNames: manager.managedEvents.map(event => event.name)
+            }));
         } catch (error) {
-          console.error('Error getting event details for manager:', error);
-          throw new Error(`Failed to get event details for manager: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            console.error('Error getting event count for managers:', error);
+            throw new Error(`Failed to get event count for managers: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
-      }
+    }
 
 
-      
- 
+    //manaer events based on id
+    async getEventDetailsForManager(managerId: string): Promise<{
+        managerId: string;
+        name: string;
+        email: string;
+        profilePicture: string | null;
+        eventCount: number;
+        eventNames: string[];
+    }> {
+        try {
+            const managerWithEvents = await this.prisma.user.findUnique({
+                where: {
+                    userId: managerId,
+                    role: 'manager' // Assuming you have a 'manager' role
+                },
+                select: {
+                    userId: true,
+                    name: true,
+                    email: true,
+                    profilePicture: true,
+                    managedEvents: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            });
+
+            if (!managerWithEvents) {
+                throw new Error('Manager not found');
+            }
+
+            return {
+                managerId: managerWithEvents.userId,
+                name: managerWithEvents.name,
+                email: managerWithEvents.email,
+                profilePicture: managerWithEvents.profilePicture,
+                eventCount: managerWithEvents.managedEvents.length,
+                eventNames: managerWithEvents.managedEvents.map(event => event.name)
+            };
+        } catch (error) {
+            console.error('Error getting event details for manager:', error);
+            throw new Error(`Failed to get event details for manager: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+    }
 
 
-    
+
+
+
+
+
 
 
 

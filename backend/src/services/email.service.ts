@@ -1011,17 +1011,56 @@ export class EmailService {
       }
 
       //password reset
-      async sendPasswordResetEmail(email: string, resetToken: string) {
-        const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+      async sendPasswordResetEmail(email: string, resetCode: string) {
         const htmlContent = `
-            <h1>Password Reset Request</h1>
-            <p>You requested a password reset. Click the link below to reset your password:</p>
-            <a href="${resetUrl}">Reset Password</a>
-            <p>If you didn't request this, please ignore this email.</p>
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Password Reset Request</title>
+              <style>
+                  body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+                  .header { background-color: #003366; color: white; padding: 20px; text-align: center; }
+                  .content { background-color: #f9f9f9; padding: 20px; border-radius: 5px; }
+                  .footer { text-align: center; margin-top: 20px; font-size: 0.9em; color: #666; }
+                  .reset-code { font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; letter-spacing: 5px; }
+              </style>
+          </head>
+          <body>
+              <div class="header">
+                  <h1>Password Reset Request</h1>
+              </div>
+              <div class="content">
+                  <p>You have requested to reset your password. Use the following code to complete the process:</p>
+                  <p class="reset-code">${resetCode}</p>
+                  <p>This code will expire in 1 hour.</p>
+                  <p>If you didn't request this reset, please ignore this email or contact support if you have concerns.</p>
+              </div>
+              <div class="footer">
+                  <p>This is an automated message from PLAN-A. Please do not reply to this email.</p>
+              </div>
+          </body>
+          </html>
         `;
-    
-        await this.sendEmail(email, 'Password Reset Request', htmlContent);
-    }
+      
+        const mailOptions = {
+          from: process.env.GMAIL_USER,
+          to: email,
+          subject: 'Password Reset Request - PLAN-A',
+          html: htmlContent
+        };
+      
+        try {
+          const info = await this.transporter.sendMail(mailOptions);
+          console.log('Password reset email sent: ' + info.response);
+          return true;
+        } catch (error) {
+          console.error('Error sending password reset email:', error);
+          return false;
+        }
+      }
+      
     
 
 

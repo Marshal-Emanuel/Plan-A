@@ -43,6 +43,8 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzO
 PUT http://localhost:4400/user/enableUser/c6ab660a-bfaa-4fb4-90f6-2322981a6fd7
 Content-Type: application/json
 token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEyODk2NDksImV4cCI6MTcyMTI5MzI0OX0.14jZSVDu5w9jgSvqlbD11CE0xuF2tc3-Sd6CZC82NCo
+
+
 ###Set account to pending( Askng for approval)
 PUT http://localhost:4400/user/managerRequest/4916c73b-9235-4d62-a13a-bb050e1f2f1e
 

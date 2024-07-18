@@ -274,8 +274,8 @@ async updateUser(userId: string, user: User) {
             return { message: "User not found", responseCode: 404 };
         }
     
-        const resetToken = crypto.randomBytes(32).toString('hex');
-        const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour from now
+        const resetToken = crypto.randomInt(10000, 99999).toString();
+        const resetTokenExpiry = new Date(Date.now() + 3600000);
     
         await this.prisma.user.update({
             where: { email },
