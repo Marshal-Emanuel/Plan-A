@@ -1,45 +1,57 @@
 ###new event
 POST http://localhost:4400/event/createEvent
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjEyNDU1MjIsImV4cCI6MTcyMTI0OTEyMn0.An1KZ4PPRWbaB4i5A7lgXVi_D3o33UJjspv9nu0pfJY
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNDc0MDYzLCJleHAiOjE3MjE0Nzc2NjN9.Ec3X2WmrCk7bwHY97_ehE0TEDFKc6KjTO_u4oqfz0SQ
 
 {
-  "name": "Manager Marshal EMail black",
-  "managerId": "c6ab660a-bfaa-4fb4-90f6-2322981a6fd7",
-  "description": "MarshalEvent",
+  "name": "Pool Event",
+  "managerId": "e756eeab-99c0-4779-ad15-4d1e97312a93",
+  "description": "Pool ceremony",
   "moreInfo": "Come to managers meeting, message to admin organized by marshal",
   "location": "City Stadium",
   "date": "2024-10-03T00:00:00Z",  
  "time": "2024-10-03T19:00:00.000Z",
-  "image": "http://example.com/image.jpg"
+  "image": "http://example.com/image.jpg",
+  "numberOfTickets": 100,
+  "hasRegular": true,
+  "regularPrice": 20.0,
+  "hasVIP": false,
+  "vipPrice": 50.0,
+  "hasChildren": true,
+  "childrenPrice": 10.0,
+  "isPromoted": true,
+  "promoDetails": "20% off for early birds!"
 }
 
-// The 'status' field indicates that the event is currently active. and can be set to icanceled
+// The 'status' field indicates that the event is currently active. and can be set to iscanceled
 // The 'nature' field suggests that the event might be pending approval or past event.
 
-###get events
+###get events   //admin
 GET http://localhost:4400/event/getEvents
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNDczNjU0LCJleHAiOjE3MjE0NzcyNTR9.UHv4GT60jM3hAOo4INhDIG6esL-N3cMEO5g5vBBc4ow
 
 
-### events where nature is APPROVED and status ACTIVE(dISPLAY THESE TO THE USER)
+### events where nature is APPROVED and status ACTIVE(should dISPLAY THESE TO THE USER)
 GET http://localhost:4400/event/getActiveEvents
 
 
-###get events where nature is PENDING but are active 
+###get events where nature is PENDING but are active //only admins
 GET http://localhost:4400/event/getPendingEvents
-
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODI4NTEsImV4cCI6MTcyMTM4NjQ1MX0.CkvbqkfdaDP0obzfRg0ecp8f3HjyZ89OkI79qmGxCrs
 
 
 ###get event by id
 GET http://localhost:4400/event/getEvents/e2e8ef6e-7a07-46fc-b412-ff9344353192
 
-###update event
+###update event////manager
 PUT http://localhost:4400/event/updateEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzNGUtOWM5YS1mOWRiMmQ3ZjdiOTAiLCJlbWFpbCI6Im1hbmFnZXIyLnVzZXIiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMTIxMDY3MSwiZXhwIjoxNzIxMjE0MjcxfQ.tjeTHRHIY4noZ4jlONU_EFA_Rpqp22tDDg2S8cL4qO8
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNDc0MDYzLCJleHAiOjE3MjE0Nzc2NjN9.Ec3X2WmrCk7bwHY97_ehE0TEDFKc6KjTO_u4oqfz0SQ
 
 {
-  "name": "Music",
+  "name": "Pool",
   "description": "An exciting music concert with various artists.",
   "moreInfo": "Join us for a night of fun and music!",
   "location": "City Stadium",
@@ -55,10 +67,11 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzN
   "isPromoted": true,
   "promoDetails": "20% off for early birds!",
   "status": "ACTIVE",
-  "nature": "PENDING"
+  "nature": "PENDING",
+  "discount": 10
 }
 
-###//cancel event
+###//cancel event  only manager
 PUT http://localhost:4400/event/cancelEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
 token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzNGUtOWM5YS1mOWRiMmQ3ZjdiOTAiLCJlbWFpbCI6Im1hbmFnZXIyLnVzZXIiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMTIwNzEwMywiZXhwIjoxNzIxMjEwNzAzfQ.fG3UC1HgvSLdIY1aFku0cQD8WcMw30RnU5Pwlqh6E0E
@@ -66,21 +79,21 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzN
 
 
 ###  //approve event(Admin)
-PUT http://localhost:4400/event/approveEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
+PUT http://localhost:4400/event/approveEvent/b5b7b129-20b9-460a-bb45-315af121d29c
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMjA1MDAxLCJleHAiOjE3MjEyMDg2MDF9.rO8od2icGheqVQM6Ud2DmLqjxznyQr7J12dxJuuMAPs
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODkwNDEsImV4cCI6MTcyMTM5MjY0MX0.a7sVlHIDgkUvrKCwmlEFCoPghgQj6ThVMBpCK4NFst0
                 
 
 
 
-#### //get aproved events  user should see these eevnts
+#### //get aproved events  admin should see these eevnts also, mainly manager
 GET http://localhost:4400/event/getApprovedEvents
 
 
 ### //add promotion to event (Event Manager)
 PUT http://localhost:4400/event/addPromotion/e2e8ef6e-7a07-46fc-b412-ff9344353192
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTE3OTYzLCJleHAiOjE3MjExMjE1NjN9.a94oa63cz7Outju3vv1X9xedOU-qwgnC_QcawYwzNas
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNDczNjU0LCJleHAiOjE3MjE0NzcyNTR9.UHv4GT60jM3hAOo4INhDIG6esL-N3cMEO5g5vBBc4ow
 
 {
   "isPromoted": true,
@@ -88,9 +101,9 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3N
 }
 
 ### //remove promotion from event (Event Manager)
-PUT http://localhost:4400/event/removePromotion/e2e8ef6e-7a07-46fc-b412-ff9344353192
+PUT http://localhost:4400/event/removePromotion/b5b7b129-20b9-460a-bb45-315af121d29c
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTE3OTYzLCJleHAiOjE3MjExMjE1NjN9.a94oa63cz7Outju3vv1X9xedOU-qwgnC_QcawYwzNas
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNDczNjU0LCJleHAiOjE3MjE0NzcyNTR9.UHv4GT60jM3hAOo4INhDIG6esL-N3cMEO5g5vBBc4ow
 
 
 
@@ -100,21 +113,27 @@ Content-Type: application/json
 token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzIxMjA1MDAxLCJleHAiOjE3MjEyMDg2MDF9.rO8od2icGheqVQM6Ud2DmLqjxznyQr7J12dxJuuMAPs
                 
 
-###peaople artending
+###peaople artending a certain event
 GET http://localhost:4400/event/getPeopleAttending/91243764-d90a-4bcc-92ae-8df95eb4ebb6           
 
 
 
-### get total reservations a user
+### get total reservations in the system
 GET http://localhost:4400/event/getTotalReservations
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODIyNTAsImV4cCI6MTcyMTM4NTg1MH0.epkAXCCxv1EuRE9-XS9fG-2-FWS3Wvx9z1_sYm8NOzI
 
 
-### ///totalRSVPsManager/:id'
+### ///totalRSVPsManager/:id'   managers should see this for their stats
 GET http://localhost:4400/event/totalRSVPsManager/e756eeab-99c0-4779-ad15-4d1e97312a93
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMzgyMDIyLCJleHAiOjE3MjEzODU2MjJ9.xJC6DKQcIuEzfoT1j3q3QomRunqL_1RoUQGKUzmH6Eg
 
 
-### Get Event Count for al the  Managers
+### Get Event Count for all the  Managers
 GET http://localhost:4400/event/managerEventCounts
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODIyNTAsImV4cCI6MTcyMTM4NTg1MH0.epkAXCCxv1EuRE9-XS9fG-2-FWS3Wvx9z1_sYm8NOzI
 
 
 ### Get Event Count for a Specific Manager

@@ -17,47 +17,47 @@ export class EventsService {
 
     async createEvent(event: Event) {
         try {
-            const createdEvent = await this.prisma.event.create({
-                data: {
-                    name: event.name,
-                    description: event.description,
-                    moreInfo: event.moreInfo,
-                    location: event.location,
-                    date: event.date,
-                    time: event.time,
-                    image: event.image,
-                    hasRegular: event.hasRegular,
-                    regularPrice: event.regularPrice,
-                    hasVIP: event.hasVIP,
-                    vipPrice: event.vipPrice,
-                    hasChildren: event.hasChildren,
-                    childrenPrice: event.childrenPrice,
-                    isPromoted: event.isPromoted,
-                    promoDetails: event.promoDetails,
-                    status: event.status,
-                    nature: event.nature,
-                    managerId: event.managerId,
-                    numberOfTickets: event.numberOfTickets,
-                    remainingTickets: event.remainingTickets
-                }
-            });
-
-            // Fetch all admin users
-            const adminUsers = await this.prisma.user.findMany({
-                where: {
-                    role: 'admin'
-                }
-            });
-
-            // Send notification to each admin
-            for (const admin of adminUsers) {
-                await this.emailService.sendNewEventAdminNotification(
+            const [createdEvent, adminUsers] = await Promise.all([
+                this.prisma.event.create({
+                    data: {
+                        name: event.name,
+                        description: event.description,
+                        moreInfo: event.moreInfo,
+                        location: event.location,
+                        date: event.date,
+                        time: event.time,
+                        image: event.image,
+                        hasRegular: event.hasRegular,
+                        regularPrice: event.regularPrice,
+                        hasVIP: event.hasVIP,
+                        vipPrice: event.vipPrice,
+                        hasChildren: event.hasChildren,
+                        childrenPrice: event.childrenPrice,
+                        isPromoted: event.isPromoted,
+                        promoDetails: event.promoDetails,
+                        status: event.status,
+                        nature: event.nature,
+                        managerId: event.managerId,
+                        numberOfTickets: event.numberOfTickets,
+                        remainingTickets: event.numberOfTickets
+                    }
+                }),
+                this.prisma.user.findMany({
+                    where: { role: 'admin' },
+                    select: { email: true }
+                })
+            ]);
+    
+            // Send notifications to admins asynchronously
+            const notificationPromises = adminUsers.map(admin =>
+                this.emailService.sendNewEventAdminNotification(
                     admin.email,
                     createdEvent.eventId,
                     createdEvent.name
-                );
-            }
-
+                )
+            );
+            Promise.all(notificationPromises).catch(console.error);
+    
             return {
                 message: "Event created successfully and admins notified",
                 responseCode: 201,
@@ -72,6 +72,7 @@ export class EventsService {
             };
         }
     }
+    
 
 
     async getEvents() {
@@ -132,50 +133,44 @@ export class EventsService {
 
     async updateEvent(eventId: string, event: Event) {
         try {
-            const updatedEvent = await this.prisma.event.update({
-                where: { eventId: eventId },
-                data: {
-                    name: event.name,
-                    description: event.description,
-                    moreInfo: event.moreInfo,
-                    location: event.location,
-                    date: event.date,
-                    time: event.time,
-                    image: event.image || undefined,
-                    hasRegular: event.hasRegular,
-                    regularPrice: event.regularPrice,
-                    hasVIP: event.hasVIP,
-                    vipPrice: event.vipPrice,
-                    hasChildren: event.hasChildren,
-                    childrenPrice: event.childrenPrice,
-                    isPromoted: event.isPromoted,
-                    promoDetails: event.promoDetails || undefined,
-                    status: event.status,
-                    nature: event.nature
-                },
-                include: {
-                    manager: true
-                }
-            });
-
-            // Fetch all subscribed users and users who have booked the event
-            const usersToNotify = await this.prisma.user.findMany({
-                where: {
-                    OR: [
-                        { isSubscribedToMails: true },
-                        {
-                            reservations: {
-                                some: {
-                                    eventId: eventId
-                                }
-                            }
-                        }
-                    ]
-                },
-                distinct: ['userId']
-            });
-
-            // Send update notification emails to users
+            const [updatedEvent, usersToNotify] = await Promise.all([
+                this.prisma.event.update({
+                    where: { eventId: eventId },
+                    data: {
+                        name: event.name,
+                        description: event.description,
+                        moreInfo: event.moreInfo,
+                        location: event.location,
+                        date: event.date,
+                        time: event.time,
+                        image: event.image || undefined,
+                        hasRegular: event.hasRegular,
+                        regularPrice: event.regularPrice,
+                        hasVIP: event.hasVIP,
+                        vipPrice: event.vipPrice,
+                        hasChildren: event.hasChildren,
+                        childrenPrice: event.childrenPrice,
+                        isPromoted: event.isPromoted,
+                        promoDetails: event.promoDetails || undefined,
+                        status: event.status,
+                        nature: event.nature,
+                        numberOfTickets: event.numberOfTickets,
+                        remainingTickets: event.remainingTickets
+                    },
+                    include: { manager: true }
+                }),
+                this.prisma.user.findMany({
+                    where: {
+                        OR: [
+                            { isSubscribedToMails: true },
+                            { reservations: { some: { eventId: eventId } } }
+                        ]
+                    },
+                    select: { email: true, userId: true },
+                    distinct: ['userId']
+                })
+            ]);
+    
             const eventDetails: Event = {
                 name: updatedEvent.name,
                 description: updatedEvent.description,
@@ -198,17 +193,20 @@ export class EventsService {
                 status: updatedEvent.status,
                 nature: updatedEvent.nature
             };
-            for (const user of usersToNotify) {
-                await this.emailService.sendEventUpdateNotification(
+    
+            // Send notifications asynchronously
+            const notificationPromises = usersToNotify.map(user =>
+                this.emailService.sendEventUpdateNotification(
                     user.email,
                     updatedEvent.name,
                     updatedEvent.manager.name,
                     updatedEvent.manager.email,
                     updatedEvent.manager.phoneNumber,
                     eventDetails
-                );
-            }
-
+                )
+            );
+            Promise.all(notificationPromises).catch(console.error);
+    
             return {
                 message: "Event updated successfully and notifications sent",
                 responseCode: 200,
@@ -223,6 +221,7 @@ export class EventsService {
             };
         }
     }
+    
 
 
     async cancelEvent(eventId: string) {

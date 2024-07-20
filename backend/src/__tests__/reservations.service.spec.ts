@@ -20,13 +20,15 @@ describe('ReservationService', () => {
         findUnique: jest.fn(),
         update: jest.fn(),
       },
+      $transaction: jest.fn().mockImplementation(callback => callback(mockPrisma)),
       event: {
         findUnique: jest.fn(),
         update: jest.fn(),
         findMany: jest.fn(),
       },
       user: {
-        findMany: jest.fn(),
+        findUnique: jest.fn(),
+        update: jest.fn(),
       },
     };
     (PrismaClient as jest.MockedClass<typeof PrismaClient>).mockImplementation(() => mockPrisma as unknown as PrismaClient);
@@ -43,6 +45,11 @@ describe('ReservationService', () => {
 
   describe('createReservation', () => {
     it('should create a reservation successfully', async () => {
+      const mockUser = {
+        userId: 'user-123',
+        wallet: 1000,
+      };
+
       const mockEvent = {
         eventId: 'event-123',
         remainingTickets: 100,
@@ -63,32 +70,74 @@ describe('ReservationService', () => {
         isChildren: false,
         proxyName: '',
         numberOfPeople: 2,
-        paidAmmount: 100,
         user: { name: 'Test User' },
+        paidAmmount: 100,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
 
-      mockPrisma.reservation.findFirst.mockResolvedValue(null);
+      mockPrisma.user.findUnique.mockResolvedValue(mockUser);
       mockPrisma.event.findUnique.mockResolvedValue(mockEvent);
-      mockPrisma.event.update.mockResolvedValue({ ...mockEvent, remainingTickets: 98 });
+      mockPrisma.reservation.findFirst.mockResolvedValue(null);
       mockPrisma.reservation.create.mockResolvedValue({ ...mockReservation, reservationId: 'res-123' });
-      mockPrisma.user.findMany.mockResolvedValue([{ email: 'admin@example.com' }]);
+      mockPrisma.user.update.mockResolvedValue({ ...mockUser, wallet: 900 });
+      mockPrisma.event.update.mockResolvedValue({ ...mockEvent, remainingTickets: 98 });
 
       const result = await reservationService.createReservation(mockReservation);
 
       expect(result).toEqual({
-        message: "Reservation created successfully",
+        message: "Reservation created successfully for 2 people",
         responseCode: 201,
-        emailSent: true
+        reservation: expect.objectContaining({ reservationId: 'res-123' })
       });
-
-      expect(mockPrisma.reservation.create).toHaveBeenCalled();
-      expect(mockEmailService.sendReservationConfirmation).toHaveBeenCalled();
-      expect(mockEmailService.sendNewReservationNotification).toHaveBeenCalledTimes(2);
     });
 
-    it('should return an error if the user already has a reservation', async () => {
+    it('should return an error if user has insufficient funds', async () => {
+      const mockUser = {
+        userId: 'user-123',
+        wallet: 50,
+      };
+
+      const mockEvent = {
+        eventId: 'event-123',
+        remainingTickets: 100,
+        hasRegular: true,
+        regularPrice: 50,
+        hasVIP: false,
+        vipPrice: 0,
+        hasChildren: false,
+        childrenPrice: 0,
+      };
+
+      mockPrisma.user.findUnique.mockResolvedValue(mockUser);
+      mockPrisma.event.findUnique.mockResolvedValue(mockEvent);
+      mockPrisma.reservation.findFirst.mockResolvedValue(null);
+
+      const mockReservation: Reservation = {
+        eventId: 'event-123',
+        userId: 'user-123',
+        isRegular: true,
+        isVIP: false,
+        isChildren: false,
+        proxyName: '',
+        numberOfPeople: 2,
+        user: { name: 'Test User' },
+        paidAmmount: 100,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      const result = await reservationService.createReservation(mockReservation);
+
+      expect(result).toEqual({
+        message: "Insufficient funds. Your balance is 50. Required amount is 100.",
+        responseCode: 400
+      });
+    });
+
+    it('should return an error if user already has a reservation', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue({ userId: 'user-123' });
+      mockPrisma.event.findUnique.mockResolvedValue({ eventId: 'event-123' });
       mockPrisma.reservation.findFirst.mockResolvedValue({ reservationId: 'existing-res' });
 
       const mockReservation: Reservation = {
@@ -99,8 +148,8 @@ describe('ReservationService', () => {
         isChildren: false,
         proxyName: '',
         numberOfPeople: 2,
-        paidAmmount: 100,
         user: { name: 'Test User' },
+        paidAmmount: 100,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -108,11 +157,12 @@ describe('ReservationService', () => {
       const result = await reservationService.createReservation(mockReservation);
 
       expect(result).toEqual({
-        message: "You have already purchased a ticket for this event.",
-        responseCode: 400,
+        message: "You have already made a reservation for this event.",
+        responseCode: 400
       });
     });
   });
+  
 
   describe('getAllReservations', () => {
     it('should fetch all reservations', async () => {

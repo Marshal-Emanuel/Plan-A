@@ -55,6 +55,7 @@ model User {
   isSubscribedToMails Boolean @default(false)
    resetToken        String?
   resetTokenExpiry  DateTime?
+  wallet         Float     @default(1000)
   reviews         Review[]
   wishlists       Wishlist[]
   reservations    Reservation[]

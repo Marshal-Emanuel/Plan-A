@@ -3,7 +3,8 @@ export interface User {
     phoneNumber: string;
     email: string;
     password: string;
-    profilePicture?: string;
+    isSubscribedToMails: boolean;
+    profilePicture: string | null | undefined;
   }
   
 export interface UserLogin {

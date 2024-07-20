@@ -7,7 +7,7 @@ export interface Event {
   time: Date;
   numberOfTickets: number;
   remainingTickets: number;
-  image?: string;
+  image: string | null | undefined;
   managerId: string;
 
   hasRegular: boolean;

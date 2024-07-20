@@ -7,9 +7,9 @@ const event_router = Router();
 const eventController = new EventsController();
 
 event_router.post('/createEvent',verifyToken, isManager, eventController.createEvent);
-event_router.get('/getEvents', eventController.getEvents);
+event_router.get('/getEvents',verifyToken,isAdmin, eventController.getEvents);
 event_router.get('/getActiveEvents', eventController.getActiveEvents);
-event_router.get('/getPendingEvents', eventController.getPendingEvents);
+event_router.get('/getPendingEvents',verifyToken,isAdmin, eventController.getPendingEvents);
 event_router.get('/getEvents/:id', eventController.getEventById);
 event_router.put('/updateEvent/:id', verifyToken, isManager, eventController.updateEvent);
 event_router.put('/cancelEvent/:id',verifyToken, isManager, eventController.cancelEvent);
@@ -20,10 +20,10 @@ event_router.put('/removePromotion/:id',verifyToken, isManager, eventController.
 event_router.put('/rejectEvent/:id',verifyToken, isAdmin, eventController.rejectEvent);
 //peaople attnding event
 event_router.get('/getPeopleAttending/:id', eventController.peopleAttending);
-event_router.get('/getTotalReservations', eventController.getTotalReservationsForUser);
+event_router.get('/getTotalReservations',verifyToken, isAdmin, eventController.getTotalReservationsForUser);
 //EVENT managers total reservarions made
-event_router.get('/totalRSVPsManager/:id', eventController.getReservationsForManager);
-event_router.get('/managerEventCounts', eventController.getEventCountForManagers);
+event_router.get('/totalRSVPsManager/:id',verifyToken,isManager, eventController.getReservationsForManager);
+event_router.get('/managerEventCounts',verifyToken,isAdmin,eventController.getEventCountForManagers);
 event_router.get('/managerEventCount/:managerId', eventController.getEventCountForManager);
 
 

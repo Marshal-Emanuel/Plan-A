@@ -16,119 +16,149 @@ export class ReservationService {
 
     //create reservation
     async createReservation(reservation: Reservation) {
+        let createdReservation;
+        let event;
+    
         try {
-            const existingReservation = await this.prisma.reservation.findFirst({
-                where: {
-                    eventId: reservation.eventId,
-                    userId: reservation.userId,
-                },
+            await this.prisma.$transaction(async (prisma) => {
+                const user = await prisma.user.findUnique({
+                    where: { userId: reservation.userId }
+                });
+    
+                if (!user) {
+                    throw new Error("User not found.");
+                }
+    
+                event = await prisma.event.findUnique({
+                    where: { eventId: reservation.eventId },
+                    include: { manager: true }
+                });
+    
+                if (!event) {
+                    throw new Error("Event not found.");
+                }
+    
+                const existingReservation = await prisma.reservation.findFirst({
+                    where: {
+                        eventId: reservation.eventId,
+                        userId: reservation.userId,
+                    },
+                });
+    
+                if (existingReservation) {
+                    throw new Error("You have already made a reservation for this event.");
+                }
+    
+                if (event.remainingTickets < reservation.numberOfPeople) {
+                    throw new Error("Not enough tickets available.");
+                }
+    
+                if (reservation.isRegular && !event.hasRegular) {
+                    throw new Error("Regular tickets are not available for this event.");
+                }
+                if (reservation.isVIP && !event.hasVIP) {
+                    throw new Error("VIP tickets are not available for this event.");
+                }
+                if (reservation.isChildren && !event.hasChildren) {
+                    throw new Error("Children tickets are not available for this event.");
+                }
+    
+                let ticketPrice = 0;
+                if (reservation.isRegular) {
+                    ticketPrice = event.regularPrice;
+                } else if (reservation.isVIP) {
+                    ticketPrice = event.vipPrice;
+                } else if (reservation.isChildren) {
+                    ticketPrice = event.childrenPrice;
+                } else {
+                    throw new Error("Invalid ticket type selected.");
+                }
+    
+                const totalCost = ticketPrice * reservation.numberOfPeople;
+    
+                if (user.wallet < totalCost) {
+                    throw new Error(`Insufficient funds. Your balance is ${user.wallet}. Required amount is ${totalCost}.`);
+                }
+    
+                createdReservation = await prisma.reservation.create({
+                    data: {
+                        eventId: reservation.eventId,
+                        userId: reservation.userId,
+                        isRegular: reservation.isRegular,
+                        isVIP: reservation.isVIP,
+                        isChildren: reservation.isChildren,
+                        proxyName: reservation.proxyName,
+                        numberOfPeople: reservation.numberOfPeople,
+                        paidAmmount: totalCost,
+                        ammountPaid: totalCost,
+                    },
+                });
+    
+                await prisma.user.update({
+                    where: { userId: user.userId },
+                    data: { wallet: { decrement: totalCost } }
+                });
+    
+                await prisma.event.update({
+                    where: { eventId: reservation.eventId },
+                    data: {
+                        remainingTickets: {
+                            decrement: reservation.numberOfPeople
+                        },
+                    },
+                });
             });
-
-            if (existingReservation) {
-                return {
-                    message: "You have already purchased a ticket for this event.",
-                    responseCode: 400,
-                };
-            }
-
-            const event = await this.prisma.event.findUnique({
-                where: { eventId: reservation.eventId },
-                include: { manager: true }
-            });
-
-            if (!event) {
-                return {
-                    message: "Event not found.",
-                    responseCode: 404,
-                };
-            }
-
-            if (event.remainingTickets < reservation.numberOfPeople) {
-                return {
-                    message: "Not enough tickets available.",
-                    responseCode: 400,
-                };
-            }
-
-            let ticketPrice = 0;
-            if (reservation.isRegular && event.hasRegular) {
-                ticketPrice = event.regularPrice;
-            } else if (reservation.isVIP && event.hasVIP) {
-                ticketPrice = event.vipPrice;
-            } else if (reservation.isChildren && event.hasChildren) {
-                ticketPrice = event.childrenPrice;
-            } else {
-                return {
-                    message: "Invalid ticket type selected.",
-                    responseCode: 400,
-                };
-            }
-
-            const paidAmount = ticketPrice * reservation.numberOfPeople;
-
-            const updatedEvent = await this.prisma.event.update({
-                where: { eventId: reservation.eventId },
-                data: {
-                    remainingTickets: event.remainingTickets - reservation.numberOfPeople,
-                },
-            });
-
-            const createdReservation = await this.prisma.reservation.create({
-                data: {
-                    eventId: reservation.eventId,
-                    userId: reservation.userId,
-                    isRegular: reservation.isRegular,
-                    isVIP: reservation.isVIP,
-                    isChildren: reservation.isChildren,
-                    proxyName: reservation.proxyName,
-                    numberOfPeople: reservation.numberOfPeople,
-                    paidAmmount: paidAmount,
-                    ammountPaid: paidAmount,
-                },
-                include: { user: true }
-            });
-
-            console.log('Created reservation:', createdReservation);
-
-            // Send confirmation email to user
-            const emailSent = await this.emailService.sendReservationConfirmation(
-                createdReservation.reservationId
-            );
-
-            console.log('Email sent status:', emailSent);
-
-            // Notify admin and manager
-            const adminUsers = await this.prisma.user.findMany({ where: { role: 'admin' } });
-
-            // Then in your function:
-            for (const adminUser of adminUsers) {
-                await this.emailService.sendNewReservationNotification(
-                    adminUser.email,
-                    createdReservation as unknown as Reservation,
-                    updatedEvent as unknown as LocalEvent
-                );
-            }
-
-            await this.emailService.sendNewReservationNotification(
-                event.manager.email,
-                createdReservation as unknown as Reservation,
-                updatedEvent as unknown as LocalEvent
-            );
-
+    
+            this.sendReservationEmails(reservation.eventId, reservation.userId, event).catch(console.error);
+    
             return {
-                message: "Reservation created successfully",
+                message: `Reservation created successfully for ${reservation.numberOfPeople} people`,
                 responseCode: 201,
-                emailSent: emailSent
+                reservation: createdReservation
             };
         } catch (error) {
-            console.error("Error creating reservation:", error);
+            if (error instanceof Error) {
+                return {
+                    message: error.message,
+                    responseCode: 400
+                };
+            }
             return {
                 message: "An unexpected error occurred.",
-                responseCode: 500,
-                error: error,
+                responseCode: 500
             };
         }
     }
+    
+    
+    
+    private async sendReservationEmails(eventId: string, userId: string, event: any) {
+        const reservations = await this.prisma.reservation.findMany({
+            where: { eventId, userId },
+            include: { user: true }
+        });
+    
+        for (const reservation of reservations) {
+            const emailSent = await this.emailService.sendReservationConfirmation(reservation.reservationId);
+            console.log('Email sent status:', emailSent);
+        }
+    
+        const adminUsers = await this.prisma.user.findMany({ where: { role: 'admin' } });
+        for (const adminUser of adminUsers) {
+            await this.emailService.sendNewReservationNotification(
+                adminUser.email,
+                reservations[0] as unknown as Reservation,
+                event as unknown as LocalEvent
+            );
+        }
+    
+        await this.emailService.sendNewReservationNotification(
+            event.manager.email,
+            reservations[0] as unknown as Reservation,
+            event as unknown as LocalEvent
+        );
+    }
+    
     
     
     

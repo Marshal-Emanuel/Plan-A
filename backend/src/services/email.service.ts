@@ -2,6 +2,8 @@ import nodemailer from 'nodemailer';
 import { PrismaClient } from "@prisma/client";
 import { Event } from '../interfaces/events';
 import { Reservation } from '../interfaces/reservation';
+import { User } from '../interfaces/users';
+
 import QRCode from 'qrcode';
 
 export class EmailService {
@@ -1060,6 +1062,123 @@ export class EmailService {
           return false;
         }
       }
+
+
+      async sendAccountVerificationEmail(email: string, userName: string) {
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Account Verification Approved</title>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #003366; color: white; padding: 20px; text-align: center; }
+                    .content { background-color: #f9f9f9; padding: 20px; border-radius: 5px; }
+                    .footer { text-align: center; margin-top: 20px; font-size: 0.9em; color: #666; }
+                    .button { display: inline-block; padding: 10px 20px; background-color: #003366; color: white; text-decoration: none; border-radius: 5px; }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h1>Account Verification Approved</h1>
+                </div>
+                <div class="content">
+                    <p>Dear ${userName},</p>
+                    <p>We are pleased to inform you that your PLAN-A account has been successfully verified and upgraded to manager status.</p>
+                    <p>As a manager, you now have access to additional features and responsibilities on our platform, including:</p>
+                    <ul>
+                        <li>Creating and managing events</li>
+                        <li>Accessing detailed analytics</li>
+                        <li>Managing team members</li>
+                    </ul>
+                    <p>We encourage you to explore these new capabilities and make the most of your enhanced role.</p>
+                    <p style="text-align: center;">
+                        <a href="${process.env.FRONTEND_URL}/dashboard" class="button">Access Your Dashboard</a>
+                    </p>
+                    <p>If you have any questions about your new role or need assistance, please don't hesitate to contact our support team.</p>
+                    <p>Thank you for your commitment to PLAN-A. We look forward to your continued success on our platform!</p>
+                    <p>Best regards,<br>The PLAN-A Team</p>
+                </div>
+                <div class="footer">
+                    <p>This is an automated message. Please do not reply directly to this email.</p>
+                </div>
+            </body>
+            </html>
+        `;
+    
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: email,
+            subject: 'PLAN-A Account Verification Approved',
+            html: htmlContent
+        };
+    
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Account verification email sent: ' + info.response);
+            return true;
+        } catch (error) {
+            console.error('Error sending account verification email:', error);
+            return false;
+        }
+    }
+
+
+
+    async sendManagerRequestNotification(adminEmail: string, user: User) {
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Manager Account Request</title>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #003366; color: white; padding: 10px; text-align: center; }
+                    .content { background-color: #f9f9f9; padding: 20px; border-radius: 5px; }
+                    .button { display: inline-block; padding: 10px 20px; background-color: #003366; color: white; text-decoration: none; border-radius: 5px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>New Manager Account Request</h1>
+                    </div>
+                    <div class="content">
+                        <p>A user has requested to upgrade their account to manager status:</p>
+                        <ul>
+                            <li>Name: ${user.name}</li>
+                            <li>Email: ${user.email}</li>
+                            <li>Phone number: ${user.phoneNumber}</li>
+                        </ul>
+                        <p>Please review this request and take appropriate action.</p>
+                        <a href="${process.env.FRONTEND_URL}/admin/user/${user}" class="button">Review Request</a>
+                    </div>
+                </div>
+            </body>
+            </html>
+        `;
+    
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: adminEmail,
+            subject: 'New Manager Account Request',
+            html: htmlContent
+        };
+    
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Manager request notification sent: ' + info.response);
+            return true;
+        } catch (error) {
+            console.error('Error sending manager request notification:', error);
+            return false;
+        }
+    }   
       
     
 

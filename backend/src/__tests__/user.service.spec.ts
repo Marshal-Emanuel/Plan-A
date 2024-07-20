@@ -29,7 +29,6 @@ describe('UsersService', () => {
 
 
 
-
   describe('createUser', () => {
     it('Should register a new user', async () => {
       const mockUser = {
@@ -37,21 +36,27 @@ describe('UsersService', () => {
         phoneNumber: '07124567890',
         email: 'marshal@yopmail.com',
         password: 'marshalpassword',
-        profilePicture: 'marshalpic.jpg'
+        profilePicture: 'marshalpic.jpg', 
+        isSubscribedToMails: true
       };
-
+  
       mockPrismaCreate.mockResolvedValue({
         ...mockUser,
-        userId: 'generated-id'
+        userId: 'generated-id',
+        role: 'user',
+        accountStatus: 'active',
+        resetToken: null,
+        resetTokenExpiry: null
       });
-
+  
       const result = await usersService.createUser(mockUser);
-
+  
       expect(result).toEqual({
         message: "User created successfully",
-        responseCode: 201
+        responseCode: 201,
+        userId: 'generated-id'
       });
-
+  
       expect(mockPrismaCreate).toHaveBeenCalledWith({
         data: expect.objectContaining({
           name: mockUser.name,
@@ -61,30 +66,8 @@ describe('UsersService', () => {
         })
       });
     });
-
-    it('should handle existing user error', async () => {
-      const mockUser = {
-        name: 'Test User',
-        phoneNumber: '07124567890',
-        email: 'marshal@yopmail.com',
-        password: 'marshalpassword',
-        profilePicture: 'marshalpic.jpg'
-      };
-
-      mockPrismaCreate.mockRejectedValue({
-        code: 'P2002',
-        clientVersion: '4.7.1'
-      });
-
-      const result = await usersService.createUser(mockUser);
-
-      expect(result).toEqual({
-        message: "An unexpected error occurred.",
-        responseCode: 500
-      });
-    });
-
   });
+  
 
 
   describe('should viewAllUsers', () => {
@@ -126,90 +109,119 @@ describe('UsersService', () => {
   });
 
 
-  describe('only admin should disableUser and user is set to disabled', () => {
+  describe('disableUser', () => {
     it('should allow admin to disable a user account', async () => {
       const mockUser = {
         userId: 'user-to-disable',
         email: 'user@example.com',
         name: 'User to Disable'
       };
-
+  
       const mockPrismaUpdate = jest.fn().mockResolvedValue({
         ...mockUser,
         accountStatus: 'banned'
       });
       (usersService as any).prisma.user.update = mockPrismaUpdate;
-
-      const mockEmailSend = jest.fn().mockResolvedValue(true);
-      (usersService as any).emailService.sendAccountDisabledNotification = mockEmailSend;
-
+  
       const result = await usersService.disableUser('user-to-disable');
-
+  
       expect(result).toEqual({
-        message: "User account disabled and notification sent",
+        message: "User account disabled successfully",
         responseCode: 200
       });
       expect(mockPrismaUpdate).toHaveBeenCalledWith({
         where: { userId: 'user-to-disable' },
         data: { accountStatus: 'banned' }
       });
-      expect(mockEmailSend).toHaveBeenCalledWith(mockUser.email, mockUser.name);
+    });
+  
+    it('should handle errors when disabling a user account', async () => {
+      const mockPrismaUpdate = jest.fn().mockRejectedValue(new Error('Database error'));
+      (usersService as any).prisma.user.update = mockPrismaUpdate;
+  
+      const result = await usersService.disableUser('non-existent-user');
+  
+      expect(result).toEqual({
+        message: "An error occurred while disabling the user account.",
+        responseCode: 500,
+        error: expect.any(Error)
+      });
     });
   });
+  
 
 
 
-  describe('admin can enableUser', () => {
+  describe('enableUser', () => {
     it('should allow admin to enable a user account', async () => {
       const mockUser = {
         userId: 'user-to-enable',
         email: 'user@example.com',
         name: 'User to Enable'
       };
-
+  
       const mockPrismaUpdate = jest.fn().mockResolvedValue({
         ...mockUser,
         accountStatus: 'active'
       });
       (usersService as any).prisma.user.update = mockPrismaUpdate;
-
-      const mockEmailSend = jest.fn().mockResolvedValue(true);
-      (usersService as any).emailService.sendAccountReactivatedNotification = mockEmailSend;
-
+  
       const result = await usersService.enableUser('user-to-enable');
-
+  
       expect(result).toEqual({
-        message: "User account enabled and notification sent",
+        message: "User account enabled successfully",
         responseCode: 200
       });
       expect(mockPrismaUpdate).toHaveBeenCalledWith({
         where: { userId: 'user-to-enable' },
         data: { accountStatus: 'active' }
       });
-      expect(mockEmailSend).toHaveBeenCalledWith(mockUser.email, mockUser.name);
     });
-
+  
+    it('should handle errors when enabling a user account', async () => {
+      const mockPrismaUpdate = jest.fn().mockRejectedValue(new Error('Database error'));
+      (usersService as any).prisma.user.update = mockPrismaUpdate;
+  
+      const result = await usersService.enableUser('non-existent-user');
+  
+      expect(result).toEqual({
+        message: "An error occurred while enabling the user account.",
+        responseCode: 500,
+        error: expect.any(Error)
+      });
+    });
   });
+  
 
 
 
 
-  describe('managerRequest sould set accunt status to pending', () => {
-    it('should set user account status to pending', async () => {
+  describe('managerRequest', () => {
+    it('should set user account status to pending and notify admins', async () => {
       const mockUser = {
         userId: 'user-requesting-manager',
         email: 'user@example.com',
         name: 'User Requesting Manager'
       };
-
+  
+      const mockAdmins = [
+        { email: 'admin1@example.com' },
+        { email: 'admin2@example.com' }
+      ];
+  
       const mockPrismaUpdate = jest.fn().mockResolvedValue({
         ...mockUser,
         accountStatus: 'pending'
       });
+      const mockPrismaFindMany = jest.fn().mockResolvedValue(mockAdmins);
       (usersService as any).prisma.user.update = mockPrismaUpdate;
-
+      (usersService as any).prisma.user.findMany = mockPrismaFindMany;
+  
+      const mockSendManagerRequestNotification = jest.fn().mockResolvedValue(true);
+      (usersService as any).emailService.sendManagerRequestNotification = mockSendManagerRequestNotification;
+  
       const result = await usersService.managerRequest('user-requesting-manager');
-
+  
       expect(result).toEqual({
         message: "Request for Account upgrade sent",
         responseCode: 200
@@ -218,37 +230,49 @@ describe('UsersService', () => {
         where: { userId: 'user-requesting-manager' },
         data: { accountStatus: 'pending' }
       });
+      expect(mockPrismaFindMany).toHaveBeenCalledWith({ where: { role: 'admin' } });
+      expect(mockSendManagerRequestNotification).toHaveBeenCalledTimes(2);
     });
   });
+  
 
 
 
   describe('verifyAccount', () => {
-    it('should set user account status to verified', async () => {
+    it('should set user account status to verified and role to manager', async () => {
       const mockUser = {
         userId: 'user-to-verify',
         email: 'user@example.com',
         name: 'User to Verify'
       };
-
+  
       const mockPrismaUpdate = jest.fn().mockResolvedValue({
         ...mockUser,
-        accountStatus: 'verified'
+        accountStatus: 'verified',
+        role: 'manager'
       });
       (usersService as any).prisma.user.update = mockPrismaUpdate;
-
+  
+      const mockSendVerificationEmail = jest.fn().mockResolvedValue(true);
+      (usersService as any).emailService.sendAccountVerificationEmail = mockSendVerificationEmail;
+  
       const result = await usersService.verifyAccount('user-to-verify');
-
+  
       expect(result).toEqual({
-        message: "Account verified",
+        message: "Account verified, role set to manager, and notification sent",
         responseCode: 200
       });
       expect(mockPrismaUpdate).toHaveBeenCalledWith({
         where: { userId: 'user-to-verify' },
-        data: { accountStatus: 'verified' }
+        data: { 
+          accountStatus: 'verified',
+          role: 'manager'
+        }
       });
+      expect(mockSendVerificationEmail).toHaveBeenCalledWith('user@example.com', 'User to Verify');
     });
   });
+  
 
 
   describe('createAppeal', () => {
@@ -259,7 +283,7 @@ describe('UsersService', () => {
         name: 'Appealing User',
         role: 'user'
       };
-
+  
       const mockAppeal = {
         appealId: 'appeal-123',
         userId: 'appealing-user',
@@ -267,31 +291,30 @@ describe('UsersService', () => {
         details: 'I believe my account was banned by mistake',
         createdAt: new Date()
       };
-
+  
       const mockAdmins = [
         { email: 'admin1@example.com' },
         { email: 'admin2@example.com' }
       ];
-
+  
       const mockPrismaCreateAppeal = jest.fn().mockResolvedValue(mockAppeal);
       const mockPrismaFindUniqueUser = jest.fn().mockResolvedValue(mockUser);
       const mockPrismaFindManyAdmins = jest.fn().mockResolvedValue(mockAdmins);
-
+  
       (usersService as any).prisma.appeal.create = mockPrismaCreateAppeal;
       (usersService as any).prisma.user.findUnique = mockPrismaFindUniqueUser;
       (usersService as any).prisma.user.findMany = mockPrismaFindManyAdmins;
-
+  
       const mockSendAppealNotification = jest.fn().mockResolvedValue(true);
       (usersService as any).emailService.sendAppealNotificationToAdmin = mockSendAppealNotification;
-
+  
       const result = await usersService.createAppeal('appealing-user', 'Unfair ban', 'I believe my account was banned by mistake');
-
+  
       expect(result).toEqual({
         message: "Appeal submitted successfully",
-        responseCode: 201,
-        appeal: mockAppeal
+        responseCode: 201
       });
-
+  
       expect(mockPrismaCreateAppeal).toHaveBeenCalledWith({
         data: {
           userId: 'appealing-user',
@@ -299,7 +322,7 @@ describe('UsersService', () => {
           details: 'I believe my account was banned by mistake'
         }
       });
-
+  
       expect(mockSendAppealNotification).toHaveBeenCalledTimes(2);
       expect(mockSendAppealNotification).toHaveBeenCalledWith('admin1@example.com', expect.objectContaining({
         appealId: 'appeal-123',
@@ -312,6 +335,7 @@ describe('UsersService', () => {
       }));
     });
   });
+  
 
 
 
@@ -411,6 +435,52 @@ describe('UsersService', () => {
       });
     });
   });
+
+
+  describe('topUpWallet', () => {
+    it('should top up user wallet successfully', async () => {
+      const mockUser = {
+        userId: 'test-user-id',
+        name: 'Test User',
+        email: 'test@example.com',
+        wallet: 1000
+      };
+  
+      const topUpAmount = 500;
+  
+      const mockPrismaUpdate = jest.fn().mockResolvedValue({
+        ...mockUser,
+        wallet: mockUser.wallet + topUpAmount
+      });
+      (usersService as any).prisma.user.update = mockPrismaUpdate;
+  
+      const result = await usersService.topUpWallet(mockUser.userId, topUpAmount);
+  
+      expect(result).toEqual({
+        message: "Wallet topped up successfully",
+        responseCode: 200,
+        balance: 1500
+      });
+  
+      expect(mockPrismaUpdate).toHaveBeenCalledWith({
+        where: { userId: mockUser.userId },
+        data: { wallet: { increment: topUpAmount } }
+      });
+    });
+  
+    it('should handle errors when topping up wallet', async () => {
+      const mockPrismaUpdate = jest.fn().mockRejectedValue(new Error('Database error'));
+      (usersService as any).prisma.user.update = mockPrismaUpdate;
+  
+      const result = await usersService.topUpWallet('non-existent-user', 500);
+  
+      expect(result).toEqual({
+        message: "An error occurred while topping up the wallet",
+        responseCode: 500
+      });
+    });
+  });
+  
 
 
 

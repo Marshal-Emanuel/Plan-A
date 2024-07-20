@@ -3,29 +3,34 @@ POST http://localhost:4400/user/register
 Content-Type: application/json
 
 {
-    "name": "MarshalEmanuel2",
-    "phoneNumber": "134177352",
-    "email": "emanuelmarshal2@gmail.com",
-    "password": "password"
+    "name": "EB3",
+    "phoneNumber": "07137525",
+    "email": "eb3.52721.21@student.chuka.ac.ke",
+    "password": "password",
+    "profilePicture": "https://res.cloudinary.com/dxvzhx7nr/image/upload/v1621230000/Profile%20Pictures/1621230000000-IMG_20210517_124013.jpg",
+    "isSubscribedToMails": true
+
 
 }
 
 ###All users
 GET http://localhost:4400/user/allUsers
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjExMjAzNTksImV4cCI6MTcyMTEyMzk1OX0.ImtOvgstHOsB07zhHQAvrwhWTKoyh0c5GT-_Yfaba0w
-
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODM4MzMsImV4cCI6MTcyMTM4NzQzM30.BzOBehS8dWpZCinzL4beMRPw0uo6yos67QxDkgahBQ0
 
 
 ###update user
 PUT http://localhost:4400/user/updateUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
 Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzNzE0NjcsImV4cCI6MTcyMTM3NTA2N30.vsXwLqCb96aUXI4TqSOtIqacRZ8L4avIt2Er9KOFuBY
 
 {
     "name": "John Doe",
     "phoneNumber": "12345667890",
     "email": "johny@mdail.com",
-    "password": "password"
+    "password": "password",
+    "profilePicture": "https://res.cloudinary.com/dxvzhx7nr/image/upload/v1621230000/Profile%20Pictures/1621230000000-IMG_20210517_124013.jpg",
+    "isSubscribedTomails": false
 }
 
 ###Get user by id
@@ -34,30 +39,35 @@ GET http://localhost:4400/user/getUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
 
 
 ###dssiable user account  only admin can do this{ if token contains role of admin}
-PUT http://localhost:4400/user/disableUser/c6ab660a-bfaa-4fb4-90f6-2322981a6fd7
+PUT http://localhost:4400/user/disableUser/a5a52390-98e9-425b-be0e-1992c3dd5cef
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEyODk2NDksImV4cCI6MTcyMTI5MzI0OX0.14jZSVDu5w9jgSvqlbD11CE0xuF2tc3-Sd6CZC82NCo
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE0NjQwMDIsImV4cCI6MTcyMTQ2NzYwMn0.yQX-f1ouYjmKfQGcxbBLCgr459n8IhQV_OUDzQ9JcDI
 
 
 ###enable user account
-PUT http://localhost:4400/user/enableUser/c6ab660a-bfaa-4fb4-90f6-2322981a6fd7
+PUT http://localhost:4400/user/enableUser/a5a52390-98e9-425b-be0e-1992c3dd5cef
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEyODk2NDksImV4cCI6MTcyMTI5MzI0OX0.14jZSVDu5w9jgSvqlbD11CE0xuF2tc3-Sd6CZC82NCo
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE0NjQwMDIsImV4cCI6MTcyMTQ2NzYwMn0.yQX-f1ouYjmKfQGcxbBLCgr459n8IhQV_OUDzQ9JcDI
 
 
-###Set account to pending( Askng for approval)
-PUT http://localhost:4400/user/managerRequest/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+###Set account to pending( Askng for approval to manager status)
+PUT http://localhost:4400/user/managerRequest/a5a52390-98e9-425b-be0e-1992c3dd5cef
+Constent-Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE0NjQwMDIsImV4cCI6MTcyMTQ2NzYwMn0.yQX-f1ouYjmKfQGcxbBLCgr459n8IhQV_OUDzQ9JcDI
+
 
 ###verify account(Admin verifies account to manager)
-PUT http://localhost:4400/user/approveRequest/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+PUT http://localhost:4400/user/approveRequest/c6ab660a-bfaa-4fb4-90f6-2322981a6fd7
+Constent-Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE0NjY3MzcsImV4cCI6MTcyMTQ3MDMzN30.mS5QCh9PAT--D2SkjyvijfVb8ticN9ea87NVblbOWsk
 
 ### Create Appeal
 POST http://localhost:4400/user/appeal
 Content-Type: application/json
-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxMjkyNDE1LCJleHAiOjE3MjEyOTYwMTV9.Oi3VvxOoWeObFg7bKpJFR641fRpMAObc6TOmydaSDHw
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNWE1MjM5MC05OGU5LTQyNWItYmUwZS0xOTkyYzNkZDVjZWYiLCJlbWFpbCI6ImViMy41MjcyMS4yMUBzdHVkZW50LmNodWthLmFjLmtlIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjE0NjQ4ODcsImV4cCI6MTcyMTQ2ODQ4N30.ekzIB3Zv1snRJkRBqCh_6FBYNNeSXCQV5y2EMU-jwJM
 
 {
-    "userId": "8db13d3a-b148-4fc3-a17e-bd80edbb9d9a",
+    "userId": "a5a52390-98e9-425b-be0e-1992c3dd5cef",
     "reason": "Wrongful Account Suspension",
     "details": "I believe my account was suspended by mistake. I have always followed the community guidelines and have not violated any terms of service."
 }
@@ -76,7 +86,7 @@ POST http://localhost:4400/user/reset-password
 Content-Type: application/json
 
 {
-    "token": "91566c8535d12fefda0fea5b676493cbfd1502368693ca69b611bb4cbb6223ae",
-    "newPassword": "passwordreset"
+    "token": "26035",
+    "newPassword": "password"
 }
 
