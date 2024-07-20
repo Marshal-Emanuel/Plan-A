@@ -90,3 +90,19 @@ Content-Type: application/json
     "newPassword": "password"
 }
 
+
+### Get User Balance
+GET http://localhost:4400/user/balance/8db13d3a-b148-4fc3-a17e-bd80edbb9d9a
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjE0ODkyOTEsImV4cCI6MTcyMTQ5Mjg5MX0.iBlfflLDO_NYkIUkFKt3I5eLmUnVzRK5GR2ttf5J0sw
+
+
+### Top Up User Wallet
+PUT http://localhost:4400/user/topup/c6ab660a-bfaa-4fb4-90f6-2322981a6fd7
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjE0ODkyOTEsImV4cCI6MTcyMTQ5Mjg5MX0.iBlfflLDO_NYkIUkFKt3I5eLmUnVzRK5GR2ttf5J0sw
+
+{
+    "amount": 4000
+}
+
+

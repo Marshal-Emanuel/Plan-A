@@ -352,6 +352,23 @@ async updateUser(userId: string, user: User) {
             };
         }
     }
+
+    async getUserBalance(userId: string) {
+        try {
+            const user = await this.prisma.user.findUnique({
+                where: { userId: userId },
+                select: { wallet: true }
+            });
+            if (!user) {
+                return { message: "User not found", responseCode: 404 };
+            }
+            return { balance: user.wallet, responseCode: 200 };
+        } catch (error) {
+            console.error("Error fetching user balance:", error);
+            return { message: "An unexpected error occurred.", responseCode: 500, error: error };
+        }
+    }
+    
     
     
     

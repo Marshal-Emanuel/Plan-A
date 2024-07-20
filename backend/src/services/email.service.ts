@@ -870,27 +870,27 @@ export class EmailService {
           </body>
           </html>
         `;
-      
-        const mailOptions = {
-          from: process.env.GMAIL_USER,
-          to: userEmail,
-          subject: 'Important Notice: Your PLAN-A Account Status',
-          html: htmlContent
-        };
-      
-        try {
-          const info = await this.transporter.sendMail(mailOptions);
-          console.log('Account disabled notification sent: ' + info.response);
-          return true;
-        } catch (error) {
-          console.error('Error sending account disabled notification:', error);
-          return false;
-        }
-      }
 
-      
-      //restired acc
-      async sendAccountReactivatedNotification(userEmail: string, userName: string) {
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: userEmail,
+            subject: 'Important Notice: Your PLAN-A Account Status',
+            html: htmlContent
+        };
+
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Account disabled notification sent: ' + info.response);
+            return true;
+        } catch (error) {
+            console.error('Error sending account disabled notification:', error);
+            return false;
+        }
+    }
+
+
+    //restired acc
+    async sendAccountReactivatedNotification(userEmail: string, userName: string) {
         const htmlContent = `
           <!DOCTYPE html>
           <html lang="en">
@@ -927,27 +927,27 @@ export class EmailService {
           </body>
           </html>
         `;
-      
-        const mailOptions = {
-          from: process.env.GMAIL_USER,
-          to: userEmail,
-          subject: 'Welcome Back! Your PLAN-A Account Has Been Reactivated',
-          html: htmlContent
-        };
-      
-        try {
-          const info = await this.transporter.sendMail(mailOptions);
-          console.log('Account reactivation notification sent: ' + info.response);
-          return true;
-        } catch (error) {
-          console.error('Error sending account reactivation notification:', error);
-          return false;
-        }
-      }
 
-      
-      //appeal mail
-      async sendAppealNotificationToAdmin(adminEmail: string, appealDetails: any) {
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: userEmail,
+            subject: 'Welcome Back! Your PLAN-A Account Has Been Reactivated',
+            html: htmlContent
+        };
+
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Account reactivation notification sent: ' + info.response);
+            return true;
+        } catch (error) {
+            console.error('Error sending account reactivation notification:', error);
+            return false;
+        }
+    }
+
+
+    //appeal mail
+    async sendAppealNotificationToAdmin(adminEmail: string, appealDetails: any) {
         const htmlContent = `
           <!DOCTYPE html>
           <html lang="en">
@@ -994,26 +994,26 @@ export class EmailService {
           </body>
           </html>
         `;
-      
-        const mailOptions = {
-          from: process.env.GMAIL_USER,
-          to: adminEmail,
-          subject: 'New User Appeal Submitted - Action Required',
-          html: htmlContent
-        };
-      
-        try {
-          const info = await this.transporter.sendMail(mailOptions);
-          console.log('Appeal notification sent to admin: ' + info.response);
-          return true;
-        } catch (error) {
-          console.error('Error sending appeal notification to admin:', error);
-          return false;
-        }
-      }
 
-      //password reset
-      async sendPasswordResetEmail(email: string, resetCode: string) {
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: adminEmail,
+            subject: 'New User Appeal Submitted - Action Required',
+            html: htmlContent
+        };
+
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Appeal notification sent to admin: ' + info.response);
+            return true;
+        } catch (error) {
+            console.error('Error sending appeal notification to admin:', error);
+            return false;
+        }
+    }
+
+    //password reset
+    async sendPasswordResetEmail(email: string, resetCode: string) {
         const htmlContent = `
           <!DOCTYPE html>
           <html lang="en">
@@ -1045,26 +1045,26 @@ export class EmailService {
           </body>
           </html>
         `;
-      
+
         const mailOptions = {
-          from: process.env.GMAIL_USER,
-          to: email,
-          subject: 'Password Reset Request - PLAN-A',
-          html: htmlContent
+            from: process.env.GMAIL_USER,
+            to: email,
+            subject: 'Password Reset Request - PLAN-A',
+            html: htmlContent
         };
-      
+
         try {
-          const info = await this.transporter.sendMail(mailOptions);
-          console.log('Password reset email sent: ' + info.response);
-          return true;
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Password reset email sent: ' + info.response);
+            return true;
         } catch (error) {
-          console.error('Error sending password reset email:', error);
-          return false;
+            console.error('Error sending password reset email:', error);
+            return false;
         }
-      }
+    }
 
 
-      async sendAccountVerificationEmail(email: string, userName: string) {
+    async sendAccountVerificationEmail(email: string, userName: string) {
         const htmlContent = `
             <!DOCTYPE html>
             <html lang="en">
@@ -1107,14 +1107,14 @@ export class EmailService {
             </body>
             </html>
         `;
-    
+
         const mailOptions = {
             from: process.env.GMAIL_USER,
             to: email,
             subject: 'PLAN-A Account Verification Approved',
             html: htmlContent
         };
-    
+
         try {
             const info = await this.transporter.sendMail(mailOptions);
             console.log('Account verification email sent: ' + info.response);
@@ -1162,14 +1162,14 @@ export class EmailService {
             </body>
             </html>
         `;
-    
+
         const mailOptions = {
             from: process.env.GMAIL_USER,
             to: adminEmail,
             subject: 'New Manager Account Request',
             html: htmlContent
         };
-    
+
         try {
             const info = await this.transporter.sendMail(mailOptions);
             console.log('Manager request notification sent: ' + info.response);
@@ -1178,9 +1178,158 @@ export class EmailService {
             console.error('Error sending manager request notification:', error);
             return false;
         }
-    }   
-      
-    
+    }
+
+    async sendCancellationEmail(userEmail: string, userName: string, eventName: string, refundAmount: number, feeAmount: number) {
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Reservation Cancellation Confirmation</title>
+                <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+            </head>
+            <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+                <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td align="center" style="padding: 0;">
+                            <table role="presentation" style="width: 602px; border-collapse: collapse; border: 1px solid #cccccc; background-color: #ffffff;">
+                                <tr>
+                                    <td align="center" style="padding: 40px 0 30px 0; background-color: #003366;">
+                                        <h1 style="font-family: 'Monoton', cursive; font-size: 36px; margin: 0; color: #ffffff;">PLAN-A</h1>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 36px 30px 42px 30px;">
+                                        <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <td style="padding: 0 0 36px 0; color: #153643;">
+                                                    <h2 style="font-size: 24px; margin: 0 0 20px 0; color: #003366;">Hello ${userName},</h2>
+                                                    <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">Your reservation for the event "${eventName}" has been successfully cancelled.</p>
+                                                    <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">Refund Details:</p>
+                                                    <ul style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">
+                                                        <li>Refund Amount: Ksh${refundAmount.toFixed(2)}</li>
+                                                        <li>Processing Fee: Ksh${feeAmount.toFixed(2)}</li>
+                                                    </ul>
+                                                    <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">The refund has been credited to your wallet. We hope to see you at future events!</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 30px; background-color: #003366;">
+                                        <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <td style="padding: 0; width: 50%;" align="left">
+                                                    <p style="margin: 0; font-size: 14px; line-height: 16px; color: #ffffff;">&copy; 2024 PLAN-A<br/></p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>
+        `;
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: userEmail,
+            subject: 'Reservation Cancellation Confirmation',
+            html: htmlContent
+        };
+
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Cancellation confirmation email sent: ' + info.response);
+            return true;
+        } catch (error) {
+            console.error('Error sending cancellation confirmation email:', error);
+            return false;
+        }
+    }
+
+    async sendCancellationNotificationToManager(managerEmail: string, managerName: string, eventName: string, userName: string) {
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Reservation Cancellation Notification</title>
+                <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+            </head>
+            <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+                <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td align="center" style="padding: 0;">
+                            <table role="presentation" style="width: 602px; border-collapse: collapse; border: 1px solid #cccccc; background-color: #ffffff;">
+                                <tr>
+                                    <td align="center" style="padding: 40px 0 30px 0; background-color: #003366;">
+                                        <h1 style="font-family: 'Monoton', cursive; font-size: 36px; margin: 0; color: #ffffff;">PLAN-A</h1>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 36px 30px 42px 30px;">
+                                        <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <td style="padding: 0 0 36px 0; color: #153643;">
+                                                    <h2 style="font-size: 24px; margin: 0 0 20px 0; color: #003366;">Hello ${managerName},</h2>
+                                                    <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">A reservation for your event "${eventName}" has been cancelled.</p>
+                                                    <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">Cancellation Details:</p>
+                                                    <ul style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">
+                                                        <li>Event: ${eventName}</li>
+                                                        <li>User: ${userName}</li>
+                                                    </ul>
+                                                    <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">The ticket(s) have been returned to the available pool.</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 30px; background-color: #003366;">
+                                        <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                                            <tr>
+                                                <td style="padding: 0; width: 50%;" align="left">
+                                                    <p style="margin: 0; font-size: 14px; line-height: 16px; color: #ffffff;">&copy; 2024 PLAN-A<br/></p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>
+        `;
+
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
+            to: managerEmail,
+            subject: 'Reservation Cancellation Notification',
+            html: htmlContent
+        };
+
+        try {
+            const info = await this.transporter.sendMail(mailOptions);
+            console.log('Cancellation notification email sent to manager: ' + info.response);
+            return true;
+        } catch (error) {
+            console.error('Error sending cancellation notification email to manager:', error);
+            return false;
+        }
+    }
+
+
+
 
 
 

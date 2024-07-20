@@ -15,10 +15,10 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNWE1MjM5MC05OGU5LTQyN
   "updatedAt": "2021-09-29T00:00:00.000Z"
 }
 
-### //cancel reservation
-PUT http://localhost:4400/reservation/cancelReservation/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
+### //cancel reservation  provide reservation Id
+PUT http://localhost:4400/reservation/cancelReservation/6916882e-da4d-4327-a1a4-33c0119eaf20
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjEyMDYyOTYsImV4cCI6MTcyMTIwOTg5Nn0.hPeY4Wm3DI2lOtz4QrzMwWbZ8kD3ua45GdWt0AgQNK0
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxNDgzMzU2LCJleHAiOjE3MjE0ODY5NTZ9._HhqcNnfCYu-CEJUTuX5tpFcPR5THOhEx-3WRNcW2RI
 
 
 

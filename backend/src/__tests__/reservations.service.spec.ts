@@ -30,7 +30,11 @@ describe('ReservationService', () => {
         findUnique: jest.fn(),
         update: jest.fn(),
       },
+      transaction: {
+        create: jest.fn(),
+      },
     };
+    
     (PrismaClient as jest.MockedClass<typeof PrismaClient>).mockImplementation(() => mockPrisma as unknown as PrismaClient);
 
     mockEmailService = {
@@ -40,6 +44,13 @@ describe('ReservationService', () => {
 
     reservationService = new ReservationService();
     (reservationService as any).prisma = mockPrisma;
+    (reservationService as any).emailService = mockEmailService;
+
+    mockEmailService = {
+      sendCancellationEmail: jest.fn().mockResolvedValue(true),
+      sendCancellationNotificationToManager: jest.fn().mockResolvedValue(true),
+    } as unknown as jest.Mocked<EmailService>;
+  
     (reservationService as any).emailService = mockEmailService;
   });
 
@@ -231,16 +242,46 @@ describe('ReservationService', () => {
 
   describe('cancelReservation', () => {
     it('should cancel a reservation', async () => {
-      mockPrisma.reservation.update.mockResolvedValue({ status: 'CANCELLED' });
+      const mockReservation = {
+        reservationId: 'res-1',
+        userId: 'user-123',
+        eventId: 'event-123',
+        ammountPaid: 100,
+        numberOfPeople: 2,
+        user: { email: 'user@example.com', name: 'Test User' },
+        event: { 
+          name: 'Test Event',
+          manager: { email: 'manager@example.com', name: 'Test Manager' }
+        }
+      };
+
+      mockPrisma.reservation.findUnique.mockResolvedValue(mockReservation);
+      mockPrisma.$transaction.mockImplementation((cb: (prisma: any) => Promise<any>) => cb(mockPrisma));
+
+      mockPrisma.reservation.update.mockResolvedValue({ ...mockReservation, status: 'CANCELLED' });
+      mockPrisma.user.update.mockResolvedValue({ wallet: 1095 });
+      mockPrisma.transaction.create.mockResolvedValue({ amount: 5, type: 'CANCELLATION_FEE' });
+      mockPrisma.event.update.mockResolvedValue({ remainingTickets: 52 });
 
       const result = await reservationService.cancelReservation('res-1');
 
       expect(result).toEqual({
         message: "Reservation cancelled successfully",
-        responseCode: 200
+        responseCode: 200,
+        updatedEvent: expect.any(Object)
       });
+
+      expect(mockPrisma.$transaction).toHaveBeenCalled();
+      expect(mockPrisma.reservation.update).toHaveBeenCalledWith(expect.objectContaining({
+        where: { reservationId: 'res-1' },
+        data: { status: 'CANCELLED' }
+      }));
+      expect(mockEmailService.sendCancellationEmail).toHaveBeenCalled();
+expect(mockEmailService.sendCancellationNotificationToManager).toHaveBeenCalled();
+
     });
   });
+
 
   describe('getSumOfPaidAmounts', () => {
     it('should calculate the sum of paid amounts for an event', async () => {

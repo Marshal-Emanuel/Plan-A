@@ -41,6 +41,9 @@ model Event {
   reservations  Reservation[]
   reviews       Review[]  // Add this line
   manager       User      @relation("ManagedEvents", fields: [managerId], references: [userId])
+  transactions Transaction[]
+  
+  
 }
 
 model User {
@@ -62,7 +65,20 @@ model User {
   managedEvents   Event[]   @relation("ManagedEvents")
   systemReviews   SystemReview[]
    appeals     Appeal[]
+   transactions Transaction[]
 }
+model Transaction {
+  transactionId String   @id @default(uuid())
+  userId        String
+  eventId       String
+  amount        Float
+  type          String
+  createdAt     DateTime @default(now())
+  user          User     @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction)
+  event         Event    @relation(fields: [eventId], references: [eventId])
+}
+
+
 model Appeal {
   appealId    String   @id @default(uuid())
   userId      String

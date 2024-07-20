@@ -138,6 +138,43 @@ export class UsersController {
         const result = await service.resetPassword(token, newPassword);
         res.status(result.responseCode).json(result);
     }
+
+
+    //topUp user wallet
+    async topUpWallet(req: Request, res: Response) {
+        try {
+            const userId = req.params.userId;
+            const { amount } = req.body;
+    
+            if (!amount || isNaN(amount) || amount <= 0) {
+                return res.status(400).json({ message: "Invalid amount" });
+            }
+    
+            const result = await service.topUpWallet(userId, amount);
+    
+            return res.status(result.responseCode).json(result);
+        } catch (error) {
+            console.error("Error in topUpWallet controller:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+    
+    
+
+
+
+    //user balance 
+    async getUserBalance(req: Request, res: Response) {
+        try {
+            const userId = req.params.userId;
+            const response = await service.getUserBalance(userId);
+            return res.status(response.responseCode).json(response);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+    
     
     
 

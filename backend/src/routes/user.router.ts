@@ -19,6 +19,10 @@ user_router.put('/approveRequest/:userId',verifyToken, isAdmin, userController.v
 user_router.post('/appeal', verifyToken, userController.createAppeal);
 user_router.post('/forgot-password', userController.initiatePasswordReset);
 user_router.post('/reset-password', userController.resetPassword);
+user_router.get('/balance/:userId', verifyToken,isUser, userController.getUserBalance);
+user_router.put('/topup/:userId', verifyToken, userController.topUpWallet);
+
+
 
 
 export default user_router;

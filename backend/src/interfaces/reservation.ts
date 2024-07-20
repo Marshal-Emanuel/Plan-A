@@ -11,4 +11,9 @@ export interface Reservation {
     createdAt: Date;
     updatedAt: Date;
   }
+  export interface CancellationReservation {
+    user: { email: string; name: string };
+    event: { name: string; manager: { email: string; name: string } };
+  }
+  
   

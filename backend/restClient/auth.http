@@ -3,7 +3,7 @@ POST http://localhost:4400/auth/login
 Content-Type: application/json
 
 {
-    "email": "manager.user",
+    "email": "marshcodes@gmail.com",
     "password": "password"
 }
 
@@ -11,4 +11,4 @@ Content-Type: application/json
 ###check details
 GET http://localhost:4400/auth/checkDetails
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNWE1MjM5MC05OGU5LTQyNWItYmUwZS0xOTkyYzNkZDVjZWYiLCJlbWFpbCI6ImViMy41MjcyMS4yMUBzdHVkZW50LmNodWthLmFjLmtlIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjE0NjQ4ODcsImV4cCI6MTcyMTQ2ODQ4N30.ekzIB3Zv1snRJkRBqCh_6FBYNNeSXCQV5y2EMU-jwJM
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6Im1hbmFnZXIiLCJpYXQiOjE3MjE0ODkyOTEsImV4cCI6MTcyMTQ5Mjg5MX0.iBlfflLDO_NYkIUkFKt3I5eLmUnVzRK5GR2ttf5J0sw

@@ -1,7 +1,7 @@
-import { Reservation } from './../interfaces/reservation';
 import { PrismaClient } from "@prisma/client";
 import { EmailService } from './email.service';
 import { Event as LocalEvent } from '../interfaces/events';
+import { Reservation, CancellationReservation } from '../interfaces/reservation';
 
 
 export class ReservationService {
@@ -235,21 +235,58 @@ export class ReservationService {
             };
         }
     }
-
     async cancelReservation(reservationId: string) {
         try {
-            await this.prisma.reservation.update({
-                where: {
-                    reservationId: reservationId
-                },
-                data: {
-                    status: "CANCELLED"
+            const reservation = await this.prisma.reservation.findUnique({
+                where: { reservationId },
+                include: { 
+                    user: true, 
+                    event: { 
+                        include: { manager: true } 
+                    } 
                 }
             });
-
+    
+            if (!reservation) {
+                return { message: "Reservation not found", responseCode: 404 };
+            }
+    
+            const refundAmount = reservation.ammountPaid * 0.95;
+            const feeAmount = reservation.ammountPaid * 0.05;
+    
+            const result = await this.prisma.$transaction(async (prisma) => {
+                await prisma.reservation.update({
+                    where: { reservationId },
+                    data: { status: "CANCELLED" }
+                });
+    
+                await prisma.user.update({
+                    where: { userId: reservation.userId },
+                    data: { wallet: { increment: refundAmount } }
+                });
+    
+                await prisma.transaction.create({
+                    data: {
+                        userId: reservation.userId,
+                        eventId: reservation.eventId,
+                        amount: feeAmount,
+                        type: "CANCELLATION_FEE"
+                    }
+                });
+    
+                return prisma.event.update({
+                    where: { eventId: reservation.eventId },
+                    data: { remainingTickets: { increment: reservation.numberOfPeople } }
+                });
+            });
+    
+            // Send emails asynchronously
+            this.sendCancellationEmails(reservation, refundAmount, feeAmount).catch(console.error);
+    
             return {
                 message: "Reservation cancelled successfully",
-                responseCode: 200
+                responseCode: 200,
+                updatedEvent: result
             };
         } catch (error) {
             console.error("Error cancelling reservation:", error);
@@ -260,6 +297,29 @@ export class ReservationService {
             };
         }
     }
+
+   
+    
+    private async sendCancellationEmails(reservation: CancellationReservation, refundAmount: number, feeAmount: number) {
+        await Promise.all([
+            this.emailService.sendCancellationEmail(
+                reservation.user.email,
+                reservation.user.name,
+                reservation.event.name,
+                refundAmount,
+                feeAmount
+            ),
+            this.emailService.sendCancellationNotificationToManager(
+                reservation.event.manager.email,
+                reservation.event.manager.name,
+                reservation.event.name,
+                reservation.user.name
+            )
+        ]);
+    }
+    
+    
+    
 
    calculatePrice(reservation: any): number {
     let totalPrice = 0;
