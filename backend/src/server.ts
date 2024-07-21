@@ -17,6 +17,7 @@ app.use("/auth", auth_router);
 app.use("/reviews", reviews_router);
 app.use("/systemReview", systemReview_router);
 
+
 app.get("/", (req: Request, res: Response) =>{
     res.send("Server Plana is running")
 })

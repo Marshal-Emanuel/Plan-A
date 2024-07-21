@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -10,7 +10,49 @@ import { RouterLink } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements AfterViewInit {
+
+ constructor() {}
+
+ ngAfterViewInit(): void {
+  const script = document.createElement('script');
+  script.src = 'https://static-bundles.visme.co/forms/vismeforms-embed.js';
+  script.async = true;
+  document.body.appendChild(script);
+
+  window.addEventListener('message', this.handleMessage.bind(this), false);
+}
+ngOnDestroy(): void {
+  // Clean up event listener when component is destroyed
+  window.removeEventListener('message', this.handleMessage.bind(this), false);
+}
+
+handleMessage(event: MessageEvent): void {
+  // Ensure the message is from the expected source
+  if (event.origin !== 'https://my.visme.co') {
+    console.log('Form Data:', event.data);
+    return;
+    console.log('Form Data:', event.data);
+  }
+
+
+  const formData = event.data;
+  console.log('Form Data:', formData);
+
+  // Forward data to your backend
+  this.submitFormData(formData);
+}
+submitFormData(data: any): void {
+  // Implement this method to send data to your backend
+  // Example:
+  // this.formSubmissionService.submitForm(data).subscribe(response => {
+  //   console.log('Data submitted successfully', response);
+  // }, error => {
+  //   console.error('Error submitting data', error);
+  // });
+}
+
+
   name: string = '';
   email: string = '';
   phone: string = '';

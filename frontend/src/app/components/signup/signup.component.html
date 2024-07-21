@@ -1,50 +1,63 @@
+
 <body>
+  <div class="animation-container">
+  <svg id="walkingCharacter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+    <!-- SVG content will be loaded dynamically -->
+  </svg>
   <div class="container">
-    <h1 class="logo">Plan-A</h1>
-    <h2 class="title">Create your account</h2>
-    <form class="signup-form" #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
-      <div class="input-group">
-        <img class="iconsform" src="/assets/icons/username.png" alt="">
-        <input  type="text" id="name" placeholder="Name" required [(ngModel)]="name" name="name">
-        <div *ngIf="signupForm.controls['name']?.invalid && signupForm.controls['name']?.touched" class="error-message">
-          Name is required
-        </div>
+    <!-- Your existing form HTML -->
+  
+      <div class="container">
+        <h1 class="logo">Plan-A</h1>
+        <h2 class="title">Create your account</h2>
+        <form class="signup-form" #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
+          <div class="input-group">
+            <img class="iconsform" src="/assets/icons/username.png" alt="">
+            <input  type="text" id="name" placeholder="Name" required [(ngModel)]="name" name="name">
+            <div *ngIf="signupForm.controls['name']?.invalid && signupForm.controls['name']?.touched" class="error-message">
+              Name is required
+            </div>
+          </div>
+          <div class="input-group">
+            <img class="iconsform" src="/assets/icons/email.png" alt="">
+            <input type="email" id="email" placeholder="Email Address" required email [(ngModel)]="email" name="email">
+            <div *ngIf="signupForm.controls['email']?.invalid && signupForm.controls['email']?.touched" class="error-message">
+              <span *ngIf="signupForm.controls['email']?.errors?.['required']">Email is required</span>
+              <span *ngIf="signupForm.controls['email']?.errors?.['email']">Invalid email address</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <img class="iconsform" src="/assets/icons/phone.png" alt="">
+            <input type="tel" id="phone" placeholder="Phone number" required pattern="^[0-9]{10}$" [(ngModel)]="phone" name="phone">
+            <div *ngIf="signupForm.controls['phone']?.invalid && signupForm.controls['phone']?.touched" class="error-message">
+              <span *ngIf="signupForm.controls['phone']?.errors?.['required']">Phone number is required</span>
+              <span *ngIf="signupForm.controls['phone']?.errors?.['pattern']">Invalid phone number. Must be 10 digits.</span>
+            </div>
+          </div>
+          <div  class="input-group">
+            <img class="iconsform" src="/assets/icons/password.png" alt="">
+            <input type="password" id="password" placeholder="Password" required [(ngModel)]="password" name="password">
+            <div *ngIf="signupForm.controls['password']?.invalid && signupForm.controls['password']?.touched" class="error-message">
+              Password is required
+            </div>
+          </div>
+          <div class="input-group">
+            <img class="iconsform" src="/assets/icons/password.png" alt="">
+            <input type="password" id="confirm-password" placeholder="Confirm your password" required [(ngModel)]="confirmPassword" name="confirmPassword">
+            <div *ngIf="signupForm.controls['confirmPassword']?.invalid && signupForm.controls['confirmPassword']?.touched" class="error-message">
+              Confirm password is required
+            </div>
+            <div *ngIf="passwordMismatch" class="error-message">
+              Passwords do not match
+            </div>
+          </div>
+          <button type="submit" class="submit-btn">CREATE ACCOUNT</button>
+        </form>
+        <p class="login-link">Already have an account? <a href="#">Sign in</a></p>
       </div>
-      <div class="input-group">
-        <img class="iconsform" src="/assets/icons/email.png" alt="">
-        <input type="email" id="email" placeholder="Email Address" required email [(ngModel)]="email" name="email">
-        <div *ngIf="signupForm.controls['email']?.invalid && signupForm.controls['email']?.touched" class="error-message">
-          <span *ngIf="signupForm.controls['email']?.errors?.['required']">Email is required</span>
-          <span *ngIf="signupForm.controls['email']?.errors?.['email']">Invalid email address</span>
-        </div>
-      </div>
-      <div class="input-group">
-        <img class="iconsform" src="/assets/icons/phone.png" alt="">
-        <input type="tel" id="phone" placeholder="Phone number" required pattern="^[0-9]{10}$" [(ngModel)]="phone" name="phone">
-        <div *ngIf="signupForm.controls['phone']?.invalid && signupForm.controls['phone']?.touched" class="error-message">
-          <span *ngIf="signupForm.controls['phone']?.errors?.['required']">Phone number is required</span>
-          <span *ngIf="signupForm.controls['phone']?.errors?.['pattern']">Invalid phone number. Must be 10 digits.</span>
-        </div>
-      </div>
-      <div  class="input-group">
-        <img class="iconsform" src="/assets/icons/password.png" alt="">
-        <input type="password" id="password" placeholder="Password" required [(ngModel)]="password" name="password">
-        <div *ngIf="signupForm.controls['password']?.invalid && signupForm.controls['password']?.touched" class="error-message">
-          Password is required
-        </div>
-      </div>
-      <div class="input-group">
-        <img class="iconsform" src="/assets/icons/password.png" alt="">
-        <input type="password" id="confirm-password" placeholder="Confirm your password" required [(ngModel)]="confirmPassword" name="confirmPassword">
-        <div *ngIf="signupForm.controls['confirmPassword']?.invalid && signupForm.controls['confirmPassword']?.touched" class="error-message">
-          Confirm password is required
-        </div>
-        <div *ngIf="passwordMismatch" class="error-message">
-          Passwords do not match
-        </div>
-      </div>
-      <button type="submit" class="submit-btn">CREATE ACCOUNT</button>
-    </form>
-    <p class="login-link">Already have an account? <a href="#">Sign in</a></p>
+      
+ 
+    
   </div>
+</div>
 </body>

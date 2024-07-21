@@ -1,0 +1,20 @@
+<svg id="animatedCharacter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 400">
+  <defs>
+    <style>
+      .cls-1{fill:#00c4f4;}
+      .cls-2{fill:#ffd700;}
+      .cls-3{fill:#fff;}
+      .cls-4{stroke:#000;stroke-width:2;}
+    </style>
+  </defs>
+  <title>Human Figure</title>
+  <circle class="cls-2 cls-4" cx="100" cy="50" r="40"/>
+  <rect class="cls-1 cls-4" x="60" y="90" width="80" height="140" rx="20"/>
+  <rect id="left-leg" class="cls-1 cls-4" x="40" y="230" width="40" height="120"/>
+  <rect id="right-leg" class="cls-1 cls-4" x="120" y="230" width="40" height="120"/>
+  <rect id="left-arm" class="cls-1 cls-4" x="40" y="130" width="20" height="90"/>
+  <rect id="right-arm" class="cls-1 cls-4" x="140" y="130" width="20" height="90"/>
+  <circle class="cls-3 cls-4" cx="85" cy="40" r="5"/>
+  <circle class="cls-3 cls-4" cx="115" cy="40" r="5"/>
+  <path class="cls-4" d="M85,65 Q100,80 115,65"/>
+</svg>
