@@ -7,6 +7,7 @@ import { gsap } from 'gsap';
 import { HttpClient } from '@angular/common/http';
 import { SuccessMessageComponent } from '../success-message/success-message.component';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
+import { AuthServiceTsService } from '../../Services/auth.service.ts.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private authService: AuthServiceTsService
   ) {}
 
   ngOnInit(): void {
@@ -101,11 +103,24 @@ export class LoginComponent implements OnInit, AfterViewInit {
             // Store token and role in local storage
             localStorage.setItem('token', response.token);
             localStorage.setItem('role', response.role);
-  
-            this.resetAndShowMessage(true);
-            setTimeout(() => {
-              this.performExitAnimation();
-            }, 2000);
+            console.log("token res:", response.token)
+
+            // Get user details and store userId in local storage
+            this.authService.getCheckDetails(response.token).subscribe(
+              detailsResponse => {
+                console.log("auth res", detailsResponse.info.userId)
+                localStorage.setItem('userId', detailsResponse.info.userId);
+                this.resetAndShowMessage(true);
+                setTimeout(() => {
+                  this.performExitAnimation();
+                }, 2000);
+              },
+              error => {
+                console.error('Error fetching user details', error);
+                this.responseMessage = 'Login failed. Please try again.';
+                this.resetAndShowMessage(false);
+              }
+            );
           } else {
             this.resetAndShowMessage(false);
           }
@@ -120,7 +135,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       console.log('Form is invalid');
     }
   }
-  
+
   performExitAnimation() {
     gsap.to('.container', {
       x: 100,
@@ -128,7 +143,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       duration: 1,
       onComplete: () => {
         const role = localStorage.getItem('role');
-        switch(role) {
+        switch (role) {
           case 'admin':
             this.router.navigate(['/adashboard']);
             break;
@@ -142,7 +157,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  
 
   resetAndShowMessage(isSuccess: boolean) {
     this.showSuccessMessage = false;
@@ -161,6 +175,4 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.showErrorMessage = false;
     }, 4000);
   }
-
- 
 }

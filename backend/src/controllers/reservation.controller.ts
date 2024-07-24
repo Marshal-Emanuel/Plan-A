@@ -108,6 +108,39 @@ export class ReservationController {
             console.log(err);
         }
     }
+
+    // Get sum of paid amounts for reservations based on event and manager
+    async getSumOfPaidAmountsForManager(req: Request, res: Response) {
+        try {
+          const managerId = req.params.id as string; // Retrieve managerId from req.params
+          console.log('Manager ID:', managerId); // Log the managerId to check its value
+    
+          if (!managerId) {
+            return res.status(400).json({ message: 'Manager ID is required' });
+          }
+    
+          const response = await service.getTotalPaidAmountForManager(managerId);
+          return res.json(response);
+        } catch (error) {
+          console.error('Error fetching total paid amount for manager:', error);
+          return res.status(500).json({ message: 'An unexpected error occurred.'});
+        }
+      }
+
+
+    // get reservations for one user
+    async getReservationsForUser(req: Request, res: Response) {
+        try {
+            const userId = req.params.userId;
+            const reservations = await service.getReservationsForUser(userId);
+            return res.json(reservations);
+        } catch (error) {
+            console.error("Error fetching reservations for user:", error);
+            return res.status(500).json({ message: "An unexpected error occurred." });
+        }
+    }
+
+      
     
 
 

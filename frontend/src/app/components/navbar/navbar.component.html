@@ -1,0 +1,28 @@
+<nav class="navbar">
+    <div class="logo">
+      <span style="margin-left: 20px; font-size: 25px;">PlaN-A</span>
+    </div>
+  
+    <ul class="nav-links">
+      <li><a routerLink="/home">Home</a></li>
+      <li><a routerLink="/events">Events</a></li>
+      <li><a routerLink="/wishlist">Wishlist</a></li>
+      <li><a routerLink="/tickets">My Tickets</a></li>
+      <li><a routerLink="/notifications">Notifications</a></li>
+    </ul>
+  
+    <div class="user-info" (mouseover)="showDropdown = true" (mouseleave)="showDropdown = false">
+      <img [src]="profileIcon" [ngClass]="{ 'logged-in': isLoggedIn, 'logged-out': !isLoggedIn }" alt="User Icon">
+      <div class="dropdown" *ngIf="showDropdown">
+        <ng-container *ngIf="!isLoggedIn">
+          <a routerLink="/login">Login</a>
+          <a routerLink="/signup">Sign Up</a>
+        </ng-container>
+        <ng-container *ngIf="isLoggedIn">
+          <a routerLink="/profile">Go to Profile</a>
+          <button (click)="logout()">Logout</button>
+        </ng-container>
+      </div>
+    </div>
+  </nav>
+  

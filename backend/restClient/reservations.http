@@ -1,16 +1,16 @@
 ### //new reservation
 POST http://localhost:4400/reservation/createReservation
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNWE1MjM5MC05OGU5LTQyNWItYmUwZS0xOTkyYzNkZDVjZWYiLCJlbWFpbCI6ImViMy41MjcyMS4yMUBzdHVkZW50LmNodWthLmFjLmtlIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjE0Njg2MDYsImV4cCI6MTcyMTQ3MjIwNn0.__tEv8u4sXeSFh3dM5lHPQinQoMBdHMtkTCnWl0K9SE
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxODE0OTM0LCJleHAiOjE3MjE4MTg1MzR9.MfvWF_UlHGeE8_nN6fiJx7TekagtPLyb1iGUf-6UDrM
 
 {
-  "eventId": "b5b7b129-20b9-460a-bb45-315af121d29c",
-  "userId": "a5a52390-98e9-425b-be0e-1992c3dd5cef",
+  "eventId": "2805bcb7-61ef-4bc6-8707-6a90d4385d1a",
+  "userId": "45a94fc1-1c08-487c-9dfe-0abde49a4040",
   "isRegular": true,
   "isVIP": false,
   "isChildren": false,
   "proxyName": "proxy",
-  "numberOfPeople": 2,
+  "numberOfPeople": 0,
   "createdAt": "2021-09-29T00:00:00.000Z",
   "updatedAt": "2021-09-29T00:00:00.000Z"
 }
@@ -27,11 +27,16 @@ GET http://localhost:4400/reservation/getAllReservations
 Content-type: application/json
 token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTQ3MDQ0LCJleHAiOjE3MjExNTA2NDR9.Ejuepm7fvnMAsCQewEA6eeql5DdzAqzEEfdkm9itAmc
 
+
+### //get reservations for one user
+GET http://localhost:4400/reservation/getReservationsForUser/45a94fc1-1c08-487c-9dfe-0abde49a4040
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxODQwNTY5LCJleHAiOjE3MjE4NDQxNjl9.H-2zWH_AiMrUwATqsF02w61J3eX5HlSUDtA1j34N6Lo
+
 ### //get reservation by id
 GET http://localhost:4400/reservation/getOneReservation/0e6d2bd8-dac5-4ae4-8e59-35c945a49866
 Content-type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmYjQtOTBmNi0yMzIyOTgxYTZmZDciLCJlbWFpbCI6Im1hcnNoY29kZXNAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3MjEzMjI3OTksImV4cCI6MTcyMTMyNjM5OX0.gcmfXIXcFfmR-mEpLH39KfEKyj4bUIecurHemBjFN4w
-
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZGIxM2QzYS1iMTQ4LTRmYzMtYTE3ZS1iZDgwZWRiYjlkOWEiLCJlbWFpbCI6InVzZXIudXNlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzIxODQwMTcxLCJleHAiOjE3MjE4NDM3NzF9.s0W0NdpTl6azB3oQ0G2pkCMdU0cxu9ANS92MkgTPKP0
 
 ### //calculate price
 POST http://localhost:4400/reservation//calculatePrice
@@ -40,11 +45,16 @@ POST http://localhost:4400/reservation//calculatePrice
 ### //get sum of paid amounts for reservations based on event  and manager provide eventid
 GET http://localhost:4400/reservation/getSumOfPaidAmounts/91243764-d90a-4bcc-92ae-8df95eb4ebb6&
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTQ5NDczLCJleHAiOjE3MjExNTMwNzN9.849TBWzks2FVag9onGidiJlFcTOGCSJFJvcMcuJyo7A
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE2NDA2MjYsImV4cCI6MTcyMTY0NDIyNn0.m21s75snQAJJRY_hDxxTkZqh6uEK2FYrNORc12JHYSg
 
 
 ### //get total paid amount for all events
 GET http://localhost:4400/reservation/getTotalPaidAmountForAllEvents
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMTQ5NDczLCJleHAiOjE3MjExNTMwNzN9.849TBWzks2FVag9onGidiJlFcTOGCSJFJvcMcuJyo7A
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE2NDExNDQsImV4cCI6MTcyMTY0NDc0NH0.jyxnIhtdSKgvyeLT68CwgwLn8lg3x5XLfQ-AaEVtdGk
+
+### //get usm of paid amounts for all events based on manager
+GET http://localhost:4400/reservation/getSumOfPaidAmountManager/90179a98-3a4c-434e-9c9a-f9db2d7f7b90
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNjQxMDczLCJleHAiOjE3MjE2NDQ2NzN9.nYpu9xav1ysPSXgI-eiVKYtaQlQUXbU1Og_ufGtUJQ4
 

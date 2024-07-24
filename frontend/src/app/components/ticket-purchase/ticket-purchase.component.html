@@ -1,34 +1,76 @@
 <body>
+  <div class="checkout-container">
+    <div class="product-details">
+      <img [src]="event.image" alt="Event Image" class="event-image">
+      <h3>{{ event.name }}</h3>
+      <p>Available Tickets: {{ event.remainingTickets }}</p>
 
-<div class="ticket-form">
-  <h2>Select Ticket Type</h2>
-  <form>
-    <div class="ticket-type">
-      <label>
-        <input type="radio" name="ticketType" value="group" [(ngModel)]="selectedTicketType">
-        Group Ticket
-      </label>
-      <label>
-        <input type="radio" name="ticketType" value="single" [(ngModel)]="selectedTicketType">
-        Single Ticket
-      </label>
+      <div class="ticket-type-selection">
+        <h3 style="padding: 5PX 10px; border-bottom: 1px solid #00C4f4; width: fit-content;">Select Ticket Type</h3>
+       <span class="selection">
+
+        <div class="radio-group">
+          <input type="radio" id="regular" name="ticketType" [(ngModel)]="selectedTicketType" value="regular"
+            (change)="updatePricing()" [disabled]="!event.hasRegular">
+          <label for="regular">Regular (Ksh. {{ event.regularPrice }})</label>
+          <span *ngIf="!event.hasRegular" class="not-available">Not Available</span>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="vip" name="ticketType" [(ngModel)]="selectedTicketType" value="vip"
+            (change)="updatePricing()" [disabled]="!event.hasVIP">
+          <label for="vip">VIP (Ksh. {{ event.vipPrice }})</label>
+          <span *ngIf="!event.hasVIP" class="not-available">Not Available</span>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="children" name="ticketType" [(ngModel)]="selectedTicketType" value="children"
+            (change)="updatePricing()" [disabled]="!event.hasChildren">
+          <label for="children">Children (Ksh. {{ event.childrenPrice }})</label>
+          <span *ngIf="!event.hasChildren" class="not-available">Not Available</span>
+        </div>
+
+       </span>
+      </div>
+
+      <div class="ticket-quantity">
+        <label for="numberOfPeople">Number of Tickets:</label>
+        <input type="number" id="numberOfPeople" [(ngModel)]="numberOfPeople" (change)="updatePricing()" min="1"
+          [max]="event.remainingTickets">
+      </div>
     </div>
 
-    <div class="ticket-details" *ngIf="selectedTicketType === 'group'">
-      <label>
-        Number of People:
-        <input type="number" name="groupSize" [(ngModel)]="groupSize" min="1" required>
-      </label>
-    </div>
+    <div class="payment-details">
+      <h3>Payment Information</h3>
+      <div class="input-group">
+        <label for="proxyName">Cardholder's Name:</label>
+        <input type="text" id="proxyName" [(ngModel)]="proxyName">
+      </div>
 
-    <div class="ticket-details" *ngIf="selectedTicketType === 'single'">
-      <label>
-        Name:
-        <input type="text" name="personName" [(ngModel)]="personName" required>
-      </label>
-    </div>
+      <div class="total-price">
+        <span>Total Price:</span>
+        <span class="price">Ksh. {{ totalPrice }}</span>
+      </div>
 
-    <button type="submit" class="purchase-btn">Purchase Ticket</button>
-  </form>
-</div>
+      <button (click)="purchaseTicket()"
+        [disabled]="!selectedTicketType || numberOfPeople > event.remainingTickets">Place Order</button>
+
+      <div class="user-balance">
+        <h3>User Balance: Ksh. {{ userBalance }}</h3>
+        <button (click)="openFundWalletPopup()" class="fund-wallet-btn">Fund Wallet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fund Wallet Popup -->
+  <div class="popup" *ngIf="showFundWalletPopup">
+    <h3>Top Up Wallet</h3>
+    <div class="input-group">
+      <label for="topUpAmount">Enter Amount:</label>
+      <input type="number" id="topUpAmount" [(ngModel)]="topUpAmount">
+    </div>
+    <button (click)="topUpWallet()">Top Up</button>
+    <button (click)="closeFundWalletPopup()" class="close-popup">Close</button>
+  </div>
+
+  <app-success-message *ngIf="showSuccessMessage" [message]="successMessage"></app-success-message>
+  <app-error-message *ngIf="showErrorMessage" [message]="errorMessage"></app-error-message>
 </body>

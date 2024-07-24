@@ -7,6 +7,8 @@ body {
   justify-content: center;
   height: 100vh;
   overflow: auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 main {
@@ -19,14 +21,12 @@ main {
 
 .ticket-wrapper {
   display: flex;
-  /* flex-direction: column; */
-  margin-bottom: 20px; /* Add space between tickets */
+  margin-bottom: 20px;
+  width: 80%;
 }
 
 .ticketIcons {
-  display: flex;
-  align-items: center;
-  height: 30px;
+  height: 20px;
 }
 
 .evnt {
@@ -39,21 +39,26 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  background-color: #ffffff37;
+  padding: 20px;
+  background-color: #e3e3e31e;
   border-radius: 25px;
   margin: 10px 0;
-  width: 410px;
+  width: 800px;
   height: 200px;
-  padding: 20px;
 }
 
 .my-tickets {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
+  border: 1px dashed #00ccff;
+  border-right: none;
 }
 
+.my-tickets2{
+  border: 1px dashed #00ccff;
+  border-left: none
+}
 .left {
   height: 100%;
   display: flex;
@@ -62,26 +67,28 @@ section {
 }
 
 .tickt {
-  font-size: 25px;
+  font-size: 20px;
   color: #00ccff;
 }
 
 #evntt {
-  font-size: 50px;
+  height: 30px;
 }
 
 .rightR {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transform: rotate(270deg);
   transform-origin: center center;
   font-family: 'Libre Barcode 128 Text', cursive;
-  width: 300px;
-  height: 50px;
-  margin-right: -140px;
+  width: 150px;
+  height: 150px;
   text-align: center;
   font-size: 40px;
-  /* right: 20px; */
-  transform: translate(-50%, -50%) rotate(270deg);
-  /* background-color: #00ccff; */
+  margin-bottom: 50px;
+  margin-left: 50px;
+
 }
 
 .profile {
@@ -107,11 +114,12 @@ section {
 
 .btm {
   width: 85%;
-  /* background-color: #00ccff; */
 }
 
 .phone {
   display: flex;
   justify-content: flex-end;
   padding-top: 20px;
+  position: absolute;
+  margin-left: 470px;
 }

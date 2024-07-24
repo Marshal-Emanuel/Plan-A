@@ -1,29 +1,17 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-  <!-- <title>Upcoming Events</title> -->
-  <!-- <link rel="stylesheet" href="styles.css"> -->
-  <!-- Include Angular Material styles -->
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@angular/material/prebuilt-themes/deeppurple-amber.css" rel="stylesheet">
-</head> -->
-<body>
-  <div class="top">
-    <div class="searchSection">
-      <span class="logo" style="background-color: transparent;">Plan-A</span>
-      <input type="search" name="search" id="search" placeholder="Search here">
-      <img style="background-color: transparent; height: 25px;" class="search" src="/assets/icons/searchWhite.png" alt="">
-    </div>
+<app-navbar></app-navbar>
+<div class="top">
+  
+  <div class="searchSection">
+    <span class="logo" style="background-color: transparent;">Plan-A</span>
+    <input type="search" name="search" id="search" placeholder="Search here">
+    <img style="background-color: transparent; height: 25px; margin-top: 50px;" class="search" src="/assets/icons/searchWhite.png" alt="">
   </div>
+</div>
 
-  <div class="main-content">
-    <div class="sidebar">
-      <div class="filters">
-
+<div class="main-content">
+  <div class="sidebar">
+    <div class="filters">
       <h5 style="background-color: transparent;">Filters</h5>
-
       <div style="background-color: transparent;" class="filter-option">
         <select style="background-color: transparent;" id="category">
           <option value="" disabled selected>Select a category</option>
@@ -44,78 +32,55 @@
         <input type="text" id="location" placeholder=" ">
         <label style="background-color: transparent;" for="location">Location</label>
       </div>
-
-      </div>
-
-      <div style="background-color: transparent;" class="calendar">
-        <h5 style="background-color: transparent;">Calendar</h5>
-        <div id="calendar-placeholder">
-          <!-- Calendar content i will add dynamically -->
-        </div>
-      </div>
     </div>
 
-    <div class="upcoming-events">
-      <h3 class="upcoming-events-title">Upcoming Events</h3>
+    <div style="background-color: transparent;" class="calendar">
+      <h5 style="background-color: transparent;">Calendar</h5>
+      <div id="calendar-placeholder">
+        <!-- Calendar content i will add dynamically -->
+      </div>
+    </div>
+  </div>
 
-      <div class="upcoming-events-container">
+  <div class="upcoming-events">
+    <h3 class="upcoming-events-title">Upcoming Events</h3>
 
-        <div *ngFor="let event of upcomingEvents" class="upcoming-events-item">
-          <div class="upcoming-events-item-img">
-            <img [src]="event.eventImg" alt="Event Image">
-          </div>
-          <div class="eventInfo">
-            <div class="uptop">
-              <div class="status">
-                Virtual
-                <img style="background-color: transparent; height: 23px;" src="/assets/icons/live.png" alt="Verified Icon">
-              </div>
-              <div class="attenders">
-                <img style="background-color: transparent;" src="/assets/icons/users.png" alt="Attenders Icon">
-                <span class="attenders">{{ event.attendees }}</span>
-              </div>
-
+    <div class="upcoming-events-container">
+      <div *ngFor="let event of upcomingEvents" class="upcoming-events-item">
+        <div class="upcoming-events-item-img">
+          <img [src]="event.image" alt="Event Image">
+        </div>
+        <div class="eventInfo">
+          <div class="uptop">
+            <div class="status">
+              Virtual
+              <img style="background-color: transparent; height: 23px;" src="/assets/icons/live.png" alt="Verified Icon">
             </div>
-          <!-- <div class="attending">
             <div class="attenders">
               <img style="background-color: transparent;" src="/assets/icons/users.png" alt="Attenders Icon">
-              <span class="attenders">{{ event.attendees }}</span>
+              <span class="attenders">{{ event.numberOfTickets - event.remainingTickets }}</span>
             </div>
-          </div> -->
-            <h3  class="event-name">{{ event.eventName }}</h3>
-            <p class="desc">{{ event.description }}</p>
-
-            <div class="crucial">
-              <p class="location">
-                <img src="/assets/icons/location.png" alt="Location Icon"> {{ event.location }}
-              </p>
-              <span class="date">
-                <img src="/assets/icons/date.png" alt="Date Icon"> {{ event.date }}
-              </span>
-            </div>
-            <!-- <span class="time">
-              <img src="/assets/icons/time.png" alt="Time Icon"> {{ event.time }}
-            </span> -->
-            <div class="btm">
-              <button class="ticketbtn" routerLink="/event"><img class="ticketIcon" src="/assets/icons/ticket.png" alt="">Get your ticket</button>
-              <p class="phone">
-                <img src="/assets/icons/phone.png" alt="Phone Icon"> {{ event.phoneNumber }}
-              </p>
-            </div>
+          </div>
+          <h3 class="event-name">{{ event.name }}</h3>
+          <p class="desc">{{ event.description }}</p>
+          <div class="crucial">
+            <p class="location">
+              <img src="/assets/icons/location.png" alt="Location Icon"> {{ event.location }}
+            </p>
+            <span class="date">
+              <img src="/assets/icons/date.png" alt="Date Icon">{{ event.date | date:'shortDate' }} {{ event.time | date:'shortTime' }}
+            </span>
+          </div>
+          <div class="btm">
+            <button class="ticketbtn" [routerLink]="['/event', event.eventId]">
+              <img class="ticketIcon" src="/assets/icons/ticket.png" alt="Ticket Icon">Get your ticket
+            </button>
+            <p class="phone">
+              <img src="/assets/icons/phone.png" alt="Phone Icon"> {{ event.manager.phoneNumber }}
+            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Include Angular and Angular Material scripts -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular-animate.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular-aria.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular-messages.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@angular/material@13.0.0/bundles/material.umd.min.js"></script> -->
-
-  <!-- Your Angular component and logic script -->
-  <!-- <script src="app.component.js"></script> -->
-</body>
-<!-- </html> -->
+</div>

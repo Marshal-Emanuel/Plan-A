@@ -65,11 +65,11 @@ export class ReservationService {
     
                 let ticketPrice = 0;
                 if (reservation.isRegular) {
-                    ticketPrice = event.regularPrice;
+                    ticketPrice = event.regularPrice ?? 0;
                 } else if (reservation.isVIP) {
-                    ticketPrice = event.vipPrice;
+                    ticketPrice = event.vipPrice ?? 0;
                 } else if (reservation.isChildren) {
-                    ticketPrice = event.childrenPrice;
+                    ticketPrice = event.childrenPrice ?? 0;
                 } else {
                     throw new Error("Invalid ticket type selected.");
                 }
@@ -235,6 +235,45 @@ export class ReservationService {
             };
         }
     }
+
+
+    //get reservations for one user
+    async getReservationsForUser(userId: string) {
+        try {
+            const reservations = await this.prisma.reservation.findMany({
+                where: { userId },
+                include: {
+                    event: {
+                        include: {
+                            manager: true
+                        }
+                    },
+                    user: true
+                }
+            });
+
+            return reservations.map(reservation => ({
+                ...reservation,
+                event: {
+                    ...reservation.event,
+                    managerName: reservation.event.manager.name,
+                    managerPhoneNumber: reservation.event.manager.phoneNumber
+                },
+                totalPrice: this.calculatePrice(reservation)
+            }));
+
+        } catch (error) {
+            console.error("Error fetching reservations for user:", error);
+            return {
+                message: "An unexpected error occurred.",
+                responseCode: 500,
+                error: error
+            };
+        }
+    }
+
+
+
     async cancelReservation(reservationId: string) {
         try {
             const reservation = await this.prisma.reservation.findUnique({
@@ -403,7 +442,44 @@ export class ReservationService {
             };
         }
     }
+
+    //total ammount earned by manager per manager id(sum of all ammount paid for all events under given manaer id)
     
+  async getTotalPaidAmountForManager(managerId: string): Promise<{ totalPaidAmount: number; responseCode: number; message?: string }> {
+    try {
+      console.log('Received Manager ID:', managerId); // Log the managerId to check its value
+
+      const events = await this.prisma.event.findMany({
+        where: {
+          managerId: managerId
+        },
+        include: {
+          reservations: true
+        }
+      });
+
+      const totalPaidAmount = events.reduce((sum, event) => {
+        const eventTotal = event.reservations.reduce((eventSum, reservation) => {
+          return eventSum + reservation.ammountPaid;
+        }, 0);
+        return sum + eventTotal;
+      }, 0);
+
+      console.log(`Total paid amount for manager ${managerId}: ${totalPaidAmount}`);
+
+      return {
+        totalPaidAmount: totalPaidAmount,
+        responseCode: 200
+      };
+    } catch (error) {
+      console.error("Error calculating total paid amount for manager:", error);
+      return {
+        totalPaidAmount: 0,
+        responseCode: 500,
+        message: "An unexpected error occurred."
+      };
+    }
+  }   
     
     
 }

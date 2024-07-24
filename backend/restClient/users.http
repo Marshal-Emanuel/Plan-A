@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
     "name": "EB3",
-    "phoneNumber": "07137525",
-    "email": "eb3.52721.21@student.chuka.ac.ke",
+    "phoneNumber": "077525",
+    "email": "eb3.5272.21@student.chuka.ac.ke",
     "password": "password",
     "profilePicture": "https://res.cloudinary.com/dxvzhx7nr/image/upload/v1621230000/Profile%20Pictures/1621230000000-IMG_20210517_124013.jpg",
     "isSubscribedToMails": true
@@ -20,21 +20,21 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzO
 
 
 ###update user
-PUT http://localhost:4400/user/updateUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+PUT http://localhost:4400/user/updateUser/90179a98-3a4c-434e-9c9a-f9db2d7f7b90
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzNzE0NjcsImV4cCI6MTcyMTM3NTA2N30.vsXwLqCb96aUXI4TqSOtIqacRZ8L4avIt2Er9KOFuBY
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzNGUtOWM5YS1mOWRiMmQ3ZjdiOTAiLCJlbWFpbCI6Im1hbmFnZXIyQGdtYWlsLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNzE5MDA3LCJleHAiOjE3MjE3MjI2MDd9.Qmf_ug8vplNSjHUjRGN4DEamTspsF2QDf6-aFZ8tUzQ
 
 {
-    "name": "John Doe",
-    "phoneNumber": "12345667890",
-    "email": "johny@mdail.com",
+    "name": "Manager 2",
+    "phoneNumber": "1234586567890",
+    "email": "manager2@gmail.com",
     "password": "password",
     "profilePicture": "https://res.cloudinary.com/dxvzhx7nr/image/upload/v1621230000/Profile%20Pictures/1621230000000-IMG_20210517_124013.jpg",
     "isSubscribedTomails": false
 }
 
 ###Get user by id
-GET http://localhost:4400/user/getUser/4916c73b-9235-4d62-a13a-bb050e1f2f1e
+GET http://localhost:4400/user/getUser/45a94fc1-1c08-487c-9dfe-0abde49a4040
 
 
 

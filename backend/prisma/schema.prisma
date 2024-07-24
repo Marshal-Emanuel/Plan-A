@@ -20,19 +20,19 @@ model Event {
   moreInfo      String
   location      String
   date          DateTime
-  time          DateTime
+  time         String
   numberOfTickets Int     @default(0)
   remainingTickets Int     @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   image         String?   @db.VarChar(MAX)
-  hasRegular    Boolean   @default(true)
-  regularPrice  Float     @default(0)
-  hasVIP        Boolean   @default(false)
-  vipPrice      Float     @default(0)
-  hasChildren   Boolean   @default(false)
-  childrenPrice Float     @default(0)
-  isPromoted    Boolean   @default(false)
+  hasRegular    Boolean?   @default(true)
+  regularPrice  Float?     @default(0)
+  hasVIP        Boolean?   @default(false)
+  vipPrice      Float?     @default(0)
+  hasChildren   Boolean?   @default(false)
+  childrenPrice Float?     @default(0)
+  isPromoted    Boolean?   @default(false)
   promoDetails  String?
   status        String    @default("ACTIVE")
   nature        String    @default("PENDING")

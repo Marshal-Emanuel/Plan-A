@@ -1,4 +1,5 @@
 <body>
+  <app-navbar style="margin-left: -40px;"></app-navbar>
   <div class="main">
     <div class="eventImage">
       <img [src]="eventImage" alt="Event Image">
@@ -20,7 +21,7 @@
             </div>
           </div>
           <div class="btm">
-            <button class="ticketbtn" routerLink="/event">
+            <button class="ticketbtn" [routerLink]="['/ticket', eventId]" routerLinkActive="active">
               <img class="ticketIcon" src="/assets/icons/ticket.png" alt="Ticket Icon">Get your ticket
             </button>
           </div>
@@ -36,7 +37,7 @@
             </p>
           </div>
           <br>
-          <div  class="location">
+          <div class="location">
             <p style="display: flex; align-items: center; gap: 10px;">
               <img style="height: 25px;" src="/assets/icons/location.png" alt="Location Icon">{{ eventLocation }}
             </p>
@@ -50,7 +51,7 @@
         </div>
         <!-- Host starts here -->
         <div class="host">
-          <div class="hostInfo">
+          <div class="hostInfo" style="margin-top:60px">
             <img class="profileimg" [src]="hostImage" alt="Host Image">
             <div class="profInfo">
               <div class="hostName">{{ hostName }}</div>
@@ -62,11 +63,8 @@
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
-
 
   <!-- Similar Events -->
   <div class="similarEvents">

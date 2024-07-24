@@ -34,4 +34,14 @@ export class UserService {
     return this.http.put(`${this.apiUrl}/user/updateUser/${userId}`, userDetails, { headers });
   }
 
+  getUserBalance(userId: string, headers: HttpHeaders): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/balance/${userId}`, { headers });
+  }
+
+  topUpUserWallet(userId: string, amount: number, headers: HttpHeaders): Observable<any> {
+    const requestData = { amount };
+    return this.http.put(`${this.apiUrl}/user/topup/${userId}`, requestData, { headers });
+  }
+
+
 }

@@ -202,7 +202,7 @@ export class EmailService {
                                               <ul style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">
                                                   <li>Event ID: ${event.eventId}</li>
                                                   <li>Date: ${event.date.toLocaleDateString()}</li>
-                                                  <li>Time: ${event.time.toLocaleTimeString()}</li>
+                                                  <li>Time: ${event.time}</li>
                                                   <li>Location: ${event.location}</li>
                                               </ul>
                                               <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">We look forward to seeing you there!</p>
@@ -301,7 +301,7 @@ export class EmailService {
                                               <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">${event.description}</p>
                                               <ul style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">
                                                   <li>Date: ${event.date.toLocaleDateString()}</li>
-                                                  <li>Time: ${event.time.toLocaleTimeString()}</li>
+                                                  <li>Time: ${event.time}</li>
                                                   <li>Location: ${event.location}</li>
                                               </ul>
                                           </td>
@@ -694,7 +694,7 @@ export class EmailService {
                                                   <p style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">The event "${eventName}" has been updated. Here are the new details:</p>
                                                   <ul style="margin: 0 0 12px 0; font-size: 16px; line-height: 24px;">
                                                       <li>Date: ${updatedEvent.date.toLocaleDateString()}</li>
-                                                      <li>Time: ${updatedEvent.time.toLocaleTimeString()}</li>
+                                                      <li>Time: ${updatedEvent.time}</li>
                                                       <li>Location: ${updatedEvent.location}</li>
                                                       <li>Description: ${updatedEvent.description}</li>
                                                   </ul>

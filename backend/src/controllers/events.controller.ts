@@ -238,6 +238,26 @@ async getEventCountForManager(req: Request, res: Response) {
       return res.status(500).json({ error: 'Failed to get event count for manager' });
     }
   }
+
+
+
+  //event by manager id
+  async getEventsByManagerId(req: Request, res: Response) {
+    try {
+    const managerId = req.params.id; // Retrieve managerId from req.params
+    console.log('Manager ID:', managerId); // Log the managerId to check its value
+
+    if (!managerId) {
+        return res.status(400).json({ message: 'Manager ID is required' });
+    }
+
+    const response = await service.getEventsByManager(managerId);
+    return res.json(response);
+    } catch (error) {
+    console.error('Error fetching total paid amount for manager:', error);
+    return res.status(500).json({ message: 'An unexpected error occurred.'});
+    }
+}
 }
 
   

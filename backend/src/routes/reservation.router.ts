@@ -57,6 +57,11 @@ reservation_router.get('/getTotalPaidAmountForAllEvents', verifyToken, (req: Ext
     }
 }, reservationController.getTotalPaidAmountForAllEvents);
 
+// Get sum of paid amounts for reservations based on manager
+reservation_router.get('/getSumOfPaidAmountManager/:id', verifyToken, reservationController.getSumOfPaidAmountsForManager);
+
+
+reservation_router.get('/getReservationsForUser/:userId', verifyToken, reservationController.getReservationsForUser);
 
 
 

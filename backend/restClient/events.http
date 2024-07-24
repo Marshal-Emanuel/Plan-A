@@ -32,6 +32,10 @@ Content-Type: application/json
 token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNDczNjU0LCJleHAiOjE3MjE0NzcyNTR9.UHv4GT60jM3hAOo4INhDIG6esL-N3cMEO5g5vBBc4ow
 
 
+###get event by id
+GET http://localhost:4400/event/getEvent/ef204698-c2e2-46c2-97c9-27fca73ab4a1
+
+
 ### events where nature is APPROVED and status ACTIVE(should dISPLAY THESE TO THE USER)
 GET http://localhost:4400/event/getActiveEvents
 
@@ -42,13 +46,19 @@ Content-Type: application/json
 token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODI4NTEsImV4cCI6MTcyMTM4NjQ1MX0.CkvbqkfdaDP0obzfRg0ecp8f3HjyZ89OkI79qmGxCrs
 
 
-###get event by id
-GET http://localhost:4400/event/getEvents/e2e8ef6e-7a07-46fc-b412-ff9344353192
+###get event by id(proably manager id)
+GET http://localhost:4400/event/managerEvents/ef204698-c2e2-46c2-97c9-27fca73ab4a1
 
-###update event////manager
+
+###get events by managerId 
+GET http://localhost:4400/event/managerEvents/e756eeab-99c0-4779-ad15-4d1e97312a93
+Content-Type:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNzI0MzI5LCJleHAiOjE3MjE3Mjc5Mjl9.4n-TWZa2nC2874RJhzq4_9lGE46eisoSR_qLSTCe0zY
+
+
+###update event////manager pass eventId
 PUT http://localhost:4400/event/updateEvent/d9c3c83a-5c76-43dc-b7fc-3733f68748d3
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNDc0MDYzLCJleHAiOjE3MjE0Nzc2NjN9.Ec3X2WmrCk7bwHY97_ehE0TEDFKc6KjTO_u4oqfz0SQ
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzNGUtOWM5YS1mOWRiMmQ3ZjdiOTAiLCJlbWFpbCI6Im1hbmFnZXIyQGdtYWlsLmNvbSIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNzQ3NTE5LCJleHAiOjE3MjE3NTExMTl9.8Q6DBOnwCqCcmNx-gnn9NbwyrFPWl4gD0x3Sn4YpCtA
 
 {
   "name": "Pool",
@@ -79,9 +89,9 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzN
 
 
 ###  //approve event(Admin)
-PUT http://localhost:4400/event/approveEvent/b5b7b129-20b9-460a-bb45-315af121d29c
+PUT http://localhost:4400/event/approveEvent/ef204698-c2e2-46c2-97c9-27fca73ab4a1
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODkwNDEsImV4cCI6MTcyMTM5MjY0MX0.a7sVlHIDgkUvrKCwmlEFCoPghgQj6ThVMBpCK4NFst0
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE3MTY3MzksImV4cCI6MTcyMTcyMDMzOX0.mDljd8lJR9-IS-KwrJuVwQxi0aVVYX0CZ-H_sIHiBWM
                 
 
 
@@ -125,15 +135,15 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzO
 
 
 ### ///totalRSVPsManager/:id'   managers should see this for their stats
-GET http://localhost:4400/event/totalRSVPsManager/e756eeab-99c0-4779-ad15-4d1e97312a93
+GET http://localhost:4400/event/totalRSVPsManager/90179a98-3a4c-434e-9c9a-f9db2d7f7b90
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxMzgyMDIyLCJleHAiOjE3MjEzODU2MjJ9.xJC6DKQcIuEzfoT1j3q3QomRunqL_1RoUQGKUzmH6Eg
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MDE3OWE5OC0zYTRjLTQzNGUtOWM5YS1mOWRiMmQ3ZjdiOTAiLCJlbWFpbCI6Im1hbmFnZXIyLnVzZXIiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTcyMTYzOTE4NCwiZXhwIjoxNzIxNjQyNzg0fQ.Jq2cbhT9tFUYi6tuCGSJROMufOG5E4SYCWlP1Vhm3_s
 
 
 ### Get Event Count for all the  Managers
 GET http://localhost:4400/event/managerEventCounts
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODIyNTAsImV4cCI6MTcyMTM4NTg1MH0.epkAXCCxv1EuRE9-XS9fG-2-FWS3Wvx9z1_sYm8NOzI
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzU2ZWVhYi05OWMwLTQ3NzktYWQxNS00ZDFlOTczMTJhOTMiLCJlbWFpbCI6Im1hbmFnZXIudXNlciIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzIxNjM3Njg3LCJleHAiOjE3MjE2NDEyODd9.0yPSEQVdy5xtMf1ajSdQBYSvpzQTwNPaqIskiQnrqmE
 
 
 ### Get Event Count for a Specific Manager

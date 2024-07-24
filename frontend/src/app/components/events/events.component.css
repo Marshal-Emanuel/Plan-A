@@ -20,7 +20,8 @@ body {
   align-items: center;
   height: 20vh;
   background: url('/assets/images/baner.jpg') no-repeat center/cover;
-  filter: brightness(70%);
+  filter: brightness(65%);
+  z-index: 0;
 }
 
 #search {
@@ -31,11 +32,13 @@ body {
   padding: 20px;
   font-size: 20px;
   background-color: #1a1a2e8e;
+  margin-top: 50px;
 }
 
 #search::placeholder {
   color: rgb(167, 166, 166);
   font-size: 15px;
+  margin-top: -5px;
 }
 
 #search:focus {
@@ -60,6 +63,7 @@ body {
   font-size: 40px;
   position: absolute;
   margin-left: -1400px;
+  display: none;
 }
 
 .upcoming-events-title {
@@ -126,10 +130,10 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(7, 3, 40, 0.5); /* Adjust the color and opacity as needed */
-  transition: background 0.3s ease-in-out; /* Smooth transition */
+  background: rgba(12, 11, 14, 0.372); 
+  transition: background 0.3s ease-in-out; 
   border-radius: 20px 0 0 20px;
-  pointer-events: none; /* Allow interactions with the image */
+  pointer-events: none; 
 }
 
 .upcoming-events-item-img:hover::before {

@@ -19,7 +19,7 @@ export const routes: Routes = [
   {path: '', component: LandingPageComponent},
   {path: 'events', component: EventsComponent},
   // Viewing one event add /event/:id
-  {path: 'event', component: UserEventComponent},
+  {path: 'event/:id', component: UserEventComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
   {path: 'tickets', component: UserticketsComponent},
@@ -31,6 +31,6 @@ export const routes: Routes = [
   // manager viewing one event, usisahau kueka /event/:id
   {path: 'mevent', component: ManagerViewEventComponent},
   {path: 'adashboard', component: AdminDashboardComponent},
-  {path: 'ticket', component: TicketPurchaseComponent},
+  {path: 'ticket/:id', component: TicketPurchaseComponent},
   {path: 'profile', component: ProfileComponent}
 ];

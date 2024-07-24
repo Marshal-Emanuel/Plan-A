@@ -119,4 +119,11 @@ updateEvent(eventId: string, eventDetails: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/event/updateEvent/${eventId}`, eventDetails, { headers });
 }
 
+//get events
+getActiveEvents(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/event/getActiveEvents`);
+}
+
+
+
 }

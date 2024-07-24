@@ -368,8 +368,8 @@ async updateUser(userId: string, user: User) {
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };
         }
     }
-    
-    
+
+       
     
     
     

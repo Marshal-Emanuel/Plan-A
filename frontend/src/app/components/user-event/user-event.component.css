@@ -9,11 +9,16 @@
 body {
   background-color: #030B15;
   color: white;
+  display: flex;
+  flex-direction: column;
+  
+  /* align-items: ce; */
 }
 
 .eventImage {
-  height: 300px;
-  padding: 20px 20px;
+  height: 400px;
+  padding: 10px 20px;
+  padding: 10px 40px;
 }
 
 .eventImage img {
@@ -35,6 +40,7 @@ body {
   gap: 20%;
   align-items: center;
   margin-bottom: 20px;
+  padding: 0 40px;
 }
 
 .description {
@@ -161,13 +167,16 @@ button:hover::after {
 .host {
   position: absolute;
   top: 0;
-  margin-top: 18px;
+  /* margin-top: 16px; */
+  margin-top: 10px;
   margin-right: -2px;
+  margin-left: 25px;
   border-radius: 10px;
-  height: 263px;
+  height: 380px;
   padding: 40px;
   background: linear-gradient(to right, #0C131D, transparent);
   background-color: transparent;
+  /* margin-bottom: 5px; */
 }
 
 .hostInfo {
@@ -182,6 +191,7 @@ button:hover::after {
   width: 70px;
   border-radius: 50%;
   border: 1px solid #00C4F4;
+  
 }
 
 .hostProffesion {

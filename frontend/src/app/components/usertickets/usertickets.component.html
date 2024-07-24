@@ -1,18 +1,21 @@
 <body>
   <main>
-    <p style="font-size: 25px; margin-bottom: 20px; color: #03c2f2; ">My Tickets</p>
+    <p style="font-size: 25px; margin-bottom: 20px; color: #03c2f2;">My Tickets</p>
     <div *ngFor="let ticket of tickets" class="ticket-wrapper">
       <section class="my-tickets">
         <div class="left">
           <p class="evnt tickt">
-            <img class="ticketIcon" id="evntt" src="/assets/icons/ticket.png" alt=""> {{ ticket.eventTitle }}
+            <img class="ticketIcon" id="evntt" src="/assets/icons/ticket.png" alt="Ticket Icon"> 
+            {{ ticket.event.name }}
           </p>
           <div class="ps">
             <p class="evnt">
-              <img class="ticketIcons" src="/assets/icons/location.png" alt=""> {{ ticket.eventLocation }}
+              <img class="ticketIcons" src="/assets/icons/location.png" alt="Location Icon"> 
+              {{ ticket.event.location }}
             </p>
             <p class="evnt">
-              <img class="ticketIcons" src="/assets/icons/event.png" alt=""> {{ ticket.eventDate }}
+              <img class="ticketIcons" src="/assets/icons/event.png" alt="Event Icon"> 
+              {{ ticket.event.date | date: 'mediumDate' }} at {{ ticket.event.time }}
             </p>
           </div>
         </div>
@@ -20,21 +23,22 @@
       <section class="my-tickets2">
         <div class="rightL">
           <div class="profile">
-            <img [src]="ticket.hostImage" alt="Host Image">
+            <img [src]="ticket.event.manager.profilePicture" alt="Host Image">
             <div class="prof">
               <p style="font-size: 20px;">Hosted by</p>
-              <p style="color: #03c2f2;">{{ ticket.hostName }}</p>
+              <p style="color: #03c2f2;">{{ ticket.event.manager.name }}</p>
             </div>
           </div>
           <div class="btm">
-            {{ ticket.invitationMessage }}
+            {{ ticket.event.moreInfo }}
           </div>
           <div style="display: flex; align-items: center; gap: 10px;" class="phone">
-            <img class="ticketIcons" src="/assets/icons/phone.png" alt="Phone Icon"> {{ ticket.contactNumber }}
+            <img class="ticketIcons" src="/assets/icons/phone.png" alt="Phone Icon"> 
+            {{ ticket.event.manager.phoneNumber }}
           </div>
         </div>
         <div class="rightR">
-          {{ ticket.ticketPrice }}
+          <span>Ksh. {{ ticket.totalPrice }}</span>
         </div>
       </section>
     </div>

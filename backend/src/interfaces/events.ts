@@ -4,7 +4,7 @@ export interface Event {
   moreInfo: string;
   location: string;
   date: Date;
-  time: Date;
+  time: string;
   numberOfTickets: number;
   remainingTickets: number;
   image: string | null | undefined;

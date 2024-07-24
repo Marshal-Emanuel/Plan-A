@@ -7,10 +7,15 @@ const event_router = Router();
 const eventController = new EventsController();
 
 event_router.post('/createEvent',verifyToken, isManager, eventController.createEvent);
+
 event_router.get('/getEvents',verifyToken,isAdmin, eventController.getEvents);
+
 event_router.get('/getActiveEvents', eventController.getActiveEvents);
+
 event_router.get('/getPendingEvents',verifyToken,isAdmin, eventController.getPendingEvents);
-event_router.get('/getEvents/:id', eventController.getEventById);
+
+event_router.get('/getEvent/:id', eventController.getEventById);
+
 event_router.put('/updateEvent/:id', verifyToken, isManager, eventController.updateEvent);
 event_router.put('/cancelEvent/:id',verifyToken, isManager, eventController.cancelEvent);
 event_router.put('/approveEvent/:id',verifyToken, isAdmin, eventController.approveEvent);
@@ -25,6 +30,8 @@ event_router.get('/getTotalReservations',verifyToken, isAdmin, eventController.g
 event_router.get('/totalRSVPsManager/:id',verifyToken,isManager, eventController.getReservationsForManager);
 event_router.get('/managerEventCounts',verifyToken,isAdmin,eventController.getEventCountForManagers);
 event_router.get('/managerEventCount/:managerId', eventController.getEventCountForManager);
+//getEventsByManagerId
+event_router.get('/managerEvents/:id',verifyToken,isManager,eventController.getEventsByManagerId)
 
 
 export default event_router;
