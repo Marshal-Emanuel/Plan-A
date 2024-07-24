@@ -11,7 +11,7 @@ body {
 
 .container {
     background-color:#061426;
-    padding: 40px;
+    padding: 20px 40px;
     border-radius: 10px;
     width: 300px;
     border: 1px solid #00c4f4;
@@ -23,7 +23,7 @@ body {
   font-family: 'Monoton', cursive;
     text-align: center;
     font-size: 35px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-weight: normal;
     letter-spacing: 2px;
 }
@@ -32,7 +32,7 @@ body {
     text-align: center;
     color: #00c4f4;
     font-size: 18px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 form {
     display: flex;
@@ -49,7 +49,7 @@ form {
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     background-color: #061426;
     border: none;
     /* border-radius: 5px; */
@@ -171,4 +171,25 @@ button:hover::after {
   width: 100px;
   height: 100px;
   left: -150px;
+}
+.password-requirements p {
+  color: rgb(243, 67, 67);
+  font-size: 0.8em;
+  margin: 2px 0;
+}
+
+.password-requirements p.met {
+  color: rgb(67, 243, 135)
+}
+.input-group input[type="checkbox"] {
+  width: auto;
+  margin-right: 10px;
+  background-color: transparent;
+  color: #5a6a7e;
+}
+
+.input-group label {
+  display: inline-block;
+  vertical-align: middle;
+  color: #5a6a7e;
 }

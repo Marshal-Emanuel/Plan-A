@@ -1,0 +1,36 @@
+.success-message {
+  background-color: rgba(0, 244, 134, 0.139);
+  border: 1px solid #00f476;
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-in 3.5s forwards;
+}
+
+.success-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+p {
+  color: #00f49b;
+  margin: 0;
+  font-size: 14px;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

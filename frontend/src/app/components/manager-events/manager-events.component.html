@@ -1,26 +1,26 @@
 <div class="main">
   <div class="txtxt">Your planned Events</div>
   <div class="events">
-    <div *ngFor="let event of events" class="eventinfo">
+    <div *ngFor="let event of events" class="eventinfo" (click)="onEventClick(event.eventId)">
       <div class="event">
         <div class="event-image">
-          <img [src]="event.imageUrl" alt="event" />
+          <img [src]="event.image" alt="event" />
         </div>
         <div class="event-container">
           <div class="event-details">
-            <div [ngClass]="{'status-past': event.status === 'Past Event', 'status-pending': event.status === 'Pending approval', 'status-approved': event.status === 'Approved'}" class="status">{{ event.status }}</div>
+            <div [ngClass]="{'nature-past': event.nature === 'Past Event', 'nature-pending': event.nature === 'Pending approval', 'nature-approved': event.nature === 'Approved'}" class="nature">{{ event.nature }}</div>
             <div class="event-name">{{ event.name }}</div>
             <div class="event-date"> <img src="assets/icons/date.png" alt=""> {{ event.date }}</div>
             <div class="event-time"><img src="assets/icons/time.png" alt=""> {{ event.time }}</div>
             <div class="event-location"> <img src="assets/icons/location.png" alt=""> {{ event.location }}</div>
-            <div class="sold-tickets"> <img src="assets/icons/ticketw.png" alt=""> {{ event.soldTickets }} sold out tickets</div>
+            <div class="sold-tickets"> <img src="assets/icons/ticketw.png" alt=""> {{ event.remainingTickets }} Remaining tickets</div>
           </div>
-          <div [ngClass]="{'barinfo-past': event.status === 'Past Event', 'barinfo-pending': event.status === 'Pending approval', 'barinfo-approved': event.status === 'Approved'}" class="barinfo">
-            <div [ngClass]="{'bar-past': event.status === 'Past Event', 'bar-pending': event.status === 'Pending approval', 'bar-approved': event.status === 'Approved'}" class="bar" [style.height]="(event.soldTickets / event.totalTickets) * 100 + '%'"></div>
+          <div [ngClass]="{'barinfo-past': event.nature === 'Past Event', 'barinfo-pending': event.nature === 'Pending approval', 'barinfo-approved': event.nature === 'APPROVED'}" class="barinfo">
+            <div [ngClass]="{'bar-past': event.nature === 'APPROVED', 'bar-pending': event.nature === 'PENDING', 'bar-approved': event.nature === 'APPROVED'}" class="bar" [style.height]="(event.remainingTickets / event.numberOfTickets) * 100 + '%'"></div>
           </div>
         </div>
         <div class="barlabel">
-          <img src="assets/icons/users.png" alt=""> {{ event.soldTickets }}/{{ event.totalTickets }}
+          <img src="assets/icons/users.png" alt=""> {{ event.numberOfTickets-event.remainingTickets }}/{{ event.numberOfTickets }}
         </div>
       </div>
     </div>

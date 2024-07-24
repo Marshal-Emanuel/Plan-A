@@ -9,20 +9,23 @@ import { ErrorMessageComponent } from '../error-message/error-message.component'
 import { SuccessMessageComponent } from '../success-message/success-message.component';
 
 @Component({
-  selector: 'app-event-form',
+  selector: 'app-update-event',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     FileToUmageUrlPipe, 
-    RouterLink, SuccessMessageComponent, ErrorMessageComponent
+    RouterLink,
+    SuccessMessageComponent,
+    ErrorMessageComponent
   ],
-  templateUrl: './event-form.component.html',
-  styleUrls: ['./event-form.component.css']
+  templateUrl: './update-event.component.html',
+  styleUrl: './update-event.component.css'
 })
-export class EventFormComponent implements OnInit, OnDestroy {
+export class UpdateEventComponent implements OnInit, OnDestroy {
   @Input() eventId: string | undefined;
   @Output() cancelEvent = new EventEmitter<void>();
+
   eventName: string = '';
   eventType: string = '';
   location: string = '';
@@ -39,27 +42,18 @@ export class EventFormComponent implements OnInit, OnDestroy {
   promoDetails: string = '';
   description: string = '';
   moreInfo: string = '';
-  image: string = ''; // Changed from array to single string
+  image: string = '';
   files: File[] = [];
   dropzone!: Dropzone;
-  today: string | number | Date | undefined;
-  private router: any;
   managerId: string;
 
   showSuccessMessage: boolean = false;
   showErrorMessage: boolean = false;
   responseMessage: string = '';
-  selectedEvent: null | undefined;
- 
-  
+
   constructor(private eventService: EventsService, private elementRef: ElementRef) {
     const userId = localStorage.getItem('userId');
-    const cleanedUserId = userId ? userId.replace(/"/g, '') : '';
-    this.managerId = cleanedUserId;
-  }
-
-  ngOnDestroy(): void {
-    // Method implementation here if needed
+    this.managerId = userId ? userId.replace(/"/g, '') : '';
   }
 
   ngOnInit(): void {
@@ -67,16 +61,33 @@ export class EventFormComponent implements OnInit, OnDestroy {
     if (this.eventId) {
       this.loadEventData();
     }
+    console.log('Event ID:', this.eventId);
+  }
+
+  ngOnDestroy(): void {
+    if (this.dropzone) {
+      this.dropzone.destroy();
+    }
   }
 
   loadEventData() {
     if (!this.eventId) return;
+    
 
     this.eventService.getEventById(this.eventId).subscribe(event => {
+      console.log('Event data:', event);
       this.eventName = event.name;
       this.eventType = event.eventType;
       this.location = event.location;
-      this.eventDate = new Date(event.date).toISOString().split('T')[0]; // Format date
+      if (event.date) {
+        const dateObj = new Date(event.date);
+        if (!isNaN(dateObj.getTime())) {
+          this.eventDate = dateObj.toISOString().split('T')[0];
+        } else {
+          console.error('Invalid date received:', event.date);
+          this.eventDate = ''; // Set to empty string or default value
+        }
+      }
       this.eventTime = event.time;
       this.numberOfTickets = event.numberOfTickets;
       this.hasRegular = event.hasRegular;
@@ -90,29 +101,33 @@ export class EventFormComponent implements OnInit, OnDestroy {
       this.description = event.description;
       this.moreInfo = event.moreInfo;
       this.image = event.image;
+
+      // If using Dropzone, you might want to display the existing image
+      if (this.dropzone && this.image) {
+        let mockFile = { name: 'Existing Image', size: 12345 };
+        this.dropzone.emit('addedfile', mockFile);
+        this.dropzone.emit('thumbnail', mockFile, this.image);
+        this.dropzone.emit('complete', mockFile);
+      }
     });
   }
 
   private initializeDropzone(): void {
-    this.dropzone = new Dropzone(
-      this.elementRef.nativeElement.querySelector('.dropzone'),
-      {
-        url: '/your-upload-endpoint', // This won't be used
-        autoProcessQueue: false,
-        addRemoveLinks: true,
-      }
-    );
+    this.dropzone = new Dropzone(this.elementRef.nativeElement.querySelector('.dropzone'), {
+      url: '/dummy-url',
+      autoProcessQueue: false,
+      addRemoveLinks: true,
+      maxFiles: 1
+    });
 
     this.dropzone.on('addedfile', (file: File) => {
-      this.files.push(file);
+      this.files = [file];
       this.readFile(file);
     });
 
-    this.dropzone.on('removedfile', (file: File) => {
-      this.files.splice(this.files.indexOf(file), 1);
-      if (file.name === this.image) {
-        this.image = '';
-      }
+    this.dropzone.on('removedfile', () => {
+      this.files = [];
+      this.image = '';
     });
   }
 
@@ -127,8 +142,8 @@ export class EventFormComponent implements OnInit, OnDestroy {
   async uploadFile(file: File): Promise<string> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', 'shoppie'); // Your Cloudinary preset
-    formData.append('cloud_name', 'dr0qq0taf'); // Your Cloudinary cloud name
+    formData.append('upload_preset', 'shoppie');
+    formData.append('cloud_name', 'dr0qq0taf');
 
     const response = await fetch(
       'https://api.cloudinary.com/v1_1/dr0qq0taf/image/upload',
@@ -139,7 +154,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
     );
 
     const data = await response.json();
-    return data.url; // Return the URL of the uploaded image
+    return data.url;
   }
 
   onSubmit(form: NgForm): void {
@@ -167,43 +182,47 @@ export class EventFormComponent implements OnInit, OnDestroy {
             managerId: this.managerId,
           };
 
-          if (this.eventId) {
-            this.updateEvent(eventData);
-          } else {
-            this.createEvent(eventData);
-          }
+          this.updateEvent(eventData);
         })
         .catch((error) => {
           console.error('Error uploading file', error);
+          this.responseMessage = 'Error uploading file. Please try again.';
+          this.resetAndShowMessage(false);
         });
     } else {
-      console.error('No files to upload');
+      // If no new file is uploaded, use the existing image URL
+      const eventData = {
+        name: this.eventName,
+        eventType: this.eventType,
+        location: this.location,
+        date: new Date(this.eventDate),
+        time: this.eventTime,
+        numberOfTickets: this.numberOfTickets,
+        hasRegular: this.hasRegular,
+        regularPrice: this.regularPrice,
+        hasVIP: this.hasVIP,
+        vipPrice: this.vipPrice,
+        hasChildren: this.hasChildren,
+        childrenPrice: this.childrenPrice,
+        isPromoted: this.isPromoted,
+        promoDetails: this.promoDetails,
+        description: this.description,
+        moreInfo: this.moreInfo,
+        image: this.image,
+        managerId: this.managerId,
+      };
+
+      this.updateEvent(eventData);
     }
   }
 
-  createEvent(eventData: any): void {
-    this.eventService.createEvent(eventData).subscribe({
-      next: (response) => {
-        console.log('Data sent to backend:', eventData);
-        this.responseMessage = response.message;
-        if (response.responseCode === 201) {
-          console.log('Event response', response);
-          this.responseMessage = response.message;
-          this.resetAndShowMessage(true);
-        } else {
-          this.resetAndShowMessage(false);
-        }
-      },
-      error: (error) => {
-        console.error('Error creating event', error);
-        this.responseMessage = 'Event creation failed. Please try again.';
-        this.resetAndShowMessage(false);
-      },
-    });
-  }
-
   updateEvent(eventData: any): void {
-    this.eventService.updateEvent(this.eventId!, eventData).subscribe({
+    if (!this.eventId) {
+      console.error('Event ID is missing');
+      return;
+    }
+
+    this.eventService.updateEvent(this.eventId, eventData).subscribe({
       next: (response) => {
         console.log('Event updated:', response);
         this.responseMessage = response.message;
@@ -224,7 +243,7 @@ export class EventFormComponent implements OnInit, OnDestroy {
   resetAndShowMessage(isSuccess: boolean) {
     this.showSuccessMessage = false;
     this.showErrorMessage = false;
-  
+
     setTimeout(() => {
       if (isSuccess) {
         this.showSuccessMessage = true;
@@ -232,14 +251,17 @@ export class EventFormComponent implements OnInit, OnDestroy {
         this.showErrorMessage = true;
       }
     }, 10);
+
+    setTimeout(() => {
+      this.showSuccessMessage = false;
+      this.showErrorMessage = false;
+      if (isSuccess) {
+        this.cancelEvent.emit(); // Close the popup after successful update
+      }
+    }, 3000);
   }
 
-  onEditEvent(eventId: string): void {
-    console.log('Edit event received in parent:', eventId);
-    this.eventId = eventId;
-    this.selectedEvent = null;
+  closePopup(): void {
+    this.cancelEvent.emit();
   }
-
-
-
 }

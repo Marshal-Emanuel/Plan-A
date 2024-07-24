@@ -53,6 +53,14 @@ body {
   flex: 1;
   padding-left: 20px;
 }
+.logo {
+  font-family: 'Monoton', cursive;
+  font-weight: 200;
+  margin-left: 20px;
+  font-size: 40px;
+  position: absolute;
+  margin-left: -1400px;
+}
 
 .upcoming-events-title {
   display: flex;

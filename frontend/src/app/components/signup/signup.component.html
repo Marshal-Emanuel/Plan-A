@@ -1,11 +1,18 @@
 
 <body>
+  <app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>
+  <app-error-message *ngIf="showErrorMessage" [message]="responseMessage"></app-error-message>
+  
+
+
   <div class="animation-container">
   <svg id="walkingCharacter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
     <!-- SVG content will be loaded dynamically -->
   </svg>
-  <div class="container">
+  
     <!-- Your existing form HTML -->
+
+    <img src="/assets" alt="">
   
       <div class="container">
         <h1 class="logo">Plan-A</h1>
@@ -13,51 +20,64 @@
         <form class="signup-form" #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
           <div class="input-group">
             <img class="iconsform" src="/assets/icons/username.png" alt="">
-            <input  type="text" id="name" placeholder="Name" required [(ngModel)]="name" name="name">
-            <div *ngIf="signupForm.controls['name']?.invalid && signupForm.controls['name']?.touched" class="error-message">
+            <input type="text" id="name" placeholder="Name" required [(ngModel)]="name" name="name" #nameInput="ngModel">
+            <div *ngIf="nameInput.invalid && (nameInput.dirty || nameInput.touched)" class="error-message">
               Name is required
             </div>
           </div>
           <div class="input-group">
             <img class="iconsform" src="/assets/icons/email.png" alt="">
-            <input type="email" id="email" placeholder="Email Address" required email [(ngModel)]="email" name="email">
-            <div *ngIf="signupForm.controls['email']?.invalid && signupForm.controls['email']?.touched" class="error-message">
-              <span *ngIf="signupForm.controls['email']?.errors?.['required']">Email is required</span>
-              <span *ngIf="signupForm.controls['email']?.errors?.['email']">Invalid email address</span>
+            <input type="email" id="email" placeholder="Email Address" required email [(ngModel)]="email" name="email" #emailInput="ngModel">
+            <div *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)" class="error-message">
+              <span *ngIf="emailInput.errors?.['required']">Email is required</span>
+              <span *ngIf="emailInput.errors?.['email']">Invalid email address</span>
             </div>
           </div>
           <div class="input-group">
             <img class="iconsform" src="/assets/icons/phone.png" alt="">
-            <input type="tel" id="phone" placeholder="Phone number" required pattern="^[0-9]{10}$" [(ngModel)]="phone" name="phone">
-            <div *ngIf="signupForm.controls['phone']?.invalid && signupForm.controls['phone']?.touched" class="error-message">
-              <span *ngIf="signupForm.controls['phone']?.errors?.['required']">Phone number is required</span>
-              <span *ngIf="signupForm.controls['phone']?.errors?.['pattern']">Invalid phone number. Must be 10 digits.</span>
-            </div>
-          </div>
-          <div  class="input-group">
-            <img class="iconsform" src="/assets/icons/password.png" alt="">
-            <input type="password" id="password" placeholder="Password" required [(ngModel)]="password" name="password">
-            <div *ngIf="signupForm.controls['password']?.invalid && signupForm.controls['password']?.touched" class="error-message">
-              Password is required
+            <input type="tel" id="phone" placeholder="Phone number" required pattern="^[0-9]{10}$" [(ngModel)]="phone" name="phone" #phoneInput="ngModel">
+            <div *ngIf="phoneInput.invalid && (phoneInput.dirty || phoneInput.touched)" class="error-message">
+              <span *ngIf="phoneInput.errors?.['required']">Phone number is required</span>
+              <span *ngIf="phoneInput.errors?.['pattern']">Invalid phone number. Must be 10 digits.</span>
             </div>
           </div>
           <div class="input-group">
             <img class="iconsform" src="/assets/icons/password.png" alt="">
-            <input type="password" id="confirm-password" placeholder="Confirm your password" required [(ngModel)]="confirmPassword" name="confirmPassword">
-            <div *ngIf="signupForm.controls['confirmPassword']?.invalid && signupForm.controls['confirmPassword']?.touched" class="error-message">
+            <input type="password" id="password" placeholder="Password" required [(ngModel)]="password" name="password" #passwordInput="ngModel" (focus)="passwordTouched = true">
+            <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)" class="error-message">
+              Password is required
+            </div>
+            <div *ngIf="passwordTouched && !allPasswordRequirementsMet()" class="password-requirements">
+              <p [ngClass]="{'met': hasMinLength()}">At least 8 characters</p>
+              <p [ngClass]="{'met': hasUpperCase()}">One uppercase letter</p>
+              <p [ngClass]="{'met': hasSpecialChar()}">One special character (!#$&*)</p>
+              <p [ngClass]="{'met': hasNumber()}">One number</p>
+            </div>
+          </div>
+          
+          
+          <div class="input-group">
+            <img class="iconsform" src="/assets/icons/password.png" alt="">
+            <input type="password" id="confirm-password" placeholder="Confirm your password" required [(ngModel)]="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel">
+            <div *ngIf="confirmPasswordInput.invalid && (confirmPasswordInput.dirty || confirmPasswordInput.touched)" class="error-message">
               Confirm password is required
             </div>
             <div *ngIf="passwordMismatch" class="error-message">
               Passwords do not match
             </div>
           </div>
-          <button type="submit" class="submit-btn">CREATE ACCOUNT</button>
+          <div class="input-group">
+            <input type="checkbox" id="subscribe" [(ngModel)]="isSubscribedToMails" name="isSubscribedToMails">
+            <label for="subscribe">Subscribe to emails</label>
+          </div>
+          <button type="submit" class="submit-btn" [disabled]="signupForm.invalid">CREATE ACCOUNT</button>
         </form>
+        
         <p class="login-link">Already have an account? <a href="#">Sign in</a></p>
       </div>
       
  
     
   </div>
-</div>
+
 </body>

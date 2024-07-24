@@ -122,22 +122,32 @@ button:hover::after {
   background-color: #206c8017;
   width: 75px;
   border-radius: 100%;
+  margin-left: 70px;
+  padding-bottom: 30px;
 }
 
 .guide-item-1 {
   border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .guide-item-2 {
   border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .guide-item-3 {
   border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .guide-item-4 {
-  border-bottom: none;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .guide-item p {
@@ -199,7 +209,7 @@ button:hover::after {
 
 .upcoming-events-item-img {
   position: relative;
-  height: 250px;
+  height: 265px;
   border-radius: 20px 0 0 20px;
   overflow: hidden;
 }
@@ -300,7 +310,9 @@ button:hover::after {
   /* background-color: #00C4F4; */
   display: flex;
   justify-content: space-between;
-  padding: 50px 100px;
+  padding: 50px 200px 50px 100px;
+  padding-left: 230px;
+  padding-top: 100px;
   gap: 20px;
 }
 
@@ -461,7 +473,8 @@ button:hover::after {
   color: #00C4F4;
   font-size: 30px;
   /* margin-bottom: 50px; */
-  padding: 20;
+  padding: 20px;
+  padding: 60px;
 }
 
 

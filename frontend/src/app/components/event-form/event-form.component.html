@@ -1,117 +1,109 @@
 <div class="form-holder">
-  <div class="form-and-image">
-    <div class="form">
-      <form (ngSubmit)="onSubmit()" #form="ngForm">
+  <app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>
+  <app-error-message *ngIf="showErrorMessage" [message]="responseMessage"></app-error-message>
+  
+
+  <p style="position: absolute; color: red; top: 0; left: 0; margin-top:
+  100px; padding: 10px;  border-bottom: 1px solid red; margin-left: 100px;">Create a new Event</p>
+  <div class="form-and-image" >
+    <div class="form" style="width: 100;">
+      <form (ngSubmit)="onSubmit(form)" #form="ngForm">
         <div class="description">
-          <input
-            type="text"
-            id="event-name"
-            [(ngModel)]="eventName"
-            name="eventName"
-            placeholder="Enter event name..."
-            required
-          />
+          <input type="text" id="event-name" [(ngModel)]="eventName" name="eventName" placeholder="Enter event name..."
+            required />
           <label for="event-name">Enter event name...</label>
         </div>
 
         <div class="description">
-          <select id="event-type" [(ngModel)]="eventType" name="eventType" required>
-            <option value="" disabled selected>Select event type...</option>
-            <option value="Conference">Conference</option>
-            <option value="Concert">Concert</option>
-            <option value="Workshop">Workshop</option>
-            <option value="Exhibition">Exhibition</option>
-          </select>
-          <!-- <label for="event-type">Select event type...</label> -->
+          <input type="text" id="event-type" [(ngModel)]="eventType" name="eventType" required placeholder="Enter event type"/>
+          <label for="event-type">Select event type...</label>
         </div>
 
         <div class="description">
-          <input
-            type="text"
-            id="location"
-            [(ngModel)]="location"
-            name="location"
-            placeholder="Enter event location..."
-            required
-          />
-          <label for="location">Enter event location...</label>
+          <input type="text" id="location" [(ngModel)]="location" name="location" placeholder="Enter location..."
+            required />
+          <label for="location">Enter location...</label>
+        </div>
+
+        <div class="dateTime" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+          
+        <div class="description">
+          <input type="date" id="event-date" [(ngModel)]="eventDate" name="eventDate" required />
+          <label for="event-date">Event date...</label>
         </div>
 
         <div class="description">
-          <input
-            type="date"
-            id="event-date"
-            [(ngModel)]="eventDate"
-            name="eventDate"
-            required
-          />
-          <!-- <label for="event-date">Event Date</label> -->
+          <input type="time" id="event-time" [(ngModel)]="eventTime" name="eventTime" required />
+          <label for="event-time">Event time...</label>
         </div>
-
-        <div class="price-and-tickets">
-          <div class="description">
-            <input
-              class="small"
-              type="number"
-              id="price"
-              [(ngModel)]="price"
-              name="price"
-              placeholder="Ticket Price"
-              required
-            />
-            <label for="price">Ticket Price</label>
-          </div>
-
-          <div class="description">
-            <input
-              class="small"
-              type="number"
-              id="tickets"
-              [(ngModel)]="numberOfTickets"
-              name="numberOfTickets"
-              placeholder="Number of Tickets"
-              required
-            />
-            <label for="tickets">Number of Tickets</label>
-          </div>
         </div>
 
         <div class="description">
-          <textarea
-            id="additional-info"
-            [(ngModel)]="additionalInfo"
-            name="additionalInfo"
-            placeholder="Provide additional information..."
-          ></textarea>
-          <label for="additional-info">Provide additional information...</label>
+          <input type="number" id="number-of-tickets" [(ngModel)]="numberOfTickets" name="numberOfTickets"
+            placeholder="Enter number of tickets..." required />
+          <label for="number-of-tickets">Enter number of tickets...</label>
         </div>
+
+        <div class="description">
+          <input type="checkbox" id="has-regular" [(ngModel)]="hasRegular" name="hasRegular" />
+          <label for="has-regular">Has Regular Tickets</label>
+        </div>
+
+        <div class="description" *ngIf="hasRegular">
+          <input type="number" id="regular-price" [(ngModel)]="regularPrice" name="regularPrice"
+            placeholder="Enter regular price..." />
+          <label for="regular-price">Enter regular price...</label>
+        </div>
+
+        <div class="description">
+          <input type="checkbox" id="has-vip" [(ngModel)]="hasVIP" name="hasVIP" />
+          <label for="has-vip">Has VIP Tickets</label>
+        </div>
+
+        <div class="description" *ngIf="hasVIP">
+          <input type="number" id="vip-price" [(ngModel)]="vipPrice" name="vipPrice" placeholder="Enter VIP price..." />
+          <label for="vip-price">Enter VIP price...</label>
+        </div>
+
+        <div class="description">
+          <input type="checkbox" id="has-children" [(ngModel)]="hasChildren" name="hasChildren" />
+          <label for="has-children">Has Children Tickets</label>
+        </div>
+
+        <div class="description" *ngIf="hasChildren">
+          <input type="number" id="children-price" [(ngModel)]="childrenPrice" name="childrenPrice"
+            placeholder="Enter children price..." />
+          <label for="children-price">Enter children price...</label>
+        </div>
+
+        <div class="description">
+          <input type="checkbox" id="is-promoted" [(ngModel)]="isPromoted" name="isPromoted" />
+          <label for="is-promoted">Is Promoted</label>
+        </div>
+
+        <div class="description" *ngIf="isPromoted">
+          <input type="text" id="promo-details" [(ngModel)]="promoDetails" name="promoDetails"
+            placeholder="Enter promo details..." />
+          <label for="promo-details">Enter promo details...</label>
+        </div>
+
+        <div class="description">
+          <textarea id="description" [(ngModel)]="description" name="description"
+            placeholder="Enter event description..." required></textarea>
+          <label for="description">Enter event description...</label>
+        </div>
+
+        <div class="description">
+          <textarea id="more-info" [(ngModel)]="moreInfo" name="moreInfo" placeholder="Enter more info..."></textarea>
+          <label for="more-info">Enter more info...</label>
+        </div>
+
+        <div  style="margin-left: 470px; position: absolute; top: 0; margin-top: 220px; width :250px" class="dropzone" id="event-image-dropzone">
+          <div class="dz-message">Drop files here or click to upload.</div>
+        </div>
+
+        <button type="submit">Submit</button>
       </form>
-    </div>
-
-    <div class="image-holder">
-      <!-- <div class="image">
-        <img
-          style="height: 400px; margin-left: 20px"
-          src="/assets/images/ill1.svg"
-          alt="."
-        />
-      </div> -->
-
-      <div class="gallery">
-        <h3 style="text-align: center;">Event Images</h3>
-        <div class="dropzone" id="event-dropzone"></div>
-        <!-- <div class="uploaded-images">
-          <div *ngFor="let file of files; let i = index" class="uploaded-image">
-            <img [src]="file | fileToUmageUrl" [alt]="'Uploaded Image ' + i" />
-          </div>
-        </div> -->
-      </div>
-    </div>
-    <div class="buttons">
-      <button class="create" type="button" (click)="onSubmit()">
-        Create Event
-      </button>
-      <button class="cancel" type="button" (click)="onCancel()">Cancel</button>
     </div>
   </div>
 </div>

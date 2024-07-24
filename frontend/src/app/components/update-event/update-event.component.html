@@ -1,0 +1,108 @@
+<div class="update-event-popup">
+    <div class="form-holder">
+      <button class="close-button" (click)="closePopup()">×</button>
+      <h2>Update Event</h2>
+  
+      <app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>
+      <app-error-message *ngIf="showErrorMessage" [message]="responseMessage"></app-error-message>
+  
+      <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+        <div class="form-group">
+          <label for="event-name">Event Name</label>
+          <input type="text" id="event-name" [(ngModel)]="eventName" name="eventName" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="event-type">Event Type</label>
+          <input type="text" id="event-type" [(ngModel)]="eventType" name="eventType" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" [(ngModel)]="location" name="location" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="event-date">Event Date</label>
+          <input type="date" id="event-date" [(ngModel)]="eventDate" name="eventDate" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="event-time">Event Time</label>
+          <input type="time" id="event-time" [(ngModel)]="eventTime" name="eventTime" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="number-of-tickets">Number of Tickets</label>
+          <input type="number" id="number-of-tickets" [(ngModel)]="numberOfTickets" name="numberOfTickets" required>
+        </div>
+  
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="hasRegular" name="hasRegular">
+            Has Regular Tickets
+          </label>
+        </div>
+  
+        <div class="form-group" *ngIf="hasRegular">
+          <label for="regular-price">Regular Price</label>
+          <input type="number" id="regular-price" [(ngModel)]="regularPrice" name="regularPrice">
+        </div>
+  
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="hasVIP" name="hasVIP">
+            Has VIP Tickets
+          </label>
+        </div>
+  
+        <div class="form-group" *ngIf="hasVIP">
+          <label for="vip-price">VIP Price</label>
+          <input type="number" id="vip-price" [(ngModel)]="vipPrice" name="vipPrice">
+        </div>
+  
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="hasChildren" name="hasChildren">
+            Has Children Tickets
+          </label>
+        </div>
+  
+        <div class="form-group" *ngIf="hasChildren">
+          <label for="children-price">Children Price</label>
+          <input type="number" id="children-price" [(ngModel)]="childrenPrice" name="childrenPrice">
+        </div>
+  
+        <div class="form-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="isPromoted" name="isPromoted">
+            Is Promoted
+          </label>
+        </div>
+  
+        <div class="form-group" *ngIf="isPromoted">
+          <label for="promo-details">Promo Details</label>
+          <input type="text" id="promo-details" [(ngModel)]="promoDetails" name="promoDetails">
+        </div>
+  
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" [(ngModel)]="description" name="description" required></textarea>
+        </div>
+  
+        <div class="form-group">
+          <label for="more-info">More Info</label>
+          <textarea id="more-info" [(ngModel)]="moreInfo" name="moreInfo"></textarea>
+        </div>
+  
+        <div class="form-group">
+          <label>Event Image</label>
+          <div class="dropzone" id="event-image-dropzone">
+            <div class="dz-message">Drop files here or click to upload.</div>
+          </div>
+        </div>
+  
+        <button type="submit">Update Event</button>
+      </form>
+    </div>
+  </div>

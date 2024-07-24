@@ -1,81 +1,166 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
+import { UserService } from '../../Services/user.service';
+import { gsap } from 'gsap';
+import { HttpClient } from '@angular/common/http';
+import { SuccessMessageComponent } from '../success-message/success-message.component';
+import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, SuccessMessageComponent, ErrorMessageComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit {
+  email: string = '';
+  password: string = '';
+  showSuccessMessage: boolean = false;
+  showErrorMessage: boolean = false;
+  responseMessage: string = '';
 
- constructor() {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
- ngAfterViewInit(): void {
-  const script = document.createElement('script');
-  script.src = 'https://static-bundles.visme.co/forms/vismeforms-embed.js';
-  script.async = true;
-  document.body.appendChild(script);
-
-  window.addEventListener('message', this.handleMessage.bind(this), false);
-}
-ngOnDestroy(): void {
-  // Clean up event listener when component is destroyed
-  window.removeEventListener('message', this.handleMessage.bind(this), false);
-}
-
-handleMessage(event: MessageEvent): void {
-  // Ensure the message is from the expected source
-  if (event.origin !== 'https://my.visme.co') {
-    console.log('Form Data:', event.data);
-    return;
-    console.log('Form Data:', event.data);
+  ngOnInit(): void {
+    this.loadSVG().then(() => {
+      this.setupAnimations();
+    });
   }
 
+  ngAfterViewInit(): void {
+    // Any additional initialization after view init
+  }
 
-  const formData = event.data;
-  console.log('Form Data:', formData);
+  loadSVG() {
+    return this.http.get('assets/walking-character.svg', { responseType: 'text' })
+      .toPromise()
+      .then((svg: string | undefined) => {
+        const walkingCharacter = document.getElementById('walkingCharacter');
+        if (walkingCharacter && svg) {
+          walkingCharacter.innerHTML = svg;
+        }
+      });
+  }
 
-  // Forward data to your backend
-  this.submitFormData(formData);
-}
-submitFormData(data: any): void {
-  // Implement this method to send data to your backend
-  // Example:
-  // this.formSubmissionService.submitForm(data).subscribe(response => {
-  //   console.log('Data submitted successfully', response);
-  // }, error => {
-  //   console.error('Error submitting data', error);
-  // });
-}
+  setupAnimations() {
+    const frames = ['#frame1', '#frame2', '#frame3', '#frame4', '#frame5', '#frame6', '#frame7', '#frame8'];
+    let currentFrame = 0;
 
+    frames.forEach((frame) => {
+      gsap.set(frame, { display: 'none' });
+    });
 
-  name: string = '';
-  email: string = '';
-  phone: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  passwordMismatch: boolean = false;
+    const showNextFrame = () => {
+      gsap.set(frames[currentFrame], { display: 'none' });
+      currentFrame = (currentFrame + 1) % frames.length;
+      gsap.set(frames[currentFrame], { display: 'block' });
+    };
+
+    gsap.timeline({ repeat: -1 })
+      .to({}, { duration: 0.1, onRepeat: showNextFrame });
+
+    gsap.from('.input-group', {
+      opacity: 0,
+      y: 20,
+      stagger: 0.2,
+      ease: "power2.out"
+    });
+
+    gsap.from('.logo', {
+      duration: 1,
+      opacity: 0,
+      y: -50,
+      ease: "bounce.out",
+      delay: 1
+    });
+
+    gsap.from('.title', {
+      duration: 1,
+      opacity: 0,
+      y: -20,
+      ease: "power2.out",
+      delay: 1.5
+    });
+  }
 
   onSubmit(loginForm: NgForm) {
-    this.passwordMismatch = this.password !== this.confirmPassword;
-    if (loginForm.valid && !this.passwordMismatch) {
-      const formData = loginForm.value;
-      console.log('Form Submitted!', formData);
+    if (loginForm.valid) {
+      this.userService.loginUser({ email: this.email, password: this.password }).subscribe(
+        response => {
+          console.log('Login response', response);
+          this.responseMessage = response.message;
+  
+          if (response.responseCode === 200) {
+            // Store token and role in local storage
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('role', response.role);
+  
+            this.resetAndShowMessage(true);
+            setTimeout(() => {
+              this.performExitAnimation();
+            }, 2000);
+          } else {
+            this.resetAndShowMessage(false);
+          }
+        },
+        error => {
+          console.error('Login failed', error);
+          this.responseMessage = 'Login failed. Please try again.';
+          this.resetAndShowMessage(false);
+        }
+      );
     } else {
       console.log('Form is invalid');
-      console.log('Form values:', loginForm.value);
-      console.log('Form errors:', loginForm.errors);
-      this.hideErrorMessage();
     }
   }
-
-  hideErrorMessage() {
-    setTimeout(() => {
-      this.passwordMismatch = false;
-    }, 3000);
+  
+  performExitAnimation() {
+    gsap.to('.container', {
+      x: 100,
+      opacity: 0,
+      duration: 1,
+      onComplete: () => {
+        const role = localStorage.getItem('role');
+        switch(role) {
+          case 'admin':
+            this.router.navigate(['/adashboard']);
+            break;
+          case 'manager':
+            this.router.navigate(['/manager']);
+            break;
+          default:
+            this.router.navigate(['/events']);
+            break;
+        }
+      }
+    });
   }
+  
+
+  resetAndShowMessage(isSuccess: boolean) {
+    this.showSuccessMessage = false;
+    this.showErrorMessage = false;
+
+    setTimeout(() => {
+      if (isSuccess) {
+        this.showSuccessMessage = true;
+      } else {
+        this.showErrorMessage = true;
+      }
+    }, 10);
+
+    setTimeout(() => {
+      this.showSuccessMessage = false;
+      this.showErrorMessage = false;
+    }, 4000);
+  }
+
+ 
 }

@@ -13,6 +13,7 @@ import { ManagerEventsComponent } from './components/manager-events/manager-even
 import { ManagerViewEventComponent } from './components/manager-view-event/manager-view-event.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -30,5 +31,6 @@ export const routes: Routes = [
   // manager viewing one event, usisahau kueka /event/:id
   {path: 'mevent', component: ManagerViewEventComponent},
   {path: 'adashboard', component: AdminDashboardComponent},
-  {path: 'ticket', component: TicketPurchaseComponent}
+  {path: 'ticket', component: TicketPurchaseComponent},
+  {path: 'profile', component: ProfileComponent}
 ];

@@ -19,7 +19,7 @@ body {
 
 .wrap-all-the-things {
 
-  padding-left: 200px;
+  /* padding-left: 200px; */
   margin-top: 0;
   transition: transform 400ms, opacity 400ms;
 }
@@ -172,7 +172,7 @@ button:hover::after {
   background-color: #151515;
   margin-top: 20px;
   border-radius: 20px;
-  margin-left: 5px;
+  /* margin-left: 5px; */
   margin-right: 20px;
 }
 .eventT{
@@ -201,7 +201,7 @@ html, body {
 }
 
 .wrap-all-the-things {
-  padding-left: 200px;
+  padding-left: 100px;
   margin-top: 0;
   transition: transform 400ms, opacity 400ms;
 }
@@ -356,14 +356,13 @@ button:hover::after {
   width: fit-content;
   text-align: center;
   margin: 0 auto;
-}
-
-.metrics {
-  margin-top: 20px;
+}.metrics {
+  margin-top: 40px;
   width: 100%;
 }
 
 .analytics {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -371,26 +370,43 @@ button:hover::after {
   border-radius: 20px;
   padding: 20px;
   margin: 0 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.analytics .eventT {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.bar-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Allows bars to wrap if necessary */
+  gap: 20px; /* Adds space between bar containers */
+  width: 100%;
 }
 
 .bar-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50px;
+  width: 80px; /* Increased width for better visibility */
   margin: 0 10px;
 }
 
 .bar {
   background-color: #D21F26;
   width: 100%;
-  min-height: 20px; /* Ensure a minimum height for visibility */
+  min-height: 50px; /* Ensure a minimum height for visibility */
   display: flex;
   justify-content: center;
   align-items: flex-end;
   border-radius: 5px 5px 0 0;
   position: relative;
   overflow: visible; /* Changed from hidden to visible */
+  transition: height 0.3s ease-in-out;
 }
 
 .bar span {
@@ -402,7 +418,17 @@ button:hover::after {
 }
 
 .bar-label {
-  margin-top: 25px; /* Increased to accommodate the moved span */
+  margin-top: 15px; /* Adjusted margin */
   text-align: center;
   font-size: 14px;
+  color: #ffffff;
+}
+
+.bar-container:hover .bar {
+  background-color: #FF4D4D;
+}
+
+.bar-container:hover .bar span {
+  font-weight: bold;
+  color: #FF4D4D;
 }

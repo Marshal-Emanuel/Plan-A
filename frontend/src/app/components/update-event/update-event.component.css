@@ -1,0 +1,282 @@
+.form-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    padding: 0 20px;
+  }
+  
+  .form-and-image {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    background-color: #1E1E1E;
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: slideIn 1s ease-in-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  .description {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .description input,
+  .description select,
+  .description textarea,
+  .small {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background-color: #2C2C2C;
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .description input::placeholder,
+  .description select::placeholder,
+  .description textarea::placeholder,
+.small::placeholder {
+  color: transparent;
+}
+
+.description input:focus,
+.description select:focus,
+.description textarea:focus,
+.small:focus {
+  outline: none;
+  border-color: #D21F26;
+  box-shadow: 0 0 0 2px rgba(210, 31, 38, 0.2);
+}
+
+.description textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.description label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  font-size: 16px;
+  color: #888;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.description input:focus + label,
+.description select:focus + label,
+.description textarea:focus + label,
+.small:focus + label,
+.description input:not(:placeholder-shown) + label,
+.description select:not(:placeholder-shown) + label,
+.description textarea:not(:placeholder-shown) + label,
+.small:not(:placeholder-shown) + label {
+  top: -20px;
+  left: 0;
+  font-size: 12px;
+  color: #D21F26;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.price-and-tickets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.image-holder {
+  margin-top: 30px;
+}
+
+.image img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #D21F26;
+  animation: zoomIn 1s ease-in-out;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: -300px;
+}
+
+.gallery h3 {
+  color: #D21F26;
+  margin: 20px 0;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dropzone {
+  width: 30%;
+  height: 100px;
+  padding: 30px;
+  border: 2px dashed #D21F26;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: #2C2C2C;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.dropzone:hover {
+  background-color: #333;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+button {
+  --btn-color: #D21F26;
+  position: relative;
+  border: 1px solid var(--btn-color);
+  border-radius: 25px;
+  color: var(--btn-color);
+  background-color: transparent;
+  padding: 12px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: fadeInButton 1s ease-in-out;
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: var(--btn-color);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+button:hover {
+  color: white;
+}
+
+button:hover::before {
+  width: 100%;
+}
+
+button.cancel {
+  --btn-color: #555;
+}
+
+@media (max-width: 768px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .price-and-tickets {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery {
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .dropzone {
+    width: 100%;
+  }
+}
+
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.form-holder {
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+}

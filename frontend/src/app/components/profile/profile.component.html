@@ -1,0 +1,115 @@
+<div class="animation-container">
+  <div class="container">
+    <h1 class="logo">Plan-A</h1>
+    <h2 class="title">Update Your Profile</h2>
+    <form
+      [formGroup]="profileForm"
+      (ngSubmit)="onSubmit()"
+      class="profile-form"
+    >
+      <div class="input-group profile-picture">
+        <img
+          style="height: 100px; width: 100px;"
+          [src]="
+            previewImage ||
+            profileForm.get('profilePicture')?.value ||
+            'assets/images/profile.png'
+          "
+          alt="Profile Picture"
+        />
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          accept="image/*"
+        />
+      </div>
+      <div class="input-group">
+        <img class="iconsform" src="/assets/icons/username.png" alt="" />
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Your Name"
+        />
+        <span
+          *ngIf="
+            profileForm.get('name')?.invalid &&
+            profileForm.get('name')?.touched
+          "
+          style="color: lightred;"
+        >
+          Name is required.
+        </span>
+      </div>
+      <div class="input-group">
+        <img class="iconsform" src="/assets/icons/email.png" alt="" />
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Your Email"
+        />
+        <span
+          *ngIf="
+            profileForm.get('email')?.invalid &&
+            profileForm.get('email')?.touched
+          "
+          style="color: lightred;"
+        >
+          Valid email is required.
+        </span>
+      </div>
+      <div class="input-group">
+        <img class="iconsform" src="/assets/icons/phone.png" alt="" />
+        <input
+          type="tel"
+          formControlName="phoneNumber"
+          placeholder="Your Phone Number"
+        />
+        <span
+          *ngIf="
+            profileForm.get('phoneNumber')?.invalid &&
+            profileForm.get('phone')?.touched
+          "
+          style="color: lightred;"
+        >
+          Valid phone number is required.
+        </span>
+      </div>
+      <div class="input-group">
+        <img class="iconsform" src="/assets/icons/password.png" alt="" />
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="New Password"
+        />
+        <span
+          *ngIf="
+            profileForm.get('password')?.invalid &&
+            profileForm.get('password')?.touched
+          "
+          style="color: lightred;"
+        >
+          Password must be at least 8 characters.
+        </span>
+      </div>
+      <div class="input-group">
+        <input
+          type="checkbox"
+          formControlName="isSubscribedToMails"
+          id="subscribe"
+        />
+        <label for="subscribe">Subscribe to emails</label>
+      </div>
+      <button type="submit" [disabled]="!profileForm.valid">
+        UPDATE PROFILE
+      </button>
+    </form>
+  </div>
+  <app-success-message
+    *ngIf="showSuccessMessage"
+    [message]="responseMessage"
+  ></app-success-message>
+  <app-error-message
+    *ngIf="showErrorMessage"
+    [message]="responseMessage"
+  ></app-error-message>
+</div>

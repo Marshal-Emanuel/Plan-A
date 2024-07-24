@@ -1,83 +1,83 @@
 <body>
-  <div class="main">
-    <div class="eventImage">
-      <img [src]="eventImage" alt="Event Image">
-    </div>
+  
 
-    <div class="eventInfoContainer">
-      <div class="info">
-        <div class="description">
-          <p class="heading">{{ eventHeading }}</p>
-          <p>{{ eventDescription }}</p>
-        </div>
-
-        <!-- Pricing starts here -->
-        <div class="pricingTicket">
-          <div class="priceWish">
-            <div class="price"> Price: &nbsp; <span style=" color:#FE1F27">Ksh. {{ eventPrice }}</span></div>
-
-          </div>
-
-        </div>
-        <!-- Pricing ends here -->
-      </div>
-
-      <!-- metrics -->
-      <div class="line3">
-        <div class="moreInfo">
-          <div class="attendees">
-            <p style="display: flex; align-items: center; gap: 10px;">
-              <img style="height: 25px;" src="/assets/icons/users.png" alt="Users Icon">{{ attendees }} Will be
-              attending
-            </p>
-          </div>
-          <br>
-          <div class="location">
-            <p style="display: flex; align-items: center; gap: 10px;">
-              <img style="height: 25px;" src="/assets/icons/location.png" alt="Location Icon">{{ eventLocation }}
-            </p>
-          </div>
-          <br>
-          <div class="time">
-            <p style="display: flex; align-items: center; gap: 10px;">
-              <img style="height: 25px;" src="/assets/icons/event.png" alt="Event Icon">{{ eventDate }}
-            </p>
-          </div>
-          <div class="buttons">
-            <button class="edit"><img src="/assets/icons/edit.png" alt=""></button>
-            <button class="delete"><img src="/assets/icons/delete.png" alt=""></button>
-
-          </div>
-        </div>
-
-
-
-        <!-- Host starts here -->
-        <div class="host">
-          <table class="user-table">
-            <thead>
-              <tr>
-                <th>Profile Image</th>
-                <th>Name</th>
-                <th>Registration Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of userProfiles">
-                <td><img class="profile-img" [src]="user.image" alt="{{ user.name }}"></td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.registrationTime }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </div>
-
-
-    </div>
+<div class="main">
+  <div class="eventImage">
+    <img [src]="eventImage" alt="Event Image">
   </div>
 
+  <div class="eventInfoContainer">
+    <div class="info">
+      <div class="description" style="background-color: transparent;">
+        <p class="heading" style="background-color: transparent;">{{ eventHeading }}</p>
+        <p style="background-color: transparent;">{{ eventDescription }}</p>
+      </div>
 
+      <div class="pricingTicket" style="background-color: rgba(0, 0, 0, 0.467); margin-left: 60px;">
+        <div class="priceWish" style="background-color: transparent;">
+          <div class="price" style="background-color: transparent;"> Price: &nbsp; <span style="color:#FE1F27; background-color: transparent;">Ksh. {{ eventPrice }}</span></div>
+        </div>
+      </div>
+    </div>
 
+    <div class="line3" style="z-index: 1; background-color: transparent; margin-top: 100px;">
+      <div class="moreInfo">
+        <div class="attendees" style="background-color: transparent;">
+          <p style="display: flex; align-items: center; gap: 10px; background-color: transparent;">
+            <img style="height: 25px; background-color: transparent;" src="/assets/icons/users.png" alt="Users Icon">{{ attendees }} Will be attending
+          </p>
+        </div>
+        <br>
+        <div class="location" style="background-color: transparent;">
+          <p style="display: flex; align-items: center; gap: 10px; background-color: transparent;">
+            <img style="height: 25px; background-color: transparent;" src="/assets/icons/location.png" alt="Location Icon">{{ eventLocation }}
+          </p>
+        </div>
+        <br>
+        <div class="time" style="background-color: transparent;">
+          <p style="display: flex; align-items: center; gap: 10px;" style="background-color: transparent;">
+            <img style="height: 25px; background-color: transparent;" src="/assets/icons/event.png" alt="Event Icon">{{ eventDate }}
+          </p>
+        </div>
+        <div class="buttons" style="background-color: transparent;">
+          <button class="edit" (click)="showUpdatePopup()" style="background-color: transparent;">
+            <img style="background-color: transparent;" src="/assets/icons/edit.png" alt="Edit">
+          </button>
+          <button style="background-color: transparent;" class="delete" (click)="cancelEventById()">
+            <img style="background-color: transparent;" src="/assets/icons/delete.png" alt="Delete">
+          </button>
+        </div>
+      </div>
+
+      <div class="host">
+        <p style="background-color: transparent;">Attendees</p>
+        <table class="user-table" style="background-color: transparent;">
+          <thead>
+            <tr>
+              <th>Profile Image</th>
+              <th>Name</th>
+              <th>Registration Time</th>
+            </tr>
+          </thead>
+          <tbody style="background-color: transparent;">
+            <tr *ngFor="let user of userProfiles" style="background-color: rgba(0, 0, 0, 0.174);">
+              <td style="background-color: transparent;"><img style="background-color: transparent;" class="profile-img" [src]="user.image" alt="{{ user.name }}"></td>
+              <td style="background-color: transparent;">{{ user.name }}</td>
+              <td style="background-color: transparent;">{{ user.registrationTime }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>
+<app-error-message *ngIf="showErrorMessage" [message]="responseMessage"></app-error-message>
+
+<app-update-event 
+  *ngIf="isUpdatePopupVisible" 
+  [eventId]="eventId"
+  (cancelEvent)="closeUpdatePopup()">
+</app-update-event>
 </body>

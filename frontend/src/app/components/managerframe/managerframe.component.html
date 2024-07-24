@@ -12,7 +12,7 @@
 
         <li>
           <a>
-            <div class="person">
+            <div routerLink="/profile" class="person">
               <img class="user" src="assets/images/profile.png" alt="">
             </div><span>Profile</span>
           </a>
@@ -57,18 +57,18 @@
   </header>
 
   <!-- Components to load here -->
-  <div *ngIf="selectedComponent === 'dashboard'">
-    <app-managerdashboard></app-managerdashboard>
+  <div class="wrap-all-the-things">
+    <div *ngIf="selectedComponent === 'dashboard'">
+      <app-managerdashboard (componentChange)="onComponentChange($event)"></app-managerdashboard>
+    </div>
+    <div *ngIf="selectedComponent === 'newEvent'">
+      <app-event-form></app-event-form>
+    </div>
+    <div *ngIf="selectedComponent === 'events'">
+      <app-manager-events (eventSelect)="onEventSelect($event)"></app-manager-events>
+    </div>
+    <div *ngIf="selectedComponent === 'viewEvent'">
+      <app-manager-view-event [eventId]="selectedEventId"></app-manager-view-event>
+    </div>
   </div>
-  <div *ngIf="selectedComponent === 'newEvent'">
-    <app-event-form></app-event-form>
-  </div>
-  <div *ngIf="selectedComponent === 'events'">
-    <app-manager-events></app-manager-events>
-  </div>
-  <div *ngIf="selectedComponent === 'viewEvent'">
-    <app-manager-view-event></app-manager-view-event>
-  </div>
-
-  <div class="wrap-all-the-things"></div>
 </body>

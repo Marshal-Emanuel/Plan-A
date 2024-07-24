@@ -1,2 +1,32 @@
-<div class="visme_d" data-title="Login" data-url="kkgwpxv3-login?fullPage=true" data-domain="forms" data-full-page="true" data-min-height="100vh" data-form-id="83379"></div>
-<script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script>
+<body>
+  <div class="animation-container">
+    <svg id="walkingCharacter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
+      <!-- SVG content will be loaded dynamically -->
+    </svg>
+    <div class="container">
+      <h1 class="logo">Plan-A</h1>
+      <h2 class="title">Welcome back</h2>
+      <form class="login-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+        <div class="input-group">
+          <img class="iconsform" src="/assets/icons/email.png" alt="">
+          <input type="email" id="email" placeholder="Email Address" required email [(ngModel)]="email" name="email">
+          <div *ngIf="loginForm.controls['email']?.invalid && loginForm.controls['email']?.touched" class="error-message">
+            <span *ngIf="loginForm.controls['email']?.errors?.['required']">Email is required</span>
+            <span *ngIf="loginForm.controls['email']?.errors?.['email']">Invalid email address</span>
+          </div>
+        </div>
+        <div class="input-group">
+          <img class="iconsform" src="/assets/icons/password.png" alt="">
+          <input type="password" id="password" placeholder="Password" required [(ngModel)]="password" name="password">
+          <div *ngIf="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched" class="error-message">
+            Password is required
+          </div>
+        </div>
+        <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">Sign in</button>
+      </form>
+      <p class="signup-link">Don't have an account? <a routerLink="/signup">Sign up</a></p>
+    </div>
+  </div>
+  <app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>
+  <app-error-message *ngIf="showErrorMessage" [message]="responseMessage"></app-error-message>
+</body>

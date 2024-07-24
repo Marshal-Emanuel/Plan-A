@@ -5,13 +5,13 @@
         <p style="font-size: 40px;">Plan your events</p>
         <p style="font-size: 40px;">seamlessly</p>
       </div>
-      <button>Create Your new event</button>
+      <button (click)="createNewEvent()">Create Your new event</button>
     </div>
 
     <div class="sright">
       <div class="stat">
         <div class="txtp">
-          <div class="fig">200</div>
+          <div class="fig">{{ totalRsvps }}</div>
           <div class="wht">RSVPS</div>
         </div>
         <div class="imgIcon">
@@ -21,7 +21,7 @@
 
       <div class="stat">
         <div class="txt">
-          <div class="fig">10</div>
+          <div class="fig">{{eventCount}}</div>
           <div class="wht">Events</div>
         </div>
         <div class="imgIcon">
@@ -31,7 +31,7 @@
 
       <div class="stat">
         <div class="txt">
-          <div class="fig">10,000</div>
+          <div class="fig">{{sumOfPaidAmmounts}}</div>
           <div class="wht">Revenue</div>
         </div>
         <div class="imgIcon">
@@ -54,4 +54,5 @@
       </div>
     </div>
   </div>
+  
 </div>
