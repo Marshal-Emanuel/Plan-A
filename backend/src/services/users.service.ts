@@ -132,8 +132,8 @@ async updateUser(userId: string, user: User) {
                 error: error
             };
         }
-    }
-    
+    }    
+
     private async sendAccountDisabledNotification(user: User) {
         await this.emailService.sendAccountDisabledNotification(user.email, user.name);
     }
@@ -369,7 +369,55 @@ async updateUser(userId: string, user: User) {
         }
     }
 
-       
+    
+    
+    //get users count where role is admin  and manager, retunrn number for each
+    //get users count where role is admin and manager, return number for each
+    async getUsersCountByRole() {
+        try {
+            const adminCount = await this.prisma.user.count({
+                where: { role: 'admin' }
+            });
+
+            const managerCount = await this.prisma.user.count({
+                where: { role: 'manager' }
+            });
+
+            return {
+                adminCount,
+                managerCount
+            };
+        } catch (error) {
+            console.error("Error fetching users count:", error);
+            return {
+                message: "An error occurred while fetching users count.",
+                responseCode: 500,
+                error: error
+            };
+        }
+    }
+
+
+    async getPendingUsers() {
+        try {
+            const pendingUsers = await this.prisma.user.findMany({
+                where: { accountStatus: 'pending' }
+            });
+    
+            return {
+                message: "Pending users retrieved successfully",
+                responseCode: 200,
+                users: pendingUsers
+            };
+        } catch (error) {
+            console.error("Error fetching pending users:", error);
+            return {
+                message: "An error occurred while fetching pending users.",
+                responseCode: 500,
+                error: error
+            };
+        }
+    }
     
     
     

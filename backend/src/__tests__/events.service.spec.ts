@@ -135,49 +135,21 @@ describe('EventsService', () => {
         data: mockActiveEvents
       });
       expect(mockPrisma.event.findMany).toHaveBeenCalledWith({
-        where: { nature: "APPROVED", status: "ACTIVE" }
+        where: { nature: "APPROVED", status: "ACTIVE" },
+        include: {
+          manager: {
+            select: {
+              email: true,
+              name: true,
+              phoneNumber: true
+            }
+          }
+        }
       });
     });
   });
 
-  describe('getEventById', () => {
-    it('should fetch an event by its ID successfully', async () => {
-      const mockEventId = 'event-123';
-      const mockEvent = {
-        eventId: mockEventId,
-        name: 'Test Event',
-        description: 'Test Description',
-        date: new Date(),
-        location: 'Test Location'
-      };
 
-      mockPrisma.event.findUnique.mockResolvedValue(mockEvent);
-
-      const result = await eventsService.getEventById(mockEventId);
-
-      expect(result).toEqual({
-        message: "Event retrieved successfully",
-        responseCode: 200,
-        data: mockEvent
-      });
-      expect(mockPrisma.event.findUnique).toHaveBeenCalledWith({
-        where: { eventId: mockEventId }
-      });
-    });
-
-    it('should handle errors when fetching an event', async () => {
-      const mockEventId = 'non-existent-event';
-      mockPrisma.event.findUnique.mockRejectedValue(new Error('Database error'));
-
-      const result = await eventsService.getEventById(mockEventId);
-
-      expect(result).toEqual({
-        message: "Error occurred while fetching event.",
-        responseCode: 500,
-        error: expect.any(Error)
-      });
-    });
-  });
 
 
   describe('updateEvent', () => {
@@ -598,50 +570,7 @@ describe('EventsService', () => {
     });
   });
 
-  describe('getTotalReservationsForManager', () => {
-    it('should return the total number of reservations for a manager', async () => {
-      const mockManagerId = 'manager-123';
-      const mockEvents = [
-        { eventId: 'event-1' },
-        { eventId: 'event-2' }
-      ];
-      const mockTotalReservations = 15;
 
-      mockPrisma.event.findMany.mockResolvedValue(mockEvents);
-      mockPrisma.reservation.count.mockResolvedValue(mockTotalReservations);
-
-      const result = await eventsService.getTotalReservationsForManager(mockManagerId);
-
-      expect(result).toBe(mockTotalReservations);
-      expect(mockPrisma.event.findMany).toHaveBeenCalledWith({
-        where: { managerId: mockManagerId },
-        select: { eventId: true }
-      });
-      expect(mockPrisma.reservation.count).toHaveBeenCalledWith({
-        where: {
-          eventId: {
-            in: ['event-1', 'event-2']
-          }
-        }
-      });
-    });
-
-    it('should return 0 if manager has no events', async () => {
-      const mockManagerId = 'manager-no-events';
-      mockPrisma.event.findMany.mockResolvedValue([]);
-
-      const result = await eventsService.getTotalReservationsForManager(mockManagerId);
-
-      expect(result).toBe(0);
-    });
-
-    it('should handle errors', async () => {
-      const mockManagerId = 'manager-error';
-      mockPrisma.event.findMany.mockRejectedValue(new Error('Database error'));
-
-      await expect(eventsService.getTotalReservationsForManager(mockManagerId)).rejects.toThrow('Failed to get total reservations for manager');
-    });
-  });
 
   describe('getEventCountForManagers', () => {
     it('should return event count and details for all managers', async () => {

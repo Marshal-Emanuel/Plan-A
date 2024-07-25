@@ -174,6 +174,33 @@ export class UsersController {
             return res.status(500).json({ message: "Internal server error" });
         }
     }
+
+
+
+
+    ///count for admins and managers
+    async getUsersCountByRole(req: Request, res: Response) {
+        try {
+            const counts = await service.getUsersCountByRole();
+            return res.status(200).json(counts);
+        } catch (error) {
+            console.error("Error fetching users count:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+
+    // geting users apprval requests
+    async getPendingUsers(req: Request, res: Response) {
+        try {
+            const result = await service.getPendingUsers();
+            return res.status(result.responseCode).json(result);
+        } catch (error) {
+            console.error("Error fetching pending users:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+    
     
     
     

@@ -22,7 +22,7 @@ user_router.post('/reset-password', userController.resetPassword);
 user_router.get('/balance/:userId', verifyToken,isUser, userController.getUserBalance);
 user_router.put('/topup/:userId', verifyToken, userController.topUpWallet);
 
-
-
+user_router.get('/usersCountByRole', verifyToken, isAdmin, userController.getUsersCountByRole);
+user_router.get('/pendingUsers', verifyToken, isAdmin, userController.getPendingUsers);
 
 export default user_router;
