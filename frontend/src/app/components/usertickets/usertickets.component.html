@@ -1,5 +1,6 @@
 <body>
-  <main>
+  <app-navbar></app-navbar>
+  <main style="margin-top: 50px;">
     <p style="font-size: 25px; margin-bottom: 20px; color: #03c2f2;">My Tickets</p>
     <div *ngFor="let ticket of tickets" class="ticket-wrapper">
       <section class="my-tickets">
@@ -40,7 +41,13 @@
         <div class="rightR">
           <span>Ksh. {{ ticket.totalPrice }}</span>
         </div>
+        <div class="cancel-button">
+          <button (click)="cancelReservation(ticket.reservationId)">Cancel Reservation</button>
+        </div>
       </section>
     </div>
   </main>
+
+  <app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>
+  <app-error-message *ngIf="showErrorMessage" [message]="responseMessage"></app-error-message>
 </body>

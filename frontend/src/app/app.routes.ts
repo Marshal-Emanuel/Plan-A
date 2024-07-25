@@ -14,6 +14,8 @@ import { ManagerViewEventComponent } from './components/manager-view-event/manag
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { TicketPurchaseComponent } from './components/ticket-purchase/ticket-purchase.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {path: '', component: LandingPageComponent},
@@ -32,5 +34,7 @@ export const routes: Routes = [
   {path: 'mevent', component: ManagerViewEventComponent},
   {path: 'adashboard', component: AdminDashboardComponent},
   {path: 'ticket/:id', component: TicketPurchaseComponent},
-  {path: 'profile', component: ProfileComponent}
+  {path: 'profile', component: ProfileComponent},
+  {path: 'forgot', component: ForgotPasswordComponent},
+  {path: 'reset', component: ResetPasswordComponent}
 ];

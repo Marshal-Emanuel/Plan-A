@@ -11,11 +11,12 @@ import { User } from '../../interfaces/users';
 import { SuccessMessageComponent } from '../success-message/success-message.component';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
 import { RouterLink } from '@angular/router';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule, SuccessMessageComponent, ErrorMessageComponent,RouterLink],
+  imports: [CommonModule, FormsModule, SuccessMessageComponent, ErrorMessageComponent,RouterLink, NavbarComponent],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })

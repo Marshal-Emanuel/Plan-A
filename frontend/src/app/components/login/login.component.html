@@ -1,4 +1,6 @@
+<app-navbar></app-navbar>
 <body>
+  
   <div class="animation-container">
     <svg id="walkingCharacter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100">
       <!-- SVG content will be loaded dynamically -->
@@ -25,6 +27,7 @@
         <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">Sign in</button>
       </form>
       <p class="signup-link">Don't have an account? <a routerLink="/signup">Sign up</a></p>
+      <p class="forgot-password-link"><a routerLink="/forgot" style="color: rgba(0, 255, 255, 0.726);">Forgot your password?</a></p>
     </div>
   </div>
   <app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>

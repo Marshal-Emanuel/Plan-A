@@ -91,20 +91,7 @@ export class EventsService {
 
     async getEvents() {
         try {
-            let events = await this.prisma.event.findMany(
-                {
-                    include:{
-                        manager: {
-                            select: {
-                                name: true,
-                                phoneNumber: true,
-                                email: true,
-                                profilePicture: true
-                            }
-                        }
-                    }
-                }
-            );
+            let events = await this.prisma.event.findMany();
             return { message: "Events retrieved successfully", responseCode: 200, data: events };
         } catch (error) {
             return { message: "An unexpected error occurred.", responseCode: 500, error: error };

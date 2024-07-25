@@ -16,7 +16,7 @@ Content-Type: application/json
 ###All users
 GET http://localhost:4400/user/allUsers
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE4ODE1NDMsImV4cCI6MTcyMTg4NTE0M30.WDiJtc__ZUageoXMxlDH0o7zvg5STSZPbxQD8TwmnNw
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjEzODM4MzMsImV4cCI6MTcyMTM4NzQzM30.BzOBehS8dWpZCinzL4beMRPw0uo6yos67QxDkgahBQ0
 
 
 ###update user
@@ -51,9 +51,9 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzO
 
 
 ###Set account to pending( Askng for approval to manager status)
-PUT http://localhost:4400/user/managerRequest/48a2e799-4772-45dd-80da-c04cdf0ac523
+PUT http://localhost:4400/user/managerRequest/a5a52390-98e9-425b-be0e-1992c3dd5cef
 Constent-Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OGEyZTc5OS00NzcyLTQ1ZGQtODBkYS1jMDRjZGYwYWM1MjMiLCJlbWFpbCI6InVzZXIzLnVzZXIiLCJyb2xlIjoidXNlciIsImlhdCI6MTcyMTg1NTEyMSwiZXhwIjoxNzIxODU4NzIxfQ.2QieBhPjxKfqfvfJjvF0ImZbw9JYWNt7-j4wVwAc32k
+token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE0NjQwMDIsImV4cCI6MTcyMTQ2NzYwMn0.yQX-f1ouYjmKfQGcxbBLCgr459n8IhQV_OUDzQ9JcDI
 
 
 ###verify account(Admin verifies account to manager)
@@ -86,8 +86,8 @@ POST http://localhost:4400/user/reset-password
 Content-Type: application/json
 
 {
-    "token": "94398",
-    "newPassword": "passwod"
+    "token": "26035",
+    "newPassword": "password"
 }
 
 
@@ -105,15 +105,4 @@ token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjNmFiNjYwYS1iZmFhLTRmY
     "amount": 4000
 }
 
-
-###Get user count by role
-GET http://localhost:4400/user/usersCountByRole
-Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE4NTMwODcsImV4cCI6MTcyMTg1NjY4N30.2naaS7vEoPWijlkKK9yMlrrVdY-JGdT3X6to-8DsYFc
-
-
-### get penging approvals
-GET http://localhost:4400/user/pendingUsers
-Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5NDkzNzJlNi0yYTYzLTQzOWMtYTRmMy05NTA0Nzk2NmQzZjAiLCJlbWFpbCI6ImFkbWluLnVzZXIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjE4ODE1NDMsImV4cCI6MTcyMTg4NTE0M30.WDiJtc__ZUageoXMxlDH0o7zvg5STSZPbxQD8TwmnNw
 

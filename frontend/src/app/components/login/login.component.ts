@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, Inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { UserService } from '../../Services/user.service';
@@ -8,11 +8,12 @@ import { HttpClient } from '@angular/common/http';
 import { SuccessMessageComponent } from '../success-message/success-message.component';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
 import { AuthServiceTsService } from '../../Services/auth.service.ts.service';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, SuccessMessageComponent, ErrorMessageComponent],
+  imports: [CommonModule, FormsModule, RouterLink, SuccessMessageComponent, ErrorMessageComponent, NavbarComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -24,11 +25,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   responseMessage: string = '';
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private http: HttpClient,
-    private authService: AuthServiceTsService
-  ) {}
+      private userService: UserService,
+      @Inject(Router) private router: Router,
+      private http: HttpClient,
+      private authService: AuthServiceTsService
+    ) {}
 
   ngOnInit(): void {
     this.loadSVG().then(() => {
