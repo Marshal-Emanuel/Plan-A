@@ -10,9 +10,17 @@ export class EventsService {
 
     constructor(private http: HttpClient) { }
 
+
+    //get all events
+    getAllEvents(headers: HttpHeaders): Observable<any> {
+        return this.http.get(`${this.apiUrl}/event/getEvents`, { headers });
+      }
+
     getEvents(): Observable<any> {
         return this.http.get(`${this.apiUrl}/event/getEvents`);
     }
+
+    
 
     getEventDetails(eventId: string): Observable<any> {
         return this.http.get(`${this.apiUrl}/event/getEvent/${eventId}`);
@@ -123,6 +131,31 @@ updateEvent(eventId: string, eventDetails: any): Observable<any> {
 getActiveEvents(): Observable<any> {
     return this.http.get(`${this.apiUrl}/event/getActiveEvents`);
 }
+
+
+//get events pending approval
+getPendingEvents(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.apiUrl}/event/getPendingEvents`, { headers });
+}
+
+
+// get pending events
+getPendingVerification(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.apiUrl}/user/pendingUsers`, { headers });
+}
+
 
 
 

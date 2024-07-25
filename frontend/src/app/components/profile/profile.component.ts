@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../Services/user.service';
@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorMessageComponent } from './../error-message/error-message.component';
 import { SuccessMessageComponent } from './../success-message/success-message.component';
+import { HttpHandler } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +33,7 @@ export class ProfileComponent implements OnInit {
   responseMessage: string = '';
 
   constructor(
-    private fb: FormBuilder,
+    @Inject(FormBuilder) private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private userService: UserService
   ) {
@@ -172,4 +173,38 @@ export class ProfileComponent implements OnInit {
       this.showErrorMessage = false;
     }, 4000);
   }
+
+
+  setAccountPending(): void {
+    const userId = localStorage.getItem('userId')?.replace(/"/g, '') ?? '';
+    const token = localStorage.getItem('token') ?? '';
+
+    const headers = new Headers({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    // private apiUrl = 'http://localhost:4400';
+    fetch(`http://localhost:4400/user/managerRequest/${userId}`, {
+
+      method: 'PUT',
+      headers: headers,
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to set account pending');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Account pending request response:', data);
+      this.responseMessage = 'Account upgrade request sent.';
+      this.resetAndShowMessage(true);
+    })
+    .catch(error => {
+      console.error('Failed to set account pending', error);
+      this.responseMessage = 'Failed to send request. Please try again.';
+      this.resetAndShowMessage(false);
+    });
+}
 }

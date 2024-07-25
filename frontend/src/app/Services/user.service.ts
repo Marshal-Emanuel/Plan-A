@@ -41,6 +41,21 @@ export class UserService {
   topUpUserWallet(userId: string, amount: number, headers: HttpHeaders): Observable<any> {
     const requestData = { amount };
     return this.http.put(`${this.apiUrl}/user/topup/${userId}`, requestData, { headers });
+  } 
+
+  getAllUsers(headers: HttpHeaders): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/allUsers`, { headers });
+  }
+
+  //get all events 
+  getEvents(headers: HttpHeaders): Observable<any> {
+    return this.http.get(`${this.apiUrl}/event/getEvents`, { headers });
+  }
+
+
+  //get role count
+  getUserCountByRole(headers: HttpHeaders): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/usersCountByRole`, { headers });
   }
 
 

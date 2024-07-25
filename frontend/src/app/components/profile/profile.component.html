@@ -102,6 +102,14 @@
       <button type="submit" [disabled]="!profileForm.valid">
         UPDATE PROFILE
       </button>
+      <!-- New Button for Account Request -->
+      <button
+        type="button"
+        (click)="setAccountPending()"
+        class="request-account-button"
+      >
+        REQUEST FOR MANAGER ACCOUNT
+      </button>
     </form>
   </div>
   <app-success-message

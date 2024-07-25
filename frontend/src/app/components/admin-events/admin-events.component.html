@@ -1,140 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events Management</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #0a0e1a;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #1e2638;
-        }
-        th {
-            font-weight: normal;
-            color: #8b95a9;
-        }
-        .avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #3498db;
-            display: inline-block;
-            margin-right: 10px;
-            vertical-align: middle;
-        }
-        .status {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-        }
-        .approved {
-            background-color: #27ae60;
-        }
-        .pending {
-            background-color: #f39c12;
-        }
-        .progress-bar {
-            width: 100px;
-            height: 6px;
-            background-color: #2c3e50;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .progress {
-            height: 100%;
-            background-color: #3498db;
-        }
-        .action-btn {
-            background-color: transparent;
-            border: none;
-            color: #3498db;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Events</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Manager</th>
-                    <th>Event</th>
-                    <th>Attending persons</th>
-                    <th>Total Earnings</th>
-                    <th>Event Status</th>
-                    <th>Ticket sales rate</th>
-                    <th>Approve/Pend</th>
-                </tr>
-
-            </thead>
-            <tbody>
-                <tr>
-                    <td><span class="avatar"></span>Ken Ken</td>
-                    <td>Teach2Give AI summit</td>
-                    <td>30</td>
-                    <td>Ksh. 14,000</td>
-                    <td><span class="status approved">Approved</span></td>
-                    <td>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 60%;"></div>
-                        </div>
-                        60%
-                    </td>
-                    <td><button class="action-btn">⋮</button></td>
-                </tr>
-                <tr>
-                  <td><span class="avatar"></span>Ken Ken</td>
-                  <td>Teach2Give AI summit</td>
-                  <td>30</td>
-                  <td>Ksh. 14,000</td>
-                  <td><span class="status approved">Approved</span></td>
-                  <td>
-                      <div class="progress-bar">
-                          <div class="progress" style="width: 60%;"></div>
-                      </div>
-                      60%
-                  </td>
-                  <td><button class="action-btn">⋮</button></td>
-              </tr>
-              <tr>
-                <td><span class="avatar"></span>Ken Ken</td>
-                <td>Teach2Give AI summit</td>
-                <td>30</td>
-                <td>Ksh. 14,000</td>
-                <td><span class="status approved">Approved</span></td>
-                <td>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 60%;"></div>
-                    </div>
-                    60%
-                </td>
-                <td><button class="action-btn">⋮</button></td>
-            </tr>
-
-            </tbody>
-        </table>
-    </div>
-</body>
-</html>
+<div class="container">
+    <h1>Events</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Manager</th>
+          <th>Event</th>
+          <th>Attending persons</th>
+          <th>Total Earnings</th>
+          <th>Event Status</th>
+          <th>Event Nature</th>
+          <th>Ticket sales rate</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td>
+            <span class="avatar" [style.backgroundImage]="'url(' + event.manager.profilePicture + ')'"></span>
+            {{ event.manager.name }}
+          </td>
+          <td>{{ event.name }}</td>
+          <td>{{ event.numberOfTickets - event.remainingTickets }}</td>
+          <td>Ksh. {{ calculateTotalEarnings(event) | number:'1.0-0' }}</td>
+          <td>
+            <span class="status" [ngClass]="{'approved': event.status === 'ACTIVE', 'pending': event.status === 'PENDING', 'canceled': event.status === 'CANCELED'}">
+              {{ event.status }}
+            </span>
+          </td>
+          <td>
+            <span class="nature" [ngClass]="{'pending': event.nature === 'PENDING', 'approved': event.nature !== 'PENDING'}">
+              {{ event.nature }}
+            </span>
+          </td>
+          <td>
+            <div class="progress-bar">
+              <div class="progress" [style.width]="calculateTicketSalesRate(event) + '%'"></div>
+            </div>
+            {{ calculateTicketSalesRate(event) | number:'1.0-0' }}%
+          </td>
+          <td>
+            <div class="dropdown">
+              <button class="action-btn">⋮</button>
+              <div class="dropdown-content">
+                <a (click)="approveEvent(event.eventId)">Approve</a>
+                <a (click)="rejectEvent(event.eventId)">Reject</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <app-success-message *ngIf="showSuccessMessage" [message]="responseMessage"></app-success-message>
+    <app-error-message *ngIf="showErrorMessage" [message]="responseMessage"></app-error-message>
+  </div>
